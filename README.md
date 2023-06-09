@@ -3,21 +3,21 @@
 `run.py --gpu gpu_num --config config_file_name`
 
 ### How to use config file 
-data: MNIST  
+data: MNIST  <br />
 
-hp: 
-  training_params: 
-    num_epoch: 100 
-    batch_size: 1024
-  model_params: 
-    nz: 16 
-  optim_params: 
-    lr: 0.001
-    betas: [0.9, 0.999]
+hp: <br />
+  training_params: <br />
+    num_epoch: 100 <br />
+    batch_size: 1024<br />
+  model_params: <br />
+    nz: 16 <br />
+  optim_params: <br />
+    lr: 0.001<br />
+    betas: [0.9, 0.999]<br />
+<br />
+save_dir: ../Result/hyper_scan/MNIST<br />
 
-save_dir: ../Result/hyper_scan/MNIST
 
-
-data = Data to use
-nz = Latent space dimension
-lr, betas = learning rate for adam optimizer 
+data = Data to use <br />
+nz = Latent space dimension <br /> 
+lr, betas = learning rate for adam optimizer <br /> 
