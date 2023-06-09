@@ -11,13 +11,6 @@ from dimensionality_reduction import dimensionality_reduction
 
 if __name__ == "__main__":
     
-    parser = argparse.ArgumentParser(description='Hyperparameter scan for dimensionality reduction')
-    parser.add_argument('-s', '--sampler', 
-                        type = str,
-                       help = "Type of sampler", 
-                        default = "grid" 
-                       )
-    
     parser.add_argument('--config',  '-c',
                         dest="filename",
                         metavar='FILE',
