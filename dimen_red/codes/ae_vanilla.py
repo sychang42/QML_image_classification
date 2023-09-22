@@ -1,5 +1,5 @@
 """
-Autoencoder to reduce dimensionality of images 
+Vanilla Autoencoder to reduce dimensionality of images 
 """
 
 import os 
@@ -16,7 +16,7 @@ import torch.optim as optim
 
 import numpy as np
 
-from typing import Optional, Tuple, Union
+from typing import Optional, Tuple, Union, Dict
 import pandas as pd 
 import json
 
@@ -40,7 +40,21 @@ def initialize_weights(net_l, scale=1):
                 
                 
 class vanilla_autoencoder(nn.Module):
-    def __init__(self, device, hp, snapshot_dir = None):
+    def __init__(self, 
+                 device, 
+                 hp : Dict[str,Any],
+                 snapshot_dir = None) -> None:
+        """
+        Vanilla Autoencoder class for dimensionality reduction
+        
+        Args : 
+            device : 
+            hp (Dict[str, Any]) : Dictionary of training hyperparameters. 
+            snapshot_dir (str) : Directory to store the training result.
+        Return : 
+            None 
+        
+        """
         super().__init__()
             
         self.device = device
@@ -81,6 +95,16 @@ class vanilla_autoencoder(nn.Module):
         self.valid_loss = []
     
     def construct_encoder(self) -> Tuple[nn.Sequential]: 
+        """
+        Construct encoder based on the model hyperparameters. 
+        
+        Args : 
+            None 
+        
+        Return : 
+            enc_conv (nn.Sequential) : Convolutional layers in the encoder.
+            enc_fc (nn.Sequential) : Fully connected layers in the encoder.
+        """
         in_ch = self._hp['model_params']['img_shape'][0] 
         nz = self._hp['model_params']['nz']
         M = self._hp['model_params']['M']
@@ -142,10 +166,30 @@ class vanilla_autoencoder(nn.Module):
         
         
     def encode(self, z: torch.Tensor) -> torch.Tensor : 
+        """
+        Encode the input image into a latent space
+        
+        Args : 
+            z (torch.Tensor) : Input image. 
+            
+        Return : 
+            latent_feature (torch.Tensor) : Latent feature of the image.
+        """
+        
         out = self.enc_conv(z) 
         return self.enc_fc(out)*self._scaling_factor
     
     def decode(self, z: torch.Tensor) -> torch.Tensor : 
+        """
+        Reconstruct image from a input latent feature.
+        
+        Args : 
+            z (torch.Tensor) : Input latent feature. 
+            
+        Return : 
+            out (torch.Tensor) : Reconstructed image. 
+        """
+        
         out = self.dec_fc(z)
         out = out.view(-1, 512, self._hp['model_params']['M'], self._hp['model_params']['M'])
         out = self.dec_deconv(out)
@@ -194,7 +238,11 @@ class vanilla_autoencoder(nn.Module):
     
     
     
-    def train_model(self, num_epoch, trainloader, validloader) : 
+    def train_model(self, 
+                    num_epoch: int, 
+                    trainloader: torch.utils.data.DataLoader, 
+                    validloader: torch.utils.data.DataLoader) -> None : 
+        
         for epoch in range(1, num_epoch + 1) : 
             train_loss = self.train_all_batches(trainloader)
             valid_loss = self.valid(validloader)
@@ -236,14 +284,17 @@ class vanilla_autoencoder(nn.Module):
         return latent_features, recons_images, labels 
             
     @torch.no_grad()
-    def valid(self, validloader) -> float:
+    def valid(self, 
+              validloader: torch.utils.data.DataLoader) -> float:
         """
         Evaluate the validation loss for the model and save the model if a
-        new minimum is found.
-        @valid_loader :: Pytorch data loader with the validation data.
-        @outdir       :: Output folder where to save the model.
+        new minimum loss is found.
+        
+        Args : 
+            validloader (torch.utils.data.DataLoader) : Pytorch data loader with the validation data.
 
-        returns :: Pytorch loss object of the validation loss.
+        Return : 
+            loss (float) : Validation loss.
         """
         self.eval()
         loss = []
