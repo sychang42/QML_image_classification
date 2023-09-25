@@ -15,22 +15,23 @@ sys.path.append(os.path.dirname(__file__))
 def load_data(root: str,
               data: str,
               download: Optional[bool] = False,
-              transform: Optional[Callable] =None 
+              transform: Optional[Callable] = None
               ) -> Tuple[torch.utils.data.Dataset]:
     """
-    Load the given data and return PyTorch dataset.
+    Load the specified dataset and create PyTorch datasets.
 
-    Args : 
-        root (str) : Root directory where the image data is located. The data will be downloaded in 
-                    the directory if it does not exists.  
-        data (str) : Name of the dataset to be loaded.
-        download (bool) : Boolean to indicate whether we download the data or not.
-        transform (Optional[Callable]) : PyTorch transform function which takes the PIL image and return
-                                        the transformed version. Set to be transform.ToTensor() if None.
+    Args:
+        root (str): The root directory where the dataset is located. 
+                    If the dataset does not exist locally, it will be downloaded here.
+        data (str): The name of the dataset to load.
+        download (bool): Boolean to indicate whether to download the dataset 
+                         if it's not already available locally.
+        transform (Optional[Callable]): A PyTorch transform function that takes a PIL image and returns the transformed version. 
+                                        If None, it defaults to transform.ToTensor().
 
-    Return : 
-        trainds (torch.utils.data.Dataset) : Train dataset. 
-        testds (torch.utils.data.Dataset]) : Test dataset.
+    Returns:
+        trainds (torch.utils.data.Dataset): The training dataset.
+        testds (torch.utils.data.Dataset]): The testing dataset.
     """
 
     if transform is None:
@@ -45,12 +46,12 @@ def load_data(root: str,
 
     dataset = switcher.get(data, lambda: None)
 
-    if dataset is not None : 
+    if dataset is not None:
         trainds = dataset(root=root, train=True,
-                        download=download, transform=transform)
+                          download=download, transform=transform)
         testds = dataset(root=root, train=False,
-                        download=download, transform=transform)
-    else : 
+                         download=download, transform=transform)
+    else:
         raise NotImplementedError("Dataset not supported.")
-    
+
     return trainds, testds
