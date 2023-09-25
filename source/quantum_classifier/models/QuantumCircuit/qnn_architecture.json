@@ -1,0 +1,43 @@
+{   
+    "U_TTN" : {
+        "conv_filters" : ["U_TTN"],
+        "pooling" : "Pooling_ansatz1"
+    },
+    "U_5" : {
+        "conv_filters" : ["U_5"],
+        "pooling" : "Pooling_ansatz1"
+    }, 
+    "U_6" : {
+        "conv_filters" : ["U_6"],
+        "pooling" : "Pooling_ansatz1"
+    }, 
+    "U_9" : {
+        "conv_filters" : ["U_9"],
+        "pooling" : "Pooling_ansatz1"
+    }, 
+    "U_13" : {
+        "conv_filters" : ["U_13"],
+        "pooling" : "Pooling_ansatz1"
+    }, 
+    "U_SO4" : {
+        "conv_filters" : ["U_SO4"],
+        "pooling" : "Pooling_ansatz1"
+    }, 
+    "U_SU4" : {
+        "conv_filters" : ["U_SU4"],
+        "pooling" : "Pooling_ansatz1"
+    }, 
+    "U_ZZ" : {
+        "conv_filters" : ["U_ZZ"],
+        "pooling" : "Pooling_ansatz1"
+    }, 
+    "U_qiskit" : {
+        "conv_filters" : ["U_qiskit"],
+        "pooling" : "Pooling_ansatz1"
+    }, 
+    "U_RX" : {
+        "conv_filters" : ["U_RX"],
+        "pooling" : "Pooling_ansatz1"
+    }
+    
+} 

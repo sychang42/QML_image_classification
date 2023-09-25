@@ -1,0 +1,22 @@
+training_params:
+  data: EuroSAT
+  method: deepae
+  n_components: 16
+  classes: [0,1]
+  batch_size: 144
+  num_epochs: 5
+  loss_type: [BCE_loss, accuracy]  
+
+model_params:
+  num_wires: 8
+  ver: U_SO4
+  Embedding: Angular
+  trans_inv: True
+
+optim_params : 
+  learning_rate: 0.01
+  b1: 0.9
+  b2: 0.99
+
+logging_params: 
+  save_dir: test
