@@ -5,7 +5,7 @@
 <div align="center">
 <h3 align="center">Practical Quantum Machine Learning for Image Classification</h3>
   <p align="center">
-    project_description
+     Image classification using a hybrid approach with classical dimensionality reduction and a quantum classifier.
     <br />
     <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
     <br />
@@ -21,20 +21,39 @@
 
 ## About the codes
 
-This repository contains code for training image classification via a hybrid approach with a classical dimensionality reduction method and a quantum classifier. The code is written in [PyTorch]() for the dimensionality reduction and in [Jax](https://github.com/google/jax) and [Pennylane](https://github.com/PennyLaneAI/pennylane) for the quantum operations. 
+This repository contains code for image classification using a hybrid approach that combines classical dimensionality reduction with a quantum classifier. The code is implemented in [PyTorch](link_to_pytorch) for dimensionality reduction and in [Jax](https://github.com/google/jax) and [PennyLane](https://github.com/PennyLaneAI/pennylane) for quantum operations.
 
-It consists of two steps : 
+### Project Workflow
 
-1. __Classical dimensionality reduction__
-2. __Feauture classification with quantum classifier__
+The project consists of two main steps:
 
+1. __Classical dimensionality reduction__ : Extract essential features from the input image data. 
+
+2. __Feauture classification with quantum classifier__ : Utilize a quantum classifier for image classification. 
+
+
+Currently supported features include:
+- Dimensionality reduction methods
+    - *PCA*
+    - *Convolutional Autoencoder*
+- Image dataset
+    - *MNIST*
+    - *EuroSAT*
 
 ## Prerequisites
-Install the required pacakages using
+Before running the code, make sure to install the required packages by running:
 
 ```
 pip install -r requirements.txt
 ```
+
+Additionally, install `jaxlib` compatible with your CUDA version using the following command:
+
+```
+pip install --upgrade jax==0.4.7+cuda11.cudnn82 -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
+```
+
+For more detailed instructions on Jax installation, please refer to the officia [Jax Installation guide](https://jax.readthedocs.io/en/latest/installation.html). 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -111,7 +130,7 @@ Distributed under the Apache License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Su Yeon Chang - [@twitter_handle](https://twitter.com/SyChang97) - su.yeon.chang@cern.ch
+Su Yeon Chang - [@SyChang97](https://twitter.com/SyChang97) - su.yeon.chang@cern.ch
 
 Project Link: [https://github.com/sychang42/QML_image_classification](https://github.com/sychang42/QML_image_classification)
 
