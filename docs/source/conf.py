@@ -12,12 +12,12 @@
 #
 # import os
 # import sys
-# sys.path.insert(0, os.path.abspath('.'))
+# sys.path.insert(0, os.path.abspath('..'))
 
 
 # -- Project information -----------------------------------------------------
 
-project = 'Practical Usage of QML for Image Classification'
+project = 'Practical QML for Image Classification'
 copyright = '2023, Su Yeon Chang'
 author = 'Su Yeon Chang'
 
