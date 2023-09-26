@@ -44,14 +44,14 @@ def initialize_weights(net_l, scale=1) -> None:
 
 class vanilla_autoencoder(nn.Module):
     def __init__(self, device, hp: Dict[str, Any], snapshot_dir=None) -> None:
-        """
-        Vanilla Autoencoder class for dimensionality reduction
+        r"""Vanilla Autoencoder class for dimensionality reduction
 
-        Args :
+        Args:
             device :
             hp (Dict[str, Any]) : Dictionary of training hyperparameters.
             snapshot_dir (str) : Directory to store the training result.
-        Return :
+            
+        Returns:
             None
 
         """
@@ -92,15 +92,14 @@ class vanilla_autoencoder(nn.Module):
         self.valid_loss = []
 
     def construct_encoder(self) -> Tuple[nn.Sequential]:
-        """
-        Construct encoder based on the model hyperparameters.
+        r"""Construct encoder based on the model hyperparameters.
 
-        Args :
+        Args:
             None
 
-        Returns :
-            enc_conv (nn.Sequential) : Convolutional layers in the encoder.
-            enc_fc (nn.Sequential) : Fully connected layers in the encoder.
+        Returns:
+            enc_conv (nn.Sequential): Convolutional layers in the encoder.
+            enc_fc (nn.Sequential): Fully connected layers in the encoder.
         """
         in_ch = self._hp["model_params"]["img_shape"][0]
         nz = self._hp["model_params"]["nz"]
@@ -128,15 +127,14 @@ class vanilla_autoencoder(nn.Module):
         return enc_conv, enc_fc
 
     def construct_decoder(self) -> Tuple[nn.Sequential]:
-        """
-        Construct decoder based on the model hyperparameters.
+        r"""Construct decoder based on the model hyperparameters.
 
-        Args :
+        Args:
             None
 
-        Return :
-            dec_conv (nn.Sequential) : Convolutional layers in the encoder.
-            dec_fc (nn.Sequential) : Fully connected layers in the encoder.
+        Returns:
+            dec_conv (nn.Sequential): Convolutional layers in the encoder.
+            dec_fc (nn.Sequential): Fully connected layers in the encoder.
         """
 
         nz = self._hp["model_params"]["nz"]
@@ -174,12 +172,11 @@ class vanilla_autoencoder(nn.Module):
         return dec_deconv, dec_fc
 
     def instantiate_optimizer(self) -> None:
-        """
-        Set the autoencoder optimizer with the given hyperparameters.
+        r"""Set the autoencoder optimizer with the given hyperparameters.
 
         Args:
             None
-        Returns :
+        Returns:
             None
         """
         self = self.to(self.device)
@@ -190,13 +187,12 @@ class vanilla_autoencoder(nn.Module):
         )
 
     def encode(self, z: torch.Tensor) -> torch.Tensor:
-        """
-        Encode the input image into a latent space
+        r"""Encode the input image into a latent space
 
-        Args :
+        Args:
             z (torch.Tensor) : Input image.
 
-        Return :
+        Returns:
             latent_feature (torch.Tensor) : Latent feature of the image.
         """
 
@@ -204,13 +200,12 @@ class vanilla_autoencoder(nn.Module):
         return self.enc_fc(out) * self._scaling_factor
 
     def decode(self, z: torch.Tensor) -> torch.Tensor:
-        """
-        Reconstruct image from a input latent feature.
+        r"""Reconstruct image from a input latent feature.
 
-        Args :
+        Args:
             z (torch.Tensor) : Input latent feature.
 
-        Return :
+        Returns:
             out (torch.Tensor) : Reconstructed image.
         """
 
@@ -223,6 +218,15 @@ class vanilla_autoencoder(nn.Module):
         return out
 
     def forward(self, z: torch.Tensor) -> Tuple[torch.Tensor]:
+        r"""Forward pass of the autoencoder.
+
+        Args:
+            z (torch.Tensor): Original input image.
+
+        Returns:
+            x (torch.Tensor): Latent feauture extracted from the original image.
+            recons_image (torch.Tensor): Image reconstructed with the autoencoder.
+        """
         x = self.encode(z)
         return x, self.decode(x)
 
@@ -303,14 +307,14 @@ class vanilla_autoencoder(nn.Module):
 
     @torch.no_grad()
     def valid(self, validloader: torch.utils.data.DataLoader) -> float:
-        """
-        Evaluate the validation loss for the model and save the model if a
-        new minimum loss is found.
+        r"""Evaluate the validation loss for the model and save the model if a
+            new minimum loss is found.
 
-        Args :
-            validloader (torch.utils.data.DataLoader) : Pytorch data loader with the validation data.
+        Args:
+            validloader (torch.utils.data.DataLoader) : Pytorch data loader with
+                the validation data.
 
-        Return :
+        Returns:
             loss (float) : Validation loss.
         """
         self.eval()
@@ -328,14 +332,16 @@ class vanilla_autoencoder(nn.Module):
         return loss
 
     @staticmethod
-    def display_loss(epoch, num_epoch, train_loss, valid_loss):
+    def display_loss(
+        epoch: int, num_epoch: int, train_loss: torch.Tensor, valid_loss: torch.Tensor
+    ) -> None:
         print(
             f"Epoch : {epoch}/{num_epoch}, "
             f"Train loss (average) = {train_loss.item():.8f}"
         )
         print(f"Epoch : {epoch}/{num_epoch}, " f"Valid loss = {valid_loss.item():.8f}")
 
-    def save_loss(self, epoch):
+    def save_loss(self, epoch: int) -> None:
         epochs = np.arange(1, epoch + 1)
 
         df = pd.DataFrame(
@@ -348,7 +354,22 @@ class vanilla_autoencoder(nn.Module):
 
         df.to_csv(os.path.join(self._snapshot_dir, "output.csv"))
 
-    def save_best_loss_model(self, valid_loss, trainloader=None, validloader=None):
+    def save_best_loss_model(
+        self,
+        valid_loss: float,
+        trainloader: torch.utils.data.DataLoader = None,
+        validloader: torch.utils.data.DataLoader = None,
+    ) -> None:
+        r"""Stores the current model if it achieves the lowest validation loss;
+        otherwise, it increases ``self.epochs_no_improve by 1``.
+
+
+        Args:
+            valid_loss (float): Validation loss at the current epoch.
+
+        Returns:
+            None
+        """
         if self.best_valid_loss > valid_loss:
             self.epochs_no_improve = 0
             print(f"New min: {self.best_valid_loss:.2e}")
@@ -358,18 +379,32 @@ class vanilla_autoencoder(nn.Module):
                 torch.save(
                     self.state_dict(), os.path.join(self._snapshot_dir, "best_model.pt")
                 )
-
         else:
             self.epochs_no_improve += 1
 
-    def load_model(self, model_path):
+    def load_model(self, model_path: str) -> None:
+        r"""Load PyTorch Autoencoder model stored in the given path.
+
+        Args:
+            model_path (str): Path of the model to be loaded.
+        Returns:
+            None
+        """
         if not os.path.exists(model_path):
             raise FileNotFoundError("No path to load model.")
         self.load_state_dict(
             torch.load(model_path, map_location=torch.device(self.device))
         )
 
-    def export_hyperparameters(self, snapshot_dir):
-        file_path = os.path.join(snapshot_dir, "hyperparameters.json")
+    def export_hyperparameters(self, snapshot_dir: str) -> None:
+        r"""Store the hyperparameter used for the autoencoder training in the given path.
+
+        Args:
+            snapshot_dir (str): Directory to store the hyperparameters.
+
+        Returns:
+            None
+        """
+        file_path = os.path.join(snapshot_dir, "ae_hyperparameters.json")
         with open(file_path, "w") as file:
             json.dump(self._hp, file)
