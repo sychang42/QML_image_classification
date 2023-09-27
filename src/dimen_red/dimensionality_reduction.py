@@ -28,7 +28,7 @@ def dimensionality_reduction(
     snapshot_dir: Optional[str] = None,
 ) -> Tuple[float]:
     r"""Perform dimensionality reduction on image data.
-    If ``snapshot_dir` is not ``None``, the features extracted from the training set and
+    If ``snapshot_dir`` is not ``None``, the features extracted from the training set and
     the test set are saved in the files ``os.path.join(snapshot_dir, f"{data}_{str(n_comp
     onents)}components_{method}_train.csv")`` and ``os.path.join(snapshot_dir,
     f"{data}_{str(n_components)}components_{method}_test.csv")``
@@ -46,22 +46,21 @@ def dimensionality_reduction(
             results will not be saved.
 
     Returns:
-        Tuple[float, float]: A tuple of the Mean Squared Error (MSE) loss.
-
-        The functin returns the MSE loss between original and the reconstructed images
-        for the train and the test set.
+        Tuple[float, float]: A tuple of the Mean Squared Error (MSE) loss between
+            original and the reconstructed images
+            for the train and the test set.
 
     Note:
         Currently, only `pca` and `ae` (convolutional autoencoder) are supported.
 
     Examples:
-        **In case of ``pca``**::
+        **In case of** ``pca``::
 
             hp = {'nz' :  16}
             train_mse, test_mse = dimensionality_reduction("/data/", "MNIST", "pca", hp,
                                         0, "Result")
 
-        **In case of ``ae``** (convolutional autoencoder)::
+        **In case of** ``ae`` (convolutional autoencoder)::
 
             hp = {'training_params' :  {"num_epoch" : 10, "batch_size": 1024},
              'model_params' : {"nz" : 16},
