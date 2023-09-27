@@ -27,17 +27,11 @@ def dimensionality_reduction(
     gpu: int = 0,
     snapshot_dir: Optional[str] = None,
 ) -> Tuple[float]:
-    r"""
-    Perform dimensionality reduction on image data.
+    r"""Perform dimensionality reduction on image data.
     If ``snapshot_dir` is not ``None``, the features extracted from the training set and
-    the test set are saved in the following files, respectively :
-    ``
-    os.path.join(snapshot_dir, f"{data}_{str(n_components)}components_{method}_train.csv")
-    ``
-
-    ``
-    os.path.join(snapshot_dir, f"{data}_{str(n_components)}components_{method}_test.csv")
-    ``
+    the test set are saved in the files ``os.path.join(snapshot_dir, f"{data}_{str(n_comp
+    onents)}components_{method}_train.csv")`` and ``os.path.join(snapshot_dir,
+    f"{data}_{str(n_components)}components_{method}_test.csv")``
 
     Args:
         root (str): Root directory containing the image dataset.
@@ -62,15 +56,17 @@ def dimensionality_reduction(
 
     Examples:
         **In case of ``pca``**::
-        hp = {'nz' :  16}
-        train_mse, test_mse = dimensionality_reduction("/data/", "MNIST", "pca", hp,
+
+            hp = {'nz' :  16}
+            train_mse, test_mse = dimensionality_reduction("/data/", "MNIST", "pca", hp,
                                         0, "Result")
 
         **In case of ``ae``** (convolutional autoencoder)::
-        hp = {'training_params' :  {"num_epoch" : 10, "batch_size": 1024},
-                'model_params' : {"nz" : 16},
-                'optim_params' : {"lr" : 0.001, "betas" : [0.9, 0.999]}}
-        train_mse, test_mse = dimensionality_reduction("/data/", "MNIST", "ae", hp,
+
+            hp = {'training_params' :  {"num_epoch" : 10, "batch_size": 1024},
+             'model_params' : {"nz" : 16},
+             'optim_params' : {"lr" : 0.001, "betas" : [0.9, 0.999]}}
+            train_mse, test_mse = dimensionality_reduction("/data/", "MNIST", "ae", hp,
             0, "Result")
     """
 
