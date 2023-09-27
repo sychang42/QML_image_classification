@@ -5,18 +5,18 @@ Currently, only PCA and convolutional autoencoder are supported.
 
 import os
 import sys
+
 sys.path.append(os.path.dirname(__file__))
 
 import pickle
-from typing import Any, Dict, Tuple
+from typing import Any, Dict, Tuple, Optional
 
 import numpy as np
 import pandas as pd
 import torch
 from ae_vanilla import vanilla_autoencoder
-from datasets import load_data
+from load_data import load_data
 from sklearn.decomposition import PCA
-
 
 
 def dimensionality_reduction(
@@ -25,28 +25,60 @@ def dimensionality_reduction(
     method: str,
     hp: Dict[str, Any],
     gpu: int = 0,
-    snapshot_dir: str = None,
+    snapshot_dir: Optional[str] = None,
 ) -> Tuple[float]:
-    """
+    r"""
     Perform dimensionality reduction on image data.
+    If ``snapshot_dir` is not ``None``, the features extracted from the training set and
+    the test set are saved in the following files, respectively :
+    ```
+    os.path.join(snapshot_dir, f"{data}_{str(n_components)}components_{method}_train.csv")
+    ```
+
+    ```
+    os.path.join(snapshot_dir, f"{data}_{str(n_components)}components_{method}_test.csv")
+    ```
 
     Args:
         root (str): Root directory containing the image dataset.
         data (str): Input dataset to apply dimensionality reduction to.
-        method (str): Method for dimensionality reduction. Currently, only PCA and convolutional autoencoder are supported.
-        hp (Dict[str, Any]): Hyperparameters specific to the chosen dimensionality reduction method.
-        gpu (int): ID of the GPU to use for autoencoder training. Set to None to run on CPU.
-        snapshot_dir (str): Directory to store the output data. If None, results will not be saved.
+        method (str): Method for dimensionality reduction. Currently, only PCA and
+            convolutional autoencoder are supported.
+        hp (Dict[str, Any]): Hyperparameters specific to the chosen dimensionality
+            reduction method.
+        gpu (int): ID of the GPU to use for autoencoder training. Set to None to run
+            on CPU.
+        snapshot_dir (str, optional): Directory to store the output data. If ``None``,
+            results will not be saved.
 
     Returns:
-        train_mse (float): Mean Squared Error (MSE) loss between the original and reconstructed images for the training set.
-        test_mse (float): Mean Squared Error (MSE) loss between the original and reconstructed images for the test set.
+        Tuple[float, float]: A tuple of the Mean Squared Error (MSE) loss between the
+            original and the reconstructed images for the train and the test set.
+
+    Note:
+        Currently, only `pca` and `ae` (convolutional autoencoder) are supported.
+
+    Examples:
+        # In case of ``pca`` :
+        >>> hp = {'nz' :  16}
+        >>> train_mse, test_mse = dimensionality_reduction("/data/", "MNIST", "pca", hp,
+                                        0, "Result")
+
+        # In case of ``ae`` (convolutional autoencoder):
+        >>> hp = {'training_params' :  {"num_epoch" : 10, "batch_size": 1024},
+        ...         'model_params' : {"nz" : 16},
+        ...         'optim_params' : {"lr" : 0.001, "betas" : [0.9, 0.999]}}
+        >>> train_mse, test_mse = dimensionality_reduction("/data/", "MNIST", "ae", hp,
+                                        0, "Result")
     """
 
     # Load data.
-    trainds, testds = load_data(root, data)
+    trainds, testds = load_data(root, data, download=True)  # type: ignore
 
     img_shape = list(trainds.data.shape[1:])
+
+    pred_train = []
+    pred_test = []
 
     if method == "pca":
         X_train = trainds.data.reshape((len(trainds), -1))
@@ -97,10 +129,15 @@ def dimensionality_reduction(
         test_mse = np.mean((recons_test - X_test) ** 2)
 
         img_shape.insert(0, -1)
-        pred_train = (X_train_pca_rescaled, recons_train.reshape(img_shape), Y_train)
-        pred_test = (X_test_pca_rescaled, recons_test.reshape(img_shape), Y_test)
+        if snapshot_dir is not None:
+            pred_train = (
+                X_train_pca_rescaled,
+                recons_train.reshape(img_shape),
+                Y_train,
+            )
+            pred_test = (X_test_pca_rescaled, recons_test.reshape(img_shape), Y_test)
 
-    elif method == "autoencoder":
+    elif method == "ae":
         if len(img_shape) == 2:
             img_shape = [1, img_shape[0], img_shape[1]]
 
@@ -126,8 +163,11 @@ def dimensionality_reduction(
         model = vanilla_autoencoder(device, hp, snapshot_dir)
         model.train_model(num_epoch, trainloader, testloader)
 
-        pred_train = model.predict(trainloader)
-        pred_test = model.predict(testloader)
+        if snapshot_dir is not None:
+            model.load_model(os.path.join(snapshot_dir, "best_model.pt"))
+
+            pred_train = model.predict(trainloader)
+            pred_test = model.predict(testloader)
 
         train_mse = model.train_loss[np.argmin(model.train_loss)]
         test_mse = model.valid_loss[np.argmin(model.valid_loss)]
@@ -137,12 +177,15 @@ def dimensionality_reduction(
 
     # Restore the results in snapshot directory
     if snapshot_dir is not None:
+        n_components = pred_train[0].shape[1]
+        file_name = data + "_" + str(n_components) + "components_" + method
+
         df = pd.DataFrame(pred_train[0])
         df["label"] = pred_train[2]
-        df.to_csv(os.path.join(snapshot_dir, "train_features.csv"))
+        df.to_csv(os.path.join(snapshot_dir, file_name + "_train.csv"))
 
         df = pd.DataFrame(pred_test[0])
         df["label"] = pred_test[2]
-        df.to_csv(os.path.join(snapshot_dir, "test_features.csv"))
+        df.to_csv(os.path.join(snapshot_dir, file_name + "_test.csv"))
 
-    return train_mse, test_mse
+    return train_mse, test_mse  # type: ignore
