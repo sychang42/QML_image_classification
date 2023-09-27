@@ -1,6 +1,5 @@
 """
 Function to perform dimensionality reduction method. 
-Currently, only PCA and convolutional autoencoder are supported.
 """
 
 import os

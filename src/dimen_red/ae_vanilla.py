@@ -50,10 +50,6 @@ class vanilla_autoencoder(nn.Module):
             device :
             hp (Dict[str, Any]) : Dictionary of training hyperparameters.
             snapshot_dir (str) : Directory to store the training result.
-            
-        Returns:
-            None
-
         """
         super().__init__()
 
@@ -91,13 +87,10 @@ class vanilla_autoencoder(nn.Module):
         self.train_loss = []
         self.valid_loss = []
 
-    def construct_encoder(self) -> Tuple[nn.Sequential]:
+    def construct_encoder(self) -> Tuple[nn.Sequential, nn.Sequential]:
         r"""Construct encoder based on the model hyperparameters.
 
-        Args:
-            None
-
-        Returns:
+        Returns: Tuple of
             enc_conv (nn.Sequential): Convolutional layers in the encoder.
             enc_fc (nn.Sequential): Fully connected layers in the encoder.
         """
@@ -126,7 +119,7 @@ class vanilla_autoencoder(nn.Module):
 
         return enc_conv, enc_fc
 
-    def construct_decoder(self) -> Tuple[nn.Sequential]:
+    def construct_decoder(self) -> Tuple[nn.Sequential, nn.Sequential]:
         r"""Construct decoder based on the model hyperparameters.
 
         Args:
@@ -172,13 +165,7 @@ class vanilla_autoencoder(nn.Module):
         return dec_deconv, dec_fc
 
     def instantiate_optimizer(self) -> None:
-        r"""Set the autoencoder optimizer with the given hyperparameters.
-
-        Args:
-            None
-        Returns:
-            None
-        """
+        r"""Set the autoencoder optimizer with the given hyperparameters."""
         self = self.to(self.device)
         self.optimizer = optim.Adam(
             self.parameters(),
@@ -203,10 +190,10 @@ class vanilla_autoencoder(nn.Module):
         r"""Reconstruct image from a input latent feature.
 
         Args:
-            z (torch.Tensor) : Input latent feature.
+            z (torch.Tensor): Input latent feature.
 
         Returns:
-            out (torch.Tensor) : Reconstructed image.
+            torch.Tensor: Reconstructed image.
         """
 
         out = self.dec_fc(z)
@@ -217,28 +204,56 @@ class vanilla_autoencoder(nn.Module):
 
         return out
 
-    def forward(self, z: torch.Tensor) -> Tuple[torch.Tensor]:
+    def forward(self, z: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
         r"""Forward pass of the autoencoder.
 
         Args:
             z (torch.Tensor): Original input image.
 
         Returns:
-            x (torch.Tensor): Latent feauture extracted from the original image.
-            recons_image (torch.Tensor): Image reconstructed with the autoencoder.
+            torch.Tensor: Tuple of latent feauture extracted from the original image and
+            the image reconstructed with the autoencoder.
         """
         x = self.encode(z)
         return x, self.decode(x)
 
-    def compute_loss(self, x_batch: Union[torch.Tensor, np.ndarray], y_batch=None):
+    def compute_loss(
+        self,
+        x_batch: Union[torch.Tensor, np.ndarray],
+        y_batch: Optional[torch.Tensor] = None,
+    ) -> torch.Tensor:
+        """Compute loss for the forward pass.
+
+        Args:
+            x_batch (Union[torch.Tensor, np.ndarray]): he input image data.
+                If the input data type is ``np.ndarray``, the method automatically
+                converts it into ``torch.Tensor``.
+            y_batch (torch.Tensor, optional): The input image label. Not used in
+                :class:`vanilla_autoencoder`
+
+        Returns:
+            torch.Tensor: Loss computed between the original and the reconstructed image.
+            By default, we use ``torch.nn.MSELoss``.
+        """
         if type(x_batch) is np.ndarray:
             x_batch = torch.from_numpy(x_batch).to(self.device)
 
-        latent, recons = self.forward(x_batch.float())
+        latent, recons = self.forward(x_batch.float())  # type: ignore
 
-        return self.recons_loss_function(recons, x_batch.float())
+        return self.recons_loss_function(recons, x_batch.float())  # type: ignore
 
-    def train_batch(self, x_batch: torch.Tensor, y_batch: torch.Tensor = None) -> float:
+    def train_batch(
+        self, x_batch: torch.Tensor, y_batch: Optional[torch.Tensor] = None
+    ) -> float:
+        """Train the model on a batch of inputs.
+
+        Args:
+            x_batch (torch.Tensor): Batch of input image data.
+            y_batch (torch.Tensor, optional): Batch of input labels. Defaults to None.
+
+        Returns:
+            float: Loss calculated over the input batch.
+        """
         loss = self.compute_loss(x_batch, y_batch)
 
         self.optimizer.zero_grad()
@@ -247,7 +262,7 @@ class vanilla_autoencoder(nn.Module):
 
         return loss.item()
 
-    def train_all_batches(self, trainloader):
+    def train_all_batches(self, trainloader) -> float:
         loss = []
         for img, label in trainloader:
             img = img.to(self.device)
@@ -255,7 +270,7 @@ class vanilla_autoencoder(nn.Module):
 
             loss.append(self.train_batch(img, label))
 
-        return np.mean(np.array(loss))
+        return np.mean(np.array(loss))  # type: ignore
 
     def train_model(
         self,
@@ -315,7 +330,7 @@ class vanilla_autoencoder(nn.Module):
                 the validation data.
 
         Returns:
-            loss (float) : Validation loss.
+            float: Validation loss.
         """
         self.eval()
         loss = []
@@ -333,7 +348,7 @@ class vanilla_autoencoder(nn.Module):
 
     @staticmethod
     def display_loss(
-        epoch: int, num_epoch: int, train_loss: torch.Tensor, valid_loss: torch.Tensor
+        epoch: int, num_epoch: int, train_loss: np.ndarray, valid_loss: np.ndarray
     ) -> None:
         print(
             f"Epoch : {epoch}/{num_epoch}, "
@@ -354,21 +369,13 @@ class vanilla_autoencoder(nn.Module):
 
         df.to_csv(os.path.join(self._snapshot_dir, "output.csv"))
 
-    def save_best_loss_model(
-        self,
-        valid_loss: float,
-        trainloader: torch.utils.data.DataLoader = None,
-        validloader: torch.utils.data.DataLoader = None,
-    ) -> None:
+    def save_best_loss_model(self, valid_loss: float) -> None:
         r"""Stores the current model if it achieves the lowest validation loss;
         otherwise, it increases ``self.epochs_no_improve by 1``.
 
 
         Args:
             valid_loss (float): Validation loss at the current epoch.
-
-        Returns:
-            None
         """
         if self.best_valid_loss > valid_loss:
             self.epochs_no_improve = 0
@@ -387,8 +394,6 @@ class vanilla_autoencoder(nn.Module):
 
         Args:
             model_path (str): Path of the model to be loaded.
-        Returns:
-            None
         """
         if not os.path.exists(model_path):
             raise FileNotFoundError("No path to load model.")
@@ -401,9 +406,6 @@ class vanilla_autoencoder(nn.Module):
 
         Args:
             snapshot_dir (str): Directory to store the hyperparameters.
-
-        Returns:
-            None
         """
         file_path = os.path.join(snapshot_dir, "ae_hyperparameters.json")
         with open(file_path, "w") as file:
