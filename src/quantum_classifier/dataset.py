@@ -25,23 +25,21 @@ def load_data(
     n_components: int = 16,
     classes: Optional[Union[List, np.ndarray]] = None,
 ) -> Tuple[np.ndarray, ...]:
-    """
-    Loads features that have been extracted from original images using
-    a dimensionality reduction method. The loaded features are used for quantum
-    classifier training.
+    r"""pre-processed features obtained through dimensionality reduction from
+    original images. The loaded features are used for training of the quantum
+    classifier.
 
     Args:
-        root (str): The root directory where the reduced dataset is located.
-        method (str): The dimensionality reduction method employed for the dataset.
-        n_components (int): The size of the loaded feature vectors.
-        classes (Optional[Union[List, np.ndarray]]): The specific data classes to be
-                         included for training. If set to None, all classes are used.
+        root (str): The root directory containing the reduced.
+        method (str): The dimensionality reduction method used for the dataset.
+        n_components (int): The dimensionality of the loaded feature vectors.
+        classes (Union[List, np.ndarray], optional): Specific data classes to be included
+            for training. If `None`, all available classes are used. `None` by default.
 
     Returns:
-        X_train (np.ndarray): Training features of the shape (n_train, n_components).
-        Y_train (np.ndarray): Training labels of the shape (n_train, ).
-        X_test (np.ndarray): The test features of the shape (n_test, n_components).
-        Y_test (np.ndarray): The test labels of the shape (n_test, ).
+        Tuple[np.ndarray, ...]: Tuple of ``np.ndarray`` containing the training
+        data/labels, and the test data/labels. The training/test data are vectors of
+        size ``n_components``.
     """
     if classes is not None and type(classes) is not np.ndarray:
         classes = np.array(classes)

@@ -38,17 +38,23 @@ _valid_gates = {
 
 
 def choose_gate(gate_str: str) -> Tuple[str, Callable, int, int]:
-    """
-    Helper function to used to retrieve a specified convolutional filter (gate).
+    r"""Helper function to used to retrieve a specified convolutional filter (gate).
 
     Args:
         gate_str (str): Name of the convolutional filter to be loaded.
 
     Returns:
-        gate_str (str): Name of the convolutional filter provided as an argument.
-        gate (Callable): Callable representing the convolutional filter.
-        num_params (int): Number of parameters associated with the filter.
-        num_wires (int): Number of wires on which the gate is applied.
+        Tuple[str, Callable, int, int]: Tuple containing the name of the convolutional
+        filter (given as args), the function representing the convolutional filter,
+        the number of parameters in the filter and the number of wires on which the
+        gate is applied.
+
+    Example:
+
+        >>> gate = choose_gate("U_TTN")
+        >>> print(gate)
+            ('U_TTN', <function unitary.U_TTN(angle, wires)>, 2, 2)
+
     """
     gate = _valid_gates.get(gate_str, None)
 
@@ -59,16 +65,12 @@ def choose_gate(gate_str: str) -> Tuple[str, Callable, int, int]:
 
 
 def U2_conv(params: Array, gate: Callable, wires: list[int]) -> None:
-    """
-    Convolutional filter with
+    r"""Convolutional filter applied on two qubits.
 
     Args :
         params (Array) : Convolutional filter parameters.
         gate (Callabel) : Callable representing convolutional filter.
         wires (list[int]) : Index of wires where the gate will be applied.
-
-    Returns :
-        None
     """
     idx = 0
     for i in range(0, len(wires), 2):
@@ -88,26 +90,25 @@ def QCNN(
     trans_inv: Optional[bool],
     qnn_ver: Optional[str] = None,
 ) -> Tuple[Callable, int, np.ndarray]:
-    """
-    Construct Quantum Convolutional Neural Network architecture uing the specified
+    r"""Construct Quantum Convolutional Neural Network architecture uing the specified
     QCNN version.
 
     Args :
         num_qubits (int) : Number of qubits in the QCNN.
         num_measured (int) : Number of measured qubits at the end of the circuit.
-                            For L classes, we measure ceil(log2(L)) qubits.
-        trans_inv (Optiona[bool]) : Boolean to indicate whether the QCNN is
-                                translational invariant or not. If True, all filters in
-                                a layer share identical parameters; otherwise,
-                                different parameters are used. (To be implemented)
-        qnn_ver (Optional[str]) : Version of the quantum circuit architecture to be
+            For L classes, we measure ceil(log2(L)) qubits.
+        trans_inv (bool, optional) : Boolean to indicate whether the QCNN is
+            translational invariant or not. If True, all filters in a layer share
+            identical parameters; otherwise, different parameters are used. (To be
+            implemented)
+        qnn_ver (str, optional) : Version of the quantum circuit architecture to be
                             used. If set to None, the default architecture with U_TTN
                             convolutional filters is used.
 
     Returns :
-        circuit (Callable) : Callable representing the QCNN circuit.
-        num_params (int) : Total number of parameters in the QCNN.
-        meas_wires (np.ndarray) : List of wires measured at the end of the circuit.
+        Tuple[Callable, int, np.ndarray]: Return a functionrepresenting the QCNN circuit,
+        the total number of parameters in the circuit, and the list of wires measurment
+        at the end of the circuit.
     """
     qnn_config_path = os.path.join(os.path.dirname(__file__), "qnn_architecture.json")
 

@@ -43,13 +43,19 @@ def initialize_weights(net_l, scale=1) -> None:
 
 
 class vanilla_autoencoder(nn.Module):
-    def __init__(self, device, hp: Dict[str, Any], snapshot_dir=None) -> None:
+    def __init__(
+        self,
+        device: torch.device,
+        hp: Dict[str, Any],
+        snapshot_dir: Optional[str] = None,
+    ) -> None:
         r"""Vanilla Autoencoder class for dimensionality reduction
 
         Args:
-            device :
+            device (torch.device): Device on which the model will be trained.
             hp (Dict[str, Any]) : Dictionary of training hyperparameters.
-            snapshot_dir (str) : Directory to store the training result.
+            snapshot_dir (str, optional) : Directory to store the training result if not
+                None. Defaults to None.
         """
         super().__init__()
 
@@ -80,7 +86,7 @@ class vanilla_autoencoder(nn.Module):
         self.dec_deconv, self.dec_fc = self.construct_decoder()
 
         initialize_weights(self)
-        self.instantiate_optimizer()
+
         if self._snapshot_dir is not None:
             self.export_hyperparameters(self._snapshot_dir)
 
@@ -90,9 +96,9 @@ class vanilla_autoencoder(nn.Module):
     def construct_encoder(self) -> Tuple[nn.Sequential, nn.Sequential]:
         r"""Construct encoder based on the model hyperparameters.
 
-        Returns: Tuple of
-            enc_conv (nn.Sequential): Convolutional layers in the encoder.
-            enc_fc (nn.Sequential): Fully connected layers in the encoder.
+        Returns:
+            Tuple[nn.Sequantial, nn.Sequantial] : Tuple of convolutional layers
+            and the fully connected layers ``(enc_conv, enc_fc)`` in the encoder.
         """
         in_ch = self._hp["model_params"]["img_shape"][0]
         nz = self._hp["model_params"]["nz"]
@@ -122,12 +128,9 @@ class vanilla_autoencoder(nn.Module):
     def construct_decoder(self) -> Tuple[nn.Sequential, nn.Sequential]:
         r"""Construct decoder based on the model hyperparameters.
 
-        Args:
-            None
-
         Returns:
-            dec_conv (nn.Sequential): Convolutional layers in the encoder.
-            dec_fc (nn.Sequential): Fully connected layers in the encoder.
+            Tuple[nn.Sequantial, nn.Sequantial] : Tuple of convolutional layers
+            and the fully connected layers ``(dec_conv, dec_fc)`` in the decoder.
         """
 
         nz = self._hp["model_params"]["nz"]
@@ -165,7 +168,9 @@ class vanilla_autoencoder(nn.Module):
         return dec_deconv, dec_fc
 
     def instantiate_optimizer(self) -> None:
-        r"""Set the autoencoder optimizer with the given hyperparameters."""
+        r"""Instantiate the :class:`torch.optim.Adam` optimizer object for the
+        autoencoder training with the specified hyperparameters.
+        """
         self = self.to(self.device)
         self.optimizer = optim.Adam(
             self.parameters(),
@@ -177,10 +182,10 @@ class vanilla_autoencoder(nn.Module):
         r"""Encode the input image into a latent space
 
         Args:
-            z (torch.Tensor) : Input image.
+            z (torch.Tensor): Input image.
 
         Returns:
-            latent_feature (torch.Tensor) : Latent feature of the image.
+            torch.Tensor: Latent feature of the image.
         """
 
         out = self.enc_conv(z)
@@ -228,8 +233,8 @@ class vanilla_autoencoder(nn.Module):
             x_batch (Union[torch.Tensor, np.ndarray]): he input image data.
                 If the input data type is ``np.ndarray``, the method automatically
                 converts it into ``torch.Tensor``.
-            y_batch (torch.Tensor, optional): The input image label. Not used in
-                :class:`vanilla_autoencoder`
+            y_batch (torch.Tensor, optional): The input image label. Defaults to None
+                (Not used in :class:`ae_vanilla.vanilla_autoencoder`).
 
         Returns:
             torch.Tensor: Loss computed between the original and the reconstructed image.
@@ -262,7 +267,16 @@ class vanilla_autoencoder(nn.Module):
 
         return loss.item()
 
-    def train_all_batches(self, trainloader) -> float:
+    def train_all_batches(self, trainloader: torch.utils.data.DataLoader) -> float:
+        """Train the autoencoder on the all the batches in the training set.
+
+        Args:
+            trainloader (torch.utils.data.DataLoader): PyTorch DataLoader object with
+                the training data.
+
+        Returns:
+            float: Training loss averaged over all the batches.
+        """
         loss = []
         for img, label in trainloader:
             img = img.to(self.device)
@@ -278,6 +292,17 @@ class vanilla_autoencoder(nn.Module):
         trainloader: torch.utils.data.DataLoader,
         validloader: torch.utils.data.DataLoader,
     ) -> None:
+        """Train the vanilla autoencoder.
+
+        Args:
+            num_epoch (int): Total number of training epochs.
+            trainloader (torch.utils.data.DataLoader): PyTorch DataLoader with the
+                training set.
+            validloader (torch.utils.data.DataLoader): PyTorch DataLoader with the
+                validation set.
+        """
+        self.instantiate_optimizer()
+
         for epoch in range(1, num_epoch + 1):
             train_loss = self.train_all_batches(trainloader)
             valid_loss = self.valid(validloader)
@@ -294,12 +319,33 @@ class vanilla_autoencoder(nn.Module):
                 break
 
     def early_stopping(self) -> bool:
+        """Stops the model training if the model does not show improvement for a
+        specified number of consecutive epochs, determined by the value of
+        `self.early_stopping_limit` (default: 20 epochs).
+
+        Returns:
+            bool: True if the early stopping limit was exceeded; False otherwise.
+        """
         if self.epochs_no_improve >= self.early_stopping_limit:
             return True
         return False
 
     @torch.no_grad()
-    def predict(self, dataloader):
+    def predict(
+        self, dataloader: torch.utils.data.DataLoader
+    ) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+        r"""Generate predictions using the autoencoder model on the entire dataset provided
+        by the specified DataLoader.
+
+        Args:
+            dataloader (torch.utils.data.DataLoader): PyTorch DataLoader containing the
+                image dataset for prediction.
+
+        Returns:
+            Tuple[np.ndarray, np.ndarray, np.ndarray]: Tuple containing the latent
+            features, the reconstructed images, and the original images.
+        """
+
         img_shape = self._hp["model_params"]["img_shape"]
         latent_features = np.zeros(
             (len(dataloader.dataset), self._hp["model_params"]["nz"])
@@ -323,7 +369,7 @@ class vanilla_autoencoder(nn.Module):
     @torch.no_grad()
     def valid(self, validloader: torch.utils.data.DataLoader) -> float:
         r"""Evaluate the validation loss for the model and save the model if a
-            new minimum loss is found.
+        new minimum loss is found.
 
         Args:
             validloader (torch.utils.data.DataLoader) : Pytorch data loader with
