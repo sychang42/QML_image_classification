@@ -47,8 +47,7 @@ def dimensionality_reduction(
 
     Returns:
         Tuple[float, float]: A tuple of the Mean Squared Error (MSE) loss between
-            original and the reconstructed images
-            for the train and the test set.
+        original and the reconstructed images for the train and the test set.
 
     Note:
         Currently, only `pca` and `ae` (convolutional autoencoder) are supported.
@@ -57,16 +56,14 @@ def dimensionality_reduction(
         **In case of** ``pca``::
 
             hp = {'nz' :  16}
-            train_mse, test_mse = dimensionality_reduction("/data/", "MNIST", "pca", hp,
-                                        0, "Result")
+            train_mse, test_mse = dimensionality_reduction("/data/", "MNIST", "pca", hp, 0, "Result")
 
         **In case of** ``ae`` (convolutional autoencoder)::
 
             hp = {'training_params' :  {"num_epoch" : 10, "batch_size": 1024},
              'model_params' : {"nz" : 16},
              'optim_params' : {"lr" : 0.001, "betas" : [0.9, 0.999]}}
-            train_mse, test_mse = dimensionality_reduction("/data/", "MNIST", "ae", hp,
-            0, "Result")
+            train_mse, test_mse = dimensionality_reduction("/data/", "MNIST", "ae", hp, 0, "Result")
     """
 
     # Load data.
