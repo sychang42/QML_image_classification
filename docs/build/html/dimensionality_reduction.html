@@ -89,26 +89,60 @@ Currently, only PCA and convolutional autoencoder are supported.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="dimensionality_reduction.dimensionality_reduction">
 <span class="sig-prename descclassname"><span class="pre">dimensionality_reduction.</span></span><span class="sig-name descname"><span class="pre">dimensionality_reduction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hp</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gpu</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snapshot_dir</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/dimensionality_reduction.html#dimensionality_reduction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dimensionality_reduction.dimensionality_reduction" title="Permalink to this definition"></a></dt>
-<dd><p>Perform dimensionality reduction on image data.</p>
+<dd><p>Perform dimensionality reduction on image data.
+If <code class="docutils literal notranslate"><span class="pre">snapshot_dir`</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">``None</span></code>, the features extracted from the training set and
+the test set are saved in the following files, respectively :
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">os.path.join(snapshot_dir,</span> <span class="pre">f&quot;{data}_{str(n_components)}components_{method}_train.csv&quot;)</span>
+<span class="pre">`</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">os.path.join(snapshot_dir,</span> <span class="pre">f&quot;{data}_{str(n_components)}components_{method}_test.csv&quot;)</span>
+<span class="pre">`</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>root</strong> (<em>str</em>) – Root directory containing the image dataset.</p></li>
 <li><p><strong>data</strong> (<em>str</em>) – Input dataset to apply dimensionality reduction to.</p></li>
-<li><p><strong>method</strong> (<em>str</em>) – Method for dimensionality reduction. Currently, only PCA and convolutional autoencoder are supported.</p></li>
-<li><p><strong>hp</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – Hyperparameters specific to the chosen dimensionality reduction method.</p></li>
-<li><p><strong>gpu</strong> (<em>int</em>) – ID of the GPU to use for autoencoder training. Set to None to run on CPU.</p></li>
-<li><p><strong>snapshot_dir</strong> (<em>str</em>) – Directory to store the output data. If None, results will not be saved.</p></li>
+<li><p><strong>method</strong> (<em>str</em>) – Method for dimensionality reduction. Currently, only PCA and
+convolutional autoencoder are supported.</p></li>
+<li><p><strong>hp</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – Hyperparameters specific to the chosen dimensionality
+reduction method.</p></li>
+<li><p><strong>gpu</strong> (<em>int</em>) – ID of the GPU to use for autoencoder training. Set to None to run
+on CPU.</p></li>
+<li><p><strong>snapshot_dir</strong> (<em>str</em><em>, </em><em>optional</em>) – Directory to store the output data. If <code class="docutils literal notranslate"><span class="pre">None</span></code>,
+results will not be saved.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Mean Squared Error (MSE) loss between the original and reconstructed images for the training set.
-test_mse (float): Mean Squared Error (MSE) loss between the original and reconstructed images for the test set.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>train_mse (float)</p>
+<dd class="field-even"><p><dl class="simple">
+<dt>A tuple of the Mean Squared Error (MSE) loss between the</dt><dd><p>original and the reconstructed images for the train and the test set.</p>
 </dd>
 </dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[float, float]</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Currently, only <cite>pca</cite> and <cite>ae</cite> (convolutional autoencoder) are supported.</p>
+</div>
+<p class="rubric">Examples</p>
+<p># In case of <code class="docutils literal notranslate"><span class="pre">pca</span></code> :
+&gt;&gt;&gt; hp = {‘nz’ :  16}
+&gt;&gt;&gt; train_mse, test_mse = dimensionality_reduction(“/data/”, “MNIST”, “pca”, hp,</p>
+<blockquote>
+<div><p>0, “Result”)</p>
+</div></blockquote>
+<p># In case of <code class="docutils literal notranslate"><span class="pre">ae</span></code> (convolutional autoencoder):
+&gt;&gt;&gt; hp = {‘training_params’ :  {“num_epoch” : 10, “batch_size”: 1024},
+…         ‘model_params’ : {“nz” : 16},
+…         ‘optim_params’ : {“lr” : 0.001, “betas” : [0.9, 0.999]}}
+&gt;&gt;&gt; train_mse, test_mse = dimensionality_reduction(“/data/”, “MNIST”, “ae”, hp,</p>
+<blockquote>
+<div><p>0, “Result”)</p>
+</div></blockquote>
 </dd></dl>
 
 </section>

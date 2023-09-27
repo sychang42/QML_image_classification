@@ -1,35 +1,72 @@
-
 <!DOCTYPE html>
-
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>dimensionality_reduction &#8212; Practical QML for Image Classification 0.1 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>dimensionality_reduction &mdash; Practical QML for Image Classification 0.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-   
-  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
 
-  </head><body>
-  
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
           
+          
+          <a href="../index.html" class="icon icon-home">
+            Practical QML for Image Classification
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">src</a></li>
+</ul>
 
-          <div class="body" role="main">
-            
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Practical QML for Image Classification</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">dimensionality_reduction</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
   <h1>Source code for dimensionality_reduction</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Function to perform dimensionality reduction method. </span>
@@ -38,18 +75,18 @@
 
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">sys</span>
+
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
 
 <span class="kn">import</span> <span class="nn">pickle</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">from</span> <span class="nn">ae_vanilla</span> <span class="kn">import</span> <span class="n">vanilla_autoencoder</span>
-<span class="kn">from</span> <span class="nn">datasets</span> <span class="kn">import</span> <span class="n">load_data</span>
+<span class="kn">from</span> <span class="nn">load_data</span> <span class="kn">import</span> <span class="n">load_data</span>
 <span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
-
 
 
 <div class="viewcode-block" id="dimensionality_reduction"><a class="viewcode-back" href="../dimensionality_reduction.html#dimensionality_reduction.dimensionality_reduction">[docs]</a><span class="k">def</span> <span class="nf">dimensionality_reduction</span><span class="p">(</span>
@@ -58,28 +95,60 @@
     <span class="n">method</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">hp</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
     <span class="n">gpu</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="n">snapshot_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">snapshot_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Perform dimensionality reduction on image data.</span>
+<span class="sd">    If ``snapshot_dir` is not ``None``, the features extracted from the training set and</span>
+<span class="sd">    the test set are saved in the following files, respectively :</span>
+<span class="sd">    ```</span>
+<span class="sd">    os.path.join(snapshot_dir, f&quot;{data}_{str(n_components)}components_{method}_train.csv&quot;)</span>
+<span class="sd">    ```</span>
+
+<span class="sd">    ```</span>
+<span class="sd">    os.path.join(snapshot_dir, f&quot;{data}_{str(n_components)}components_{method}_test.csv&quot;)</span>
+<span class="sd">    ```</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        root (str): Root directory containing the image dataset.</span>
 <span class="sd">        data (str): Input dataset to apply dimensionality reduction to.</span>
-<span class="sd">        method (str): Method for dimensionality reduction. Currently, only PCA and convolutional autoencoder are supported.</span>
-<span class="sd">        hp (Dict[str, Any]): Hyperparameters specific to the chosen dimensionality reduction method.</span>
-<span class="sd">        gpu (int): ID of the GPU to use for autoencoder training. Set to None to run on CPU.</span>
-<span class="sd">        snapshot_dir (str): Directory to store the output data. If None, results will not be saved.</span>
+<span class="sd">        method (str): Method for dimensionality reduction. Currently, only PCA and</span>
+<span class="sd">            convolutional autoencoder are supported.</span>
+<span class="sd">        hp (Dict[str, Any]): Hyperparameters specific to the chosen dimensionality</span>
+<span class="sd">            reduction method.</span>
+<span class="sd">        gpu (int): ID of the GPU to use for autoencoder training. Set to None to run</span>
+<span class="sd">            on CPU.</span>
+<span class="sd">        snapshot_dir (str, optional): Directory to store the output data. If ``None``,</span>
+<span class="sd">            results will not be saved.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        train_mse (float): Mean Squared Error (MSE) loss between the original and reconstructed images for the training set.</span>
-<span class="sd">        test_mse (float): Mean Squared Error (MSE) loss between the original and reconstructed images for the test set.</span>
+<span class="sd">        Tuple[float, float]: A tuple of the Mean Squared Error (MSE) loss between the</span>
+<span class="sd">            original and the reconstructed images for the train and the test set.</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        Currently, only `pca` and `ae` (convolutional autoencoder) are supported.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        # In case of ``pca`` :</span>
+<span class="sd">        &gt;&gt;&gt; hp = {&#39;nz&#39; :  16}</span>
+<span class="sd">        &gt;&gt;&gt; train_mse, test_mse = dimensionality_reduction(&quot;/data/&quot;, &quot;MNIST&quot;, &quot;pca&quot;, hp,</span>
+<span class="sd">                                        0, &quot;Result&quot;)</span>
+
+<span class="sd">        # In case of ``ae`` (convolutional autoencoder):</span>
+<span class="sd">        &gt;&gt;&gt; hp = {&#39;training_params&#39; :  {&quot;num_epoch&quot; : 10, &quot;batch_size&quot;: 1024},</span>
+<span class="sd">        ...         &#39;model_params&#39; : {&quot;nz&quot; : 16},</span>
+<span class="sd">        ...         &#39;optim_params&#39; : {&quot;lr&quot; : 0.001, &quot;betas&quot; : [0.9, 0.999]}}</span>
+<span class="sd">        &gt;&gt;&gt; train_mse, test_mse = dimensionality_reduction(&quot;/data/&quot;, &quot;MNIST&quot;, &quot;ae&quot;, hp,</span>
+<span class="sd">                                        0, &quot;Result&quot;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Load data.</span>
-    <span class="n">trainds</span><span class="p">,</span> <span class="n">testds</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+    <span class="n">trainds</span><span class="p">,</span> <span class="n">testds</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
 
     <span class="n">img_shape</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">trainds</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+
+    <span class="n">pred_train</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">pred_test</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;pca&quot;</span><span class="p">:</span>
         <span class="n">X_train</span> <span class="o">=</span> <span class="n">trainds</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">trainds</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
@@ -130,10 +199,15 @@
         <span class="n">test_mse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">recons_test</span> <span class="o">-</span> <span class="n">X_test</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
 
         <span class="n">img_shape</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">pred_train</span> <span class="o">=</span> <span class="p">(</span><span class="n">X_train_pca_rescaled</span><span class="p">,</span> <span class="n">recons_train</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">img_shape</span><span class="p">),</span> <span class="n">Y_train</span><span class="p">)</span>
-        <span class="n">pred_test</span> <span class="o">=</span> <span class="p">(</span><span class="n">X_test_pca_rescaled</span><span class="p">,</span> <span class="n">recons_test</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">img_shape</span><span class="p">),</span> <span class="n">Y_test</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">snapshot_dir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">pred_train</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">X_train_pca_rescaled</span><span class="p">,</span>
+                <span class="n">recons_train</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">img_shape</span><span class="p">),</span>
+                <span class="n">Y_train</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">pred_test</span> <span class="o">=</span> <span class="p">(</span><span class="n">X_test_pca_rescaled</span><span class="p">,</span> <span class="n">recons_test</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">img_shape</span><span class="p">),</span> <span class="n">Y_test</span><span class="p">)</span>
 
-    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;autoencoder&quot;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;ae&quot;</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">img_shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
             <span class="n">img_shape</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">img_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">img_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
 
@@ -159,8 +233,11 @@
         <span class="n">model</span> <span class="o">=</span> <span class="n">vanilla_autoencoder</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">hp</span><span class="p">,</span> <span class="n">snapshot_dir</span><span class="p">)</span>
         <span class="n">model</span><span class="o">.</span><span class="n">train_model</span><span class="p">(</span><span class="n">num_epoch</span><span class="p">,</span> <span class="n">trainloader</span><span class="p">,</span> <span class="n">testloader</span><span class="p">)</span>
 
-        <span class="n">pred_train</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">trainloader</span><span class="p">)</span>
-        <span class="n">pred_test</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">testloader</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">snapshot_dir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">model</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">snapshot_dir</span><span class="p">,</span> <span class="s2">&quot;best_model.pt&quot;</span><span class="p">))</span>
+
+            <span class="n">pred_train</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">trainloader</span><span class="p">)</span>
+            <span class="n">pred_test</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">testloader</span><span class="p">)</span>
 
         <span class="n">train_mse</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">train_loss</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">train_loss</span><span class="p">)]</span>
         <span class="n">test_mse</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">valid_loss</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">valid_loss</span><span class="p">)]</span>
@@ -170,80 +247,45 @@
 
     <span class="c1"># Restore the results in snapshot directory</span>
     <span class="k">if</span> <span class="n">snapshot_dir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">n_components</span> <span class="o">=</span> <span class="n">pred_train</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">file_name</span> <span class="o">=</span> <span class="n">data</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">n_components</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;components_&quot;</span> <span class="o">+</span> <span class="n">method</span>
+
         <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pred_train</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="n">df</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pred_train</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-        <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">snapshot_dir</span><span class="p">,</span> <span class="s2">&quot;train_features.csv&quot;</span><span class="p">))</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">snapshot_dir</span><span class="p">,</span> <span class="n">file_name</span> <span class="o">+</span> <span class="s2">&quot;_train.csv&quot;</span><span class="p">))</span>
 
         <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pred_test</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="n">df</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pred_test</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-        <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">snapshot_dir</span><span class="p">,</span> <span class="s2">&quot;test_features.csv&quot;</span><span class="p">))</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">snapshot_dir</span><span class="p">,</span> <span class="n">file_name</span> <span class="o">+</span> <span class="s2">&quot;_test.csv&quot;</span><span class="p">))</span>
 
-    <span class="k">return</span> <span class="n">train_mse</span><span class="p">,</span> <span class="n">test_mse</span></div>
+    <span class="k">return</span> <span class="n">train_mse</span><span class="p">,</span> <span class="n">test_mse</span>  <span class="c1"># type: ignore</span></div>
 </pre></div>
 
+           </div>
           </div>
-          
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Su Yeon Chang.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="../index.html">Practical QML for Image Classification</a></h1>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
 
-
-
-
-
-
-
-
-<h3>Navigation</h3>
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../modules.html">src</a></li>
-</ul>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="../index.html">Documentation overview</a><ul>
-  <li><a href="index.html">Module code</a><ul>
-  </ul></li>
-  </ul></li>
-</ul>
-</div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>$('#searchbox').show(0);</script>
-
-
-
-
-
-
-
-
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2023, Su Yeon Chang.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.2.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
-      
-    </div>
-
-    
-
-    
-  </body>
+</body>
 </html>
