@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>run &mdash; Practical QML for Image Classification 0.1 documentation</title>
+  <title>embedding &mdash; Practical QML for Image Classification 0.1 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -58,7 +58,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
-      <li class="breadcrumb-item active">run</li>
+      <li class="breadcrumb-item active">embedding</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -67,18 +67,25 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for run</h1><div class="highlight"><pre>
-<span></span>
-<div class="viewcode-block" id="run"><a class="viewcode-back" href="../run.html#run.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">():</span>
-	<span class="k">global</span> <span class="n">run</span>
-	<span class="k">del</span> <span class="n">run</span>
-	
-	<span class="kn">from</span> <span class="nn">win_unicode_console</span> <span class="kn">import</span> <span class="n">runner</span>
-	
-	<span class="n">runner</span><span class="o">.</span><span class="n">run_arguments</span><span class="p">()</span></div>
+  <h1>Source code for embedding</h1><div class="highlight"><pre>
+<span></span><span class="c1"># This is an implementation of data_embedding function used for 8 qubits Quantum Convolutional Neural Network (QCNN)</span>
+<span class="c1"># and Hierarchical Quantum Classifier circuit.</span>
+<span class="kn">import</span> <span class="nn">pennylane</span> <span class="k">as</span> <span class="nn">qml</span>
+<span class="kn">from</span> <span class="nn">pennylane.templates.embeddings</span> <span class="kn">import</span> <span class="n">AmplitudeEmbedding</span><span class="p">,</span> <span class="n">AngleEmbedding</span>
+<span class="kn">from</span> <span class="nn">pennylane.templates.state_preparations</span> <span class="kn">import</span> <span class="n">MottonenStatePreparation</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-	<span class="n">run</span><span class="p">()</span>
+
+<div class="viewcode-block" id="get_data_embedding"><a class="viewcode-back" href="../embedding.html#embedding.get_data_embedding">[docs]</a><span class="k">def</span> <span class="nf">get_data_embedding</span><span class="p">(</span><span class="n">embedding_type</span><span class="o">=</span><span class="s2">&quot;Angular-Hybrid4-2&quot;</span><span class="p">):</span>
+    <span class="c1"># Hybrid Angle Embedding (HAE)</span>
+
+    <span class="k">if</span> <span class="n">embedding_type</span> <span class="o">==</span> <span class="s2">&quot;Angular&quot;</span><span class="p">:</span>
+
+        <span class="k">def</span> <span class="nf">circuit</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+            <span class="n">AngleEmbedding</span><span class="p">(</span><span class="n">X</span><span class="p">[:</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">),</span> <span class="n">rotation</span><span class="o">=</span><span class="s2">&quot;X&quot;</span><span class="p">)</span>
+            <span class="n">AngleEmbedding</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span> <span class="p">:],</span> <span class="n">wires</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">),</span> <span class="n">rotation</span><span class="o">=</span><span class="s2">&quot;Y&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">circuit</span></div>
 </pre></div>
 
            </div>

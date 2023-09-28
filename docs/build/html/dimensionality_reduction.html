@@ -52,6 +52,7 @@
 <li class="toctree-l3"><a class="reference internal" href="run.html">run module</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="quantum_classifier.html">quantum_classifier</a></li>
 </ul>
 </li>
 </ul>
@@ -84,20 +85,15 @@
              
   <section id="module-dimensionality_reduction">
 <span id="dimensionality-reduction-module"></span><h1>dimensionality_reduction module<a class="headerlink" href="#module-dimensionality_reduction" title="Permalink to this headline"></a></h1>
-<p>Function to perform dimensionality reduction method.
-Currently, only PCA and convolutional autoencoder are supported.</p>
+<p>Function to perform dimensionality reduction method.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="dimensionality_reduction.dimensionality_reduction">
 <span class="sig-prename descclassname"><span class="pre">dimensionality_reduction.</span></span><span class="sig-name descname"><span class="pre">dimensionality_reduction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hp</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gpu</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snapshot_dir</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/dimensionality_reduction.html#dimensionality_reduction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dimensionality_reduction.dimensionality_reduction" title="Permalink to this definition"></a></dt>
 <dd><p>Perform dimensionality reduction on image data.
-If <code class="docutils literal notranslate"><span class="pre">snapshot_dir`</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">``None</span></code>, the features extracted from the training set and
-the test set are saved in the following files, respectively :
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">os.path.join(snapshot_dir,</span> <span class="pre">f&quot;{data}_{str(n_components)}components_{method}_train.csv&quot;)</span>
-<span class="pre">`</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">os.path.join(snapshot_dir,</span> <span class="pre">f&quot;{data}_{str(n_components)}components_{method}_test.csv&quot;)</span>
-<span class="pre">`</span></code></p>
+If <code class="docutils literal notranslate"><span class="pre">snapshot_dir</span></code> is not <code class="docutils literal notranslate"><span class="pre">None</span></code>, the features extracted from the training set and
+the test set are saved in the files <code class="docutils literal notranslate"><span class="pre">os.path.join(snapshot_dir,</span> <span class="pre">f&quot;{data}_{str(n_comp</span>
+<span class="pre">onents)}components_{method}_train.csv&quot;)</span></code> and <code class="docutils literal notranslate"><span class="pre">os.path.join(snapshot_dir,</span>
+<span class="pre">f&quot;{data}_{str(n_components)}components_{method}_test.csv&quot;)</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -114,11 +110,8 @@ results will not be saved.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>A tuple of the Mean Squared Error (MSE) loss between the</dt><dd><p>original and the reconstructed images for the train and the test set.</p>
-</dd>
-</dl>
-</p>
+<dd class="field-even"><p>A tuple of the Mean Squared Error (MSE) loss between
+original and the reconstructed images for the train and the test set.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>Tuple[float, float]</p>
@@ -129,20 +122,18 @@ results will not be saved.</p></li>
 <p>Currently, only <cite>pca</cite> and <cite>ae</cite> (convolutional autoencoder) are supported.</p>
 </div>
 <p class="rubric">Examples</p>
-<p># In case of <code class="docutils literal notranslate"><span class="pre">pca</span></code> :
-&gt;&gt;&gt; hp = {‘nz’ :  16}
-&gt;&gt;&gt; train_mse, test_mse = dimensionality_reduction(“/data/”, “MNIST”, “pca”, hp,</p>
-<blockquote>
-<div><p>0, “Result”)</p>
-</div></blockquote>
-<p># In case of <code class="docutils literal notranslate"><span class="pre">ae</span></code> (convolutional autoencoder):
-&gt;&gt;&gt; hp = {‘training_params’ :  {“num_epoch” : 10, “batch_size”: 1024},
-…         ‘model_params’ : {“nz” : 16},
-…         ‘optim_params’ : {“lr” : 0.001, “betas” : [0.9, 0.999]}}
-&gt;&gt;&gt; train_mse, test_mse = dimensionality_reduction(“/data/”, “MNIST”, “ae”, hp,</p>
-<blockquote>
-<div><p>0, “Result”)</p>
-</div></blockquote>
+<p><strong>In case of</strong> <code class="docutils literal notranslate"><span class="pre">pca</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hp</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;nz&#39;</span> <span class="p">:</span>  <span class="mi">16</span><span class="p">}</span>
+<span class="n">train_mse</span><span class="p">,</span> <span class="n">test_mse</span> <span class="o">=</span> <span class="n">dimensionality_reduction</span><span class="p">(</span><span class="s2">&quot;/data/&quot;</span><span class="p">,</span> <span class="s2">&quot;MNIST&quot;</span><span class="p">,</span> <span class="s2">&quot;pca&quot;</span><span class="p">,</span> <span class="n">hp</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Result&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>In case of</strong> <code class="docutils literal notranslate"><span class="pre">ae</span></code> (convolutional autoencoder):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hp</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;training_params&#39;</span> <span class="p">:</span>  <span class="p">{</span><span class="s2">&quot;num_epoch&quot;</span> <span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;batch_size&quot;</span><span class="p">:</span> <span class="mi">1024</span><span class="p">},</span>
+ <span class="s1">&#39;model_params&#39;</span> <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;nz&quot;</span> <span class="p">:</span> <span class="mi">16</span><span class="p">},</span>
+ <span class="s1">&#39;optim_params&#39;</span> <span class="p">:</span> <span class="p">{</span><span class="s2">&quot;lr&quot;</span> <span class="p">:</span> <span class="mf">0.001</span><span class="p">,</span> <span class="s2">&quot;betas&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.999</span><span class="p">]}}</span>
+<span class="n">train_mse</span><span class="p">,</span> <span class="n">test_mse</span> <span class="o">=</span> <span class="n">dimensionality_reduction</span><span class="p">(</span><span class="s2">&quot;/data/&quot;</span><span class="p">,</span> <span class="s2">&quot;MNIST&quot;</span><span class="p">,</span> <span class="s2">&quot;ae&quot;</span><span class="p">,</span> <span class="n">hp</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Result&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>

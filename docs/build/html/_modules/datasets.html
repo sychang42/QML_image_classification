@@ -1,90 +1,119 @@
-
 <!DOCTYPE html>
-
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>datasets &#8212; Practical QML for Image Classification 0.1 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>datasets &mdash; Practical QML for Image Classification 0.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-   
-  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
 
-  </head><body>
-  
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
           
+          
+          <a href="../index.html" class="icon icon-home">
+            Practical QML for Image Classification
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">src</a></li>
+</ul>
 
-          <div class="body" role="main">
-            
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Practical QML for Image Classification</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">datasets</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
   <h1>Source code for datasets</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">os.path</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SAT4 and EuroSAT dataset</span>
+<span class="sd">The code follows the same code as the one given in PyTorch for MNIST</span>
+<span class="sd">dataset [1].</span>
+
+<span class="sd">[1]: https://pytorch.org/vision/0.15/generated/torchvision.datasets.MNIST.html </span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">sys</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span> 
+
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
 
 
-<span class="kn">import</span> <span class="nn">shutil</span>
-<span class="kn">import</span> <span class="nn">string</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 <span class="kn">from</span> <span class="nn">urllib.error</span> <span class="kn">import</span> <span class="n">URLError</span>
 
 <span class="kn">import</span> <span class="nn">imageio</span>
-<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
-<span class="kn">from</span> <span class="nn">skimage.transform</span> <span class="kn">import</span> <span class="n">resize</span>
-<span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">img_as_ubyte</span><span class="p">,</span> <span class="n">img_as_float32</span>
-
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
-
-<span class="kn">import</span> <span class="nn">pickle</span>
-
-<span class="kn">import</span> <span class="nn">torchvision</span> 
-<span class="kn">from</span> <span class="nn">torchvision.transforms</span> <span class="kn">import</span> <span class="n">transforms</span>
-
-<span class="kn">from</span> <span class="nn">torchvision.datasets.vision</span> <span class="kn">import</span> <span class="n">VisionDataset</span>   
-<span class="kn">from</span> <span class="nn">torchvision.datasets.utils</span> <span class="kn">import</span> <span class="n">check_integrity</span><span class="p">,</span> <span class="n">download_and_extract_archive</span><span class="p">,</span> <span class="n">extract_archive</span><span class="p">,</span> <span class="n">verify_str_arg</span>
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">img_as_ubyte</span>
+<span class="kn">from</span> <span class="nn">skimage.transform</span> <span class="kn">import</span> <span class="n">resize</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">torchvision.datasets.utils</span> <span class="kn">import</span> <span class="n">download_and_extract_archive</span>
+<span class="kn">from</span> <span class="nn">torchvision.datasets.vision</span> <span class="kn">import</span> <span class="n">VisionDataset</span>
 
 
 <div class="viewcode-block" id="SAT4"><a class="viewcode-back" href="../datasets.html#datasets.SAT4">[docs]</a><span class="k">class</span> <span class="nc">SAT4</span><span class="p">(</span><span class="n">VisionDataset</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;`SAT4 &lt;https://www.kaggle.com/datasets/crawford/deepsat-sat4&gt;`_ Dataset.</span>
+
 <span class="sd">    Args:</span>
-<span class="sd">        root (string): Root directory of dataset where ``MNIST/raw/train-images-idx3-ubyte``</span>
-<span class="sd">            and  ``MNIST/raw/t10k-images-idx3-ubyte`` exist.</span>
-<span class="sd">        train (bool, optional): If True, creates dataset from ``train-images-idx3-ubyte``,</span>
-<span class="sd">            otherwise from ``t10k-images-idx3-ubyte``.</span>
-<span class="sd">        download (bool, optional): If True, downloads the dataset from the internet and</span>
-<span class="sd">            puts it in root directory. If dataset is already downloaded, it is not</span>
+<span class="sd">        root (str): Root directory of dataset where ``X_train.pkl`` and ``X_test.pkl`` exist.</span>
+<span class="sd">        train (bool, optional): If True, creates dataset from ``X_train.pkl`,</span>
+<span class="sd">            otherwise from ``X_test.pkl``.</span>
+<span class="sd">        download (bool, optional): If True, downloads the dataset from the designated</span>
+<span class="sd">            url to the root directory. If dataset is already downloaded, it is not</span>
 <span class="sd">            downloaded again.</span>
-<span class="sd">        transform (callable, optional): A function/transform that  takes in an PIL image</span>
+<span class="sd">        transform (Callable, optional): A function/transform that  takes in an PIL image</span>
 <span class="sd">            and returns a transformed version. E.g, ``transforms.RandomCrop``</span>
-<span class="sd">        target_transform (callable, optional): A function/transform that takes in the</span>
+<span class="sd">        target_transform (Callable, optional): A function/transform that takes in the</span>
 <span class="sd">            target and transforms it.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">classes</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="s2">&quot;Barren Land&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Trees&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Grassland&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Others&quot;</span>
-    <span class="p">]</span>
+    <span class="c1"># List[str]: List of SAT4 class names</span>
+    <span class="n">classes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Barren Land&quot;</span><span class="p">,</span> <span class="s2">&quot;Trees&quot;</span><span class="p">,</span> <span class="s2">&quot;Grassland&quot;</span><span class="p">,</span> <span class="s2">&quot;Others&quot;</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -96,82 +125,120 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">,</span> <span class="n">target_transform</span><span class="o">=</span><span class="n">target_transform</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">train</span> <span class="o">=</span> <span class="n">train</span>  <span class="c1"># training set or test set</span>
-        
-        <span class="bp">self</span><span class="o">.</span><span class="n">raw_folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;SAT4&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">raw_folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;SAT4&quot;</span>
+        <span class="p">)</span>  <span class="c1"># Folder where the dataset exists</span>
         <span class="k">if</span> <span class="n">download</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">download</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_exists</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Dataset not found. You can use download=True to download it&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s2">&quot;Dataset not found. You can use download=True to download it&quot;</span>
+            <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">targets</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_data</span><span class="p">()</span>
 
+    <span class="k">def</span> <span class="nf">_load_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Load data into torch.Tensor from numpy.ndarray</span>
 
-    <span class="k">def</span> <span class="nf">_load_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        
-        <span class="n">data</span><span class="p">,</span> <span class="n">targets</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_data_numpy</span><span class="p">()</span> 
-        <span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> 
-        <span class="n">targets</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">targets</span><span class="p">)</span> 
-        
+<span class="sd">        Returns:</span>
+<span class="sd">            Tuple[torch.Tensor, torch.Tensor]: Tuple of image data and image labels.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data</span><span class="p">,</span> <span class="n">targets</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_data_numpy</span><span class="p">()</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">targets</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">targets</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">targets</span>
-    
-    <span class="k">def</span> <span class="nf">_load_data_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">_load_data_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Load data from the original ``pickle`` file, into ``np.ndarray``.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Tuple[np.ndarray, np.ndarray]: Tuple of image data and image labels. If</span>
+<span class="sd">            ``self.train`` is ``True``, the function returns the training set; otherwise,</span>
+<span class="sd">            it returns the test set.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="n">image_file</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;X_train&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">train</span> <span class="k">else</span> <span class="s1">&#39;X_test&#39;</span><span class="si">}</span><span class="s2">_sat4.pkl&quot;</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_folder</span><span class="p">,</span> <span class="n">image_file</span><span class="p">),</span> <span class="s1">&#39;rb&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span> 
+        <span class="n">data</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
+            <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_folder</span><span class="p">,</span> <span class="n">image_file</span><span class="p">),</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="o">/</span><span class="mf">255.</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
-           
+        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span> <span class="o">/</span> <span class="mf">255.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+
         <span class="n">label_file</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Y_train&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">train</span> <span class="k">else</span> <span class="s1">&#39;Y_test&#39;</span><span class="si">}</span><span class="s2">_sat4.pkl&quot;</span>
-        <span class="n">targets</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_folder</span><span class="p">,</span> <span class="n">label_file</span><span class="p">),</span> <span class="s1">&#39;rb&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span> 
-        <span class="n">targets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))</span>  
-        
+        <span class="n">targets</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
+            <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_folder</span><span class="p">,</span> <span class="n">label_file</span><span class="p">),</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="n">targets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
         <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">targets</span>
-    
-    
+
     <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
-<span class="sd">            index (int): Index</span>
+<span class="sd">            index (int): Index.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            tuple: (image, target) where target is index of the target class.</span>
+<span class="sd">            Tuple[Any, Any]: (image, target) at the index number.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">img</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">targets</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
-        
-        <span class="k">return</span> <span class="n">img</span><span class="p">,</span> <span class="n">target</span>
 
+        <span class="k">return</span> <span class="n">img</span><span class="p">,</span> <span class="n">target</span>
 
     <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">class_to_idx</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="p">{</span><span class="n">_class</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">_class</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classes</span><span class="p">)}</span>   
-    
+        <span class="k">return</span> <span class="p">{</span><span class="n">_class</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">_class</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classes</span><span class="p">)}</span>
+
     <span class="k">def</span> <span class="nf">_check_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;SAT4&quot;</span><span class="p">))</span>
 
 <div class="viewcode-block" id="SAT4.download"><a class="viewcode-back" href="../datasets.html#datasets.SAT4.download">[docs]</a>    <span class="k">def</span> <span class="nf">download</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Download the MNIST data if it doesn&#39;t exist already.&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Download the SAT4 data if it doesn&#39;t exist in the root directory.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_exists</span><span class="p">():</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Files already downloaded and verified&quot;</span><span class="p">)</span>
             <span class="k">return</span>
 
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Download the dataset from https://www.kaggle.com/datasets/crawford/deepsat-sat4&quot;</span><span class="p">)</span></div>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="s2">&quot;Download the dataset from https://www.kaggle.com/datasets/crawford/deepsat-sat4&quot;</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="SAT4.extra_repr"><a class="viewcode-back" href="../datasets.html#datasets.SAT4.extra_repr">[docs]</a>    <span class="k">def</span> <span class="nf">extra_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">split</span> <span class="o">=</span> <span class="s2">&quot;Train&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">train</span> <span class="ow">is</span> <span class="kc">True</span> <span class="k">else</span> <span class="s2">&quot;Test&quot;</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Split: </span><span class="si">{</span><span class="n">split</span><span class="si">}</span><span class="s2">&quot;</span></div></div>
-    
-    
-<div class="viewcode-block" id="EuroSAT"><a class="viewcode-back" href="../datasets.html#datasets.EuroSAT">[docs]</a><span class="k">class</span> <span class="nc">EuroSAT</span><span class="p">(</span><span class="n">VisionDataset</span><span class="p">):</span>
-            
-    <span class="n">download_url</span> <span class="o">=</span> <span class="s2">&quot;https://zenodo.org/record/7711810/files/EuroSAT_RGB.zip?download=1&quot;</span>
-    
-    <span class="n">resources</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;EuroSAT_RGB.zip&quot;</span><span class="p">,</span> <span class="s2">&quot;f46e308c4d50d4bf32fedad2d3d62f3b&quot;</span><span class="p">)</span>
-    
 
+
+<div class="viewcode-block" id="EuroSAT"><a class="viewcode-back" href="../datasets.html#datasets.EuroSAT">[docs]</a><span class="k">class</span> <span class="nc">EuroSAT</span><span class="p">(</span><span class="n">VisionDataset</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;`EuroSAT &lt;https://github.com/phelber/EuroSAT&gt;`_ Dataset.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        root (str): Root directory of dataset where the image folders exist.</span>
+<span class="sd">        train (bool, optional): If True, creates train dataset, otherwise test dataset.</span>
+<span class="sd">            Defaults to True.</span>
+<span class="sd">        download (bool, optional): If True, downloads the dataset from the designated</span>
+<span class="sd">            url to the root directory. If dataset is already downloaded, it is not</span>
+<span class="sd">            downloaded again. Defaults to False.</span>
+<span class="sd">        transform (Callable, optional): A function/transform that  takes in an PIL image</span>
+<span class="sd">            and returns a transformed version. E.g, ``transforms.RandomCrop``. Defaults</span>
+<span class="sd">            to None.</span>
+<span class="sd">        target_transform (Callable, optional): A function/transform that takes in the</span>
+<span class="sd">            target and transforms it. Defaults to None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># str: URL of the EuroSAT dataset</span>
+    <span class="n">download_url</span> <span class="o">=</span> <span class="s2">&quot;https://zenodo.org/record/7711810/files/EuroSAT_RGB.zip?download=1&quot;</span>
+
+    <span class="c1"># Tuple[str] : File name and md5 value for download</span>
+    <span class="n">resources</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;EuroSAT_RGB.zip&quot;</span><span class="p">,</span> <span class="s2">&quot;f46e308c4d50d4bf32fedad2d3d62f3b&quot;</span><span class="p">)</span>
+
+    <span class="c1"># List[str]: List of EuroSAT class names</span>
     <span class="n">classes</span> <span class="o">=</span> <span class="p">[</span>
         <span class="s2">&quot;AnnualCrop&quot;</span><span class="p">,</span>
         <span class="s2">&quot;Forest&quot;</span><span class="p">,</span>
@@ -182,9 +249,8 @@
         <span class="s2">&quot;PermanentCrop&quot;</span><span class="p">,</span>
         <span class="s2">&quot;Residential&quot;</span><span class="p">,</span>
         <span class="s2">&quot;River&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;SeaLake&quot;</span>
-    <span class="p">]</span>        
-        
+        <span class="s2">&quot;SeaLake&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -194,79 +260,99 @@
         <span class="n">target_transform</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">download</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">root</span>
-        
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">,</span> <span class="n">target_transform</span><span class="o">=</span><span class="n">target_transform</span><span class="p">)</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">train</span> <span class="o">=</span> <span class="n">train</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">num_images</span> <span class="o">=</span> <span class="mi">27000</span> 
-        <span class="bp">self</span><span class="o">.</span><span class="n">img_size</span> <span class="o">=</span> <span class="p">[</span><span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">]</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_images</span> <span class="o">=</span> <span class="mi">27000</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">img_size</span> <span class="o">=</span> <span class="p">[</span><span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">num_channel</span> <span class="o">=</span> <span class="mi">3</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="n">transform</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">target_transform</span> <span class="o">=</span> <span class="n">target_transform</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="mi">42</span> 
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="mi">42</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">test_ratio</span> <span class="o">=</span> <span class="mf">0.2</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">img_folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;EuroSAT_RGB&quot;</span><span class="p">)</span>
-        
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">raw_folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;EuroSAT&quot;</span>
+        <span class="p">)</span>  <span class="c1"># Folder where the dataset exists</span>
+
         <span class="k">if</span> <span class="n">download</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">download</span><span class="p">()</span>
-        
-        
+
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">targets</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_data</span><span class="p">()</span>
-    
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">class_to_idx</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
         <span class="k">return</span> <span class="p">{</span><span class="n">_class</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">_class</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classes</span><span class="p">)}</span>
 
     <span class="k">def</span> <span class="nf">_check_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">img_folder</span><span class="p">)</span>
-
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_folder</span><span class="p">)</span>
 
 <div class="viewcode-block" id="EuroSAT.download"><a class="viewcode-back" href="../datasets.html#datasets.EuroSAT.download">[docs]</a>    <span class="k">def</span> <span class="nf">download</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Download the EuroSAT data if it doesn&#39;t exist already.&quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_exists</span><span class="p">():</span>
             <span class="k">return</span>
-            
+
         <span class="c1"># download files</span>
         <span class="n">filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">md5</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resources</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        
+
         <span class="k">try</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downloading </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">download_url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="n">download_and_extract_archive</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">download_url</span><span class="p">,</span> <span class="n">download_root</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="n">md5</span><span class="o">=</span><span class="n">md5</span><span class="p">)</span>
+            <span class="n">download_and_extract_archive</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">download_url</span><span class="p">,</span> <span class="n">download_root</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="n">md5</span><span class="o">=</span><span class="n">md5</span>
+            <span class="p">)</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;EuroSAT_RGB&quot;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw_folder</span><span class="p">)</span>
+
         <span class="k">except</span> <span class="n">URLError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to download (trying next):</span><span class="se">\n</span><span class="si">{</span><span class="n">error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-    
-    <span class="k">def</span> <span class="nf">_load_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Loads the data from the passed root directory. Splits in test/train based on seed. By default resized to 256,256</span>
+    <span class="k">def</span> <span class="nf">_load_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Load data from the specified root directory, splitting it into test and train</span>
+<span class="sd">        sets based on a seed. Images are resized by default to (64, 64).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Tuple[Any, Any]: Tuple of image data and image labels. If ``self.train`` is</span>
+<span class="sd">            ``True``, the function returns the training set; otherwise, it returns the</span>
+<span class="sd">            test set.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">images</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">num_images</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">img_size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">img_size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">3</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;uint8&quot;</span><span class="p">)</span>
+
+        <span class="n">images</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+            <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">num_images</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">img_size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">img_size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_channel</span><span class="p">],</span>
+            <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;uint8&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span> 
+        <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="c1"># read all the files from the image folder</span>
-        <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">img_folder</span><span class="p">)):</span>
-            <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">img_folder</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_folder</span><span class="p">)):</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_folder</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
                 <span class="k">continue</span>
             <span class="k">for</span> <span class="n">f2</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
                 <span class="n">sub_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
-                <span class="c1"># Resize images with pixel off </span>
+                <span class="c1"># Resize images with pixel off</span>
                 <span class="n">image</span> <span class="o">=</span> <span class="n">imageio</span><span class="o">.</span><span class="n">v3</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">sub_path</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">img_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">or</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">img_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">img_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="ow">or</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">img_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="p">):</span>
                     <span class="c1"># print(&quot;Resizing image...&quot;)</span>
                     <span class="n">image</span> <span class="o">=</span> <span class="n">img_as_ubyte</span><span class="p">(</span>
-                        <span class="n">resize</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">img_size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">img_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">anti_aliasing</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                        <span class="n">resize</span><span class="p">(</span>
+                            <span class="n">image</span><span class="p">,</span>
+                            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">img_size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">img_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+                            <span class="n">anti_aliasing</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="p">)</span>
                     <span class="p">)</span>
-                
+
                 <span class="n">images</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">img_as_ubyte</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
                 <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
-                
+
                 <span class="n">idx</span> <span class="o">=</span> <span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span>
 
         <span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
-        
-        <span class="c1"># split into a train and test set as provided data is not presplit</span>
+
+        <span class="c1"># Split the data into train &amp; testset</span>
         <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">Y_train</span><span class="p">,</span> <span class="n">Y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
             <span class="n">images</span><span class="p">,</span>
             <span class="n">labels</span><span class="p">,</span>
@@ -278,12 +364,18 @@
             <span class="k">return</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">Y_train</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">Y_test</span>
-        
-        
-    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            index (int): Index.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Tuple[Any, Any]: (image, target) at the index number.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">is_tensor</span><span class="p">(</span><span class="n">idx</span><span class="p">):</span>
             <span class="n">idx</span> <span class="o">=</span> <span class="n">idx</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 
@@ -296,93 +388,33 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">:</span>
             <span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">img</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">targets</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span></div>
-    
-    
-<div class="viewcode-block" id="load_data"><a class="viewcode-back" href="../datasets.html#datasets.load_data">[docs]</a><span class="k">def</span> <span class="nf">load_data</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">download</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">transform</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="p">:</span> 
-    
-    <span class="k">if</span> <span class="n">transform</span> <span class="ow">is</span> <span class="kc">None</span> <span class="p">:</span> 
-        <span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span><span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">()])</span>
-
-    <span class="n">switcher</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;MNIST&quot;</span> <span class="p">:</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">MNIST</span><span class="p">,</span>
-        <span class="s2">&quot;FashionMNIST&quot;</span> <span class="p">:</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">FashionMNIST</span><span class="p">,</span> 
-        <span class="s2">&quot;SAT4&quot;</span> <span class="p">:</span> <span class="n">SAT4</span><span class="p">,</span> 
-        <span class="s2">&quot;EuroSAT&quot;</span> <span class="p">:</span> <span class="n">EuroSAT</span>
-    <span class="p">}</span>
-
-    <span class="n">dataset</span> <span class="o">=</span> <span class="n">switcher</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="kc">None</span><span class="p">)</span>
-    
-    <span class="n">trainds</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">(</span><span class="n">root</span><span class="o">=</span> <span class="n">root</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="n">download</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span> 
-    <span class="n">testds</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">(</span><span class="n">root</span><span class="o">=</span> <span class="n">root</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="n">download</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">trainds</span><span class="p">,</span> <span class="n">testds</span></div>
-
-
 </pre></div>
 
+           </div>
           </div>
-          
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Su Yeon Chang.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="../index.html">Practical QML for Image Classification</a></h1>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
 
-
-
-
-
-
-
-
-<h3>Navigation</h3>
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../modules.html">src</a></li>
-</ul>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="../index.html">Documentation overview</a><ul>
-  <li><a href="index.html">Module code</a><ul>
-  </ul></li>
-  </ul></li>
-</ul>
-</div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>$('#searchbox').show(0);</script>
-
-
-
-
-
-
-
-
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2023, Su Yeon Chang.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.2.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
-      
-    </div>
-
-    
-
-    
-  </body>
+</body>
 </html>

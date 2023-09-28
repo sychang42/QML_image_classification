@@ -84,10 +84,32 @@
              
   <section id="module-datasets">
 <span id="datasets-module"></span><h1>datasets module<a class="headerlink" href="#module-datasets" title="Permalink to this headline"></a></h1>
+<p>SAT4 and EuroSAT dataset
+The code follows the same code as the one given in PyTorch for MNIST
+dataset [1].</p>
+<p>[1]: <a class="reference external" href="https://pytorch.org/vision/0.15/generated/torchvision.datasets.MNIST.html">https://pytorch.org/vision/0.15/generated/torchvision.datasets.MNIST.html</a></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="datasets.EuroSAT">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">datasets.</span></span><span class="sig-name descname"><span class="pre">EuroSAT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_transform</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/datasets.html#EuroSAT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datasets.EuroSAT" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">torch.utils.data.dataset.T_co</span></code>]</p>
+<p><a class="reference external" href="https://github.com/phelber/EuroSAT">EuroSAT</a> Dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>root</strong> (<em>str</em>) – Root directory of dataset where the image folders exist.</p></li>
+<li><p><strong>train</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, creates train dataset, otherwise test dataset.
+Defaults to True.</p></li>
+<li><p><strong>download</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, downloads the dataset from the designated
+url to the root directory. If dataset is already downloaded, it is not
+downloaded again. Defaults to False.</p></li>
+<li><p><strong>transform</strong> (<em>Callable</em><em>, </em><em>optional</em>) – A function/transform that  takes in an PIL image
+and returns a transformed version. E.g, <code class="docutils literal notranslate"><span class="pre">transforms.RandomCrop</span></code>. Defaults
+to None.</p></li>
+<li><p><strong>target_transform</strong> (<em>Callable</em><em>, </em><em>optional</em>) – A function/transform that takes in the
+target and transforms it. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="datasets.EuroSAT.class_to_idx">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">class_to_idx</span></span><em class="property"><span class="pre">:</span> <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#datasets.EuroSAT.class_to_idx" title="Permalink to this definition"></a></dt>
@@ -120,22 +142,19 @@
 <dt class="sig sig-object py" id="datasets.SAT4">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">datasets.</span></span><span class="sig-name descname"><span class="pre">SAT4</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_transform</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/datasets.html#SAT4"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datasets.SAT4" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">torch.utils.data.dataset.T_co</span></code>]</p>
-<p><a class="reference external" href="https://www.kaggle.com/datasets/crawford/deepsat-sat4">SAT4</a> Dataset.
-:param root: Root directory of dataset where <code class="docutils literal notranslate"><span class="pre">MNIST/raw/train-images-idx3-ubyte</span></code></p>
-<blockquote>
-<div><p>and  <code class="docutils literal notranslate"><span class="pre">MNIST/raw/t10k-images-idx3-ubyte</span></code> exist.</p>
-</div></blockquote>
+<p><a class="reference external" href="https://www.kaggle.com/datasets/crawford/deepsat-sat4">SAT4</a> Dataset.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>train</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, creates dataset from <code class="docutils literal notranslate"><span class="pre">train-images-idx3-ubyte</span></code>,
-otherwise from <code class="docutils literal notranslate"><span class="pre">t10k-images-idx3-ubyte</span></code>.</p></li>
-<li><p><strong>download</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, downloads the dataset from the internet and
-puts it in root directory. If dataset is already downloaded, it is not
+<li><p><strong>root</strong> (<em>str</em>) – Root directory of dataset where <code class="docutils literal notranslate"><span class="pre">X_train.pkl</span></code> and <code class="docutils literal notranslate"><span class="pre">X_test.pkl</span></code> exist.</p></li>
+<li><p><strong>train</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, creates dataset from <code class="docutils literal notranslate"><span class="pre">X_train.pkl`,</span>
+<span class="pre">otherwise</span> <span class="pre">from</span> <span class="pre">``X_test.pkl</span></code>.</p></li>
+<li><p><strong>download</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, downloads the dataset from the designated
+url to the root directory. If dataset is already downloaded, it is not
 downloaded again.</p></li>
-<li><p><strong>transform</strong> (<em>callable</em><em>, </em><em>optional</em>) – A function/transform that  takes in an PIL image
+<li><p><strong>transform</strong> (<em>Callable</em><em>, </em><em>optional</em>) – A function/transform that  takes in an PIL image
 and returns a transformed version. E.g, <code class="docutils literal notranslate"><span class="pre">transforms.RandomCrop</span></code></p></li>
-<li><p><strong>target_transform</strong> (<em>callable</em><em>, </em><em>optional</em>) – A function/transform that takes in the
+<li><p><strong>target_transform</strong> (<em>Callable</em><em>, </em><em>optional</em>) – A function/transform that takes in the
 target and transforms it.</p></li>
 </ul>
 </dd>
@@ -153,7 +172,7 @@ target and transforms it.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="datasets.SAT4.download">
 <span class="sig-name descname"><span class="pre">download</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/datasets.html#SAT4.download"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datasets.SAT4.download" title="Permalink to this definition"></a></dt>
-<dd><p>Download the MNIST data if it doesn’t exist already.</p>
+<dd><p>Download the SAT4 data if it doesn’t exist in the root directory.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -162,11 +181,6 @@ target and transforms it.</p></li>
 <dd></dd></dl>
 
 </dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="datasets.load_data">
-<span class="sig-prename descclassname"><span class="pre">datasets.</span></span><span class="sig-name descname"><span class="pre">load_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/datasets.html#load_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datasets.load_data" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
 
 </section>
 

@@ -13,6 +13,9 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath('../../src/dimen_red'))
+sys.path.insert(0, os.path.abspath('../../src/quantum_classifier'))
+sys.path.insert(0, os.path.abspath('../../src/quantum_classifier/models'))
+sys.path.insert(0, os.path.abspath('../../src/quantum_classifier/models/QuantumCircuit'))
 print(sys.path)
 
 # -- Project information -----------------------------------------------------
