@@ -106,34 +106,22 @@ The dictionary should contain the following points:</p>
 <ul>
 <li><p><em>num_epochs</em>: Integer indicating the number of training epochs.</p></li>
 <li><p><em>batch_size</em>: Integer indicating the training batch size.</p></li>
-<li><dl class="simple">
-<dt><em>loss_type</em>: List of strings representing the loss types used in the</dt><dd><p>training. Currently, only <a class="reference internal" href="metrics.html#metrics.BCE_loss" title="metrics.BCE_loss"><code class="xref py py-func docutils literal notranslate"><span class="pre">metrics.BCE_loss()</span></code></a> and
-<a class="reference internal" href="metrics.html#metrics.accuracy" title="metrics.accuracy"><code class="xref py py-func docutils literal notranslate"><span class="pre">metrics.accuracy()</span></code></a> are supported.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt><em>seed</em>: Seed used to generate random values using JAX’s random number</dt><dd><p>generator (<code class="xref py py-class docutils literal notranslate"><span class="pre">jax.random</span></code>).</p>
-</dd>
-</dl>
-</li>
+<li><p><em>loss_type</em>: List of strings representing the loss types used in the
+training. Currently, only <a class="reference internal" href="metrics.html#metrics.BCE_loss" title="metrics.BCE_loss"><code class="xref py py-func docutils literal notranslate"><span class="pre">metrics.BCE_loss()</span></code></a> and
+<a class="reference internal" href="metrics.html#metrics.accuracy" title="metrics.accuracy"><code class="xref py py-func docutils literal notranslate"><span class="pre">metrics.accuracy()</span></code></a> are supported.</p></li>
+<li><p><em>seed</em>: Seed used to generate random values using JAX’s random number
+generator (<code class="xref py py-class docutils literal notranslate"><span class="pre">jax.random</span></code>).</p></li>
 </ul>
 </p></li>
 <li><p><strong>model_args</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – <p>Arguments required to constructed the QCNN.</p>
 <ul>
 <li><p><em>num_wires</em>: Number of qubits in the QCNN.</p></li>
-<li><dl class="simple">
-<dt><em>num_measured</em>: Number of measured qubits at the end of the circuit.For</dt><dd><p>L classes, we measure <span class="math notranslate nohighlight">\(\lceil (\log_2(L))\rceil\)</span> qubits.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt><em>trans_inv</em>: Boolean to indicate whether the QCNN is</dt><dd><p>translational invariant or not. If True, all filters in a layer share
+<li><p><em>num_measured</em>: Number of measured qubits at the end of the circuit.For
+L classes, we measure <span class="math notranslate nohighlight">\(\lceil (\log_2(L))\rceil\)</span> qubits.</p></li>
+<li><p><em>trans_inv</em>: Boolean to indicate whether the QCNN is
+translational invariant or not. If True, all filters in a layer share
 identical parameters; otherwise, different parameters are used. (To be
-implemented)</p>
-</dd>
-</dl>
-</li>
+implemented)</p></li>
 </ul>
 </p></li>
 <li><p><strong>optim_args</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>float</em><em>]</em>) – <p><code class="xref py py-class docutils literal notranslate"><span class="pre">optax.adam</span></code> optimizer hyperparameters.</p>

@@ -120,20 +120,20 @@ def train(
             * *num_epochs*: Integer indicating the number of training epochs.
             * *batch_size*: Integer indicating the training batch size.
             * *loss_type*: List of strings representing the loss types used in the
-                training. Currently, only :func:`metrics.BCE_loss` and
-                :func:`metrics.accuracy` are supported.
+              training. Currently, only :func:`metrics.BCE_loss` and
+              :func:`metrics.accuracy` are supported.
             * *seed*: Seed used to generate random values using JAX's random number
-                generator (:class:`jax.random`).
+              generator (:class:`jax.random`).
 
         model_args (Dict[str, Any]): Arguments required to constructed the QCNN.
 
             * *num_wires*: Number of qubits in the QCNN.
             * *num_measured*: Number of measured qubits at the end of the circuit.For
-                L classes, we measure :math:`\lceil (\log_2(L))\rceil` qubits.
+              L classes, we measure :math:`\lceil (\log_2(L))\rceil` qubits.
             * *trans_inv*: Boolean to indicate whether the QCNN is
-                translational invariant or not. If True, all filters in a layer share
-                identical parameters; otherwise, different parameters are used. (To be
-                implemented)
+              translational invariant or not. If True, all filters in a layer share
+              identical parameters; otherwise, different parameters are used. (To be
+              implemented)
 
         optim_args (Dict[str, float]): :class:`optax.adam` optimizer hyperparameters.
 
