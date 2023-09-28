@@ -34,6 +34,24 @@ def train_batch(
     optimizer: optax.GradientTransformation,
     opt_state: optax.OptState,
 ) -> Tuple[optax.OptState, optax.Params, Dict[str, Array], Array]:
+    r"""Train the quantum classifier model on a batch.
+
+    Args:
+        x_batch (Array): Batch of training data.
+        y_batch (Array): Batch of training data labels.
+        loss_type (List): List of strings representing the loss types used in the
+            training.
+        circuit (Callable): Callable representing the quantum classifier circuit.
+        class_params (optax.Params): Quantum circuit parameters.
+        optimizer (optax.GradientTransformation): Optimizer used for training.
+        opt_state (optax.OptState): Optimizer state which is going to be updated.
+
+    Returns:
+        Tuple[optax.OptState, optax.Params, Dict[str, Array], Array]: A tuple containing
+        updated optimizer state, updated training parameters, calculated loss, and the
+        classifier outputs for the input data ``x_batch``.
+    """
+
     def loss_fn(params) -> Tuple[Array, Tuple[Dict[str, Array], Array]]:
         vcircuit = jax.vmap(lambda x: circuit(x, params))
 
@@ -54,16 +72,32 @@ def validate(
     loss_type: List,
     circuit: Callable,
     class_params: Array,
-) -> Tuple[Dict[str, Array], Array]:
+) -> Tuple[Dict[str, Array], Any]:
+    r"""Evaluate the validation loss for the model.
+
+
+    Args:
+        x_batch (Array): A batch of validation data.
+        y_batch (Array): A batch of validation labels.
+        loss_type (List): List of strings representing the loss types used in the
+            training.
+        circuit (Callable): A runction representig the quantum classifier.
+        class_params (Array): Trained parameters of quantum classifier.
+
+    Returns:
+        Tuple[Dict[str, Array], Array]:  A tuple containing a dictionary with validation
+        loss values and the predicted class labels for the test set.
+    """
+
     vcircuit = jax.vmap(lambda x: circuit(x, class_params))
 
     class_outputs = vcircuit(x_batch)
     loss, losses = compute_metrics(loss_type, y_batch, class_outputs)
 
     if class_outputs.shape[1] == 1:
-        preds = jnp.round(class_outputs)
+        preds = jnp.round(class_outputs).tolist()
     else:
-        preds = jnp.argmax(class_outputs, axis=1)
+        preds = jnp.argmax(class_outputs, axis=1).tolist()
     return losses, preds
 
 
@@ -86,20 +120,20 @@ def train(
             - *num_epochs*: Integer indicating the number of training epochs.
             - *batch_size*: Integer indicating the training batch size.
             - *loss_type*: List of strings representing the loss types used in the
-                training. Currently, only :func:`metrics.BCE_loss` and
-                :func:`metrics.accuracy` are supported.
+            training. Currently, only :func:`metrics.BCE_loss` and
+            :func:`metrics.accuracy` are supported.
             - *seed*: Seed used to generate random values using JAX's random number
-                generator (class:`jax.random`).
+            generator (:class:`jax.random`).
 
         model_args (Dict[str, Any]): Arguments required to constructed the QCNN.
 
             - *num_wires*: Number of qubits in the QCNN.
             - *num_measured*:Number of measured qubits at the end of the circuit.
-                For L classes, we measure :math:`\lceil (log2(L))\rceil` qubits.
+            For L classes, we measure :math:`\lceil (\log_2(L))\rceil` qubits.
             - *trans_inv*: Boolean to indicate whether the QCNN is
-                translational invariant or not. If True, all filters in a layer share
-                identical parameters; otherwise, different parameters are used. (To be
-                implemented)
+            translational invariant or not. If True, all filters in a layer share
+            identical parameters; otherwise, different parameters are used. (To be
+            implemented)
 
         optim_args (Dict[str, float]): :class:`optax.adam` optimizer hyperparameters.
 
@@ -113,6 +147,21 @@ def train(
     Returns:
         Tuple[Dict[str, Any], Dict[str, Any]]: Tuple of dictionaries containing the
         training and test set loss progression based on the specified ``loss_type``.
+
+    Example:
+
+        >>> train_args = {"num_epochs": 5, "batch_size" : 1024, "loss_type": ['BCE_loss',
+        'accuracy]}
+        >>> model_args = {"num_wires": 8, "num_measured" : 1, "trans_inv": True}
+        >>> opt_args = {"learning_rate": 0.01, "b1" : 0.9, "b2": 0.999}
+        >>> train_loss, test_loss = train(train_ds, test_ds, train_args, model_args,
+        opt_args, "Result")
+        >>> print(train_loss)
+            {'BCE_loss': [0.6449261327584586, 0.600408172607422, 0.5616568744182586,
+            0.5470444520314535, 0.537257703145345], 'accuracy': [0.6750000019868214,
+            0.7497685273488361, 0.8037037114302319, 0.8217592616875966, 0.8263888935248058]
+            }
+
     """
     num_epochs = train_args["num_epochs"]
     batch_size = train_args["batch_size"]
@@ -202,13 +251,13 @@ def train(
                 )
 
                 for k, v in losses.items():
-                    train_losses[k][-1] += v / steps_per_epoch
+                    train_losses[k][-1] += v.tolist() / steps_per_epoch
 
         test_loss, test_predictions = validate(
             test_ds["image"], test_ds["label"], loss_type, qcircuit, params  # type: ignore
         )
         for k, v in test_loss.items():
-            test_losses[k].append(v)
+            test_losses[k].append(v.tolist())
 
         # Save results.
         if snapshot_dir is not None:
@@ -218,8 +267,8 @@ def train(
 
                 to_write = {"epoch": epoch}
                 to_write.update({"train_" + k: v[-1] for k, v in train_losses.items()})
-                to_write.update({"test_" + k: v for k, v in test_loss.items()})
-                to_write["time_taken"] = (time() - start_time) / 60.0
+                to_write.update({"test_" + k: v for k, v in test_loss.items()})  # type: ignore
+                to_write["time_taken"] = (time() - start_time) / 60.0  # type: ignore
 
                 writer.writerow(to_write)
 
@@ -233,7 +282,7 @@ def train(
                 save_outputs(epoch, snapshot_dir, test_predictions, test_ds["label"])
 
         print_losses(
-            epoch, num_epochs, {k: v[-1] for k, v in train_losses.items()}, test_loss
+            epoch, num_epochs, {k: v[-1] for k, v in train_losses.items()}, test_loss  # type: ignore
         )
 
     return train_losses, test_losses

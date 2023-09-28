@@ -8,7 +8,6 @@ sys.path.append(os.path.dirname(__file__))
 
 import json
 
-import jax.numpy as jnp
 from jax import Array
 
 import numpy as np
@@ -67,7 +66,7 @@ def choose_gate(gate_str: str) -> Tuple[str, Callable, int, int]:
 def QCNN(
     num_qubits: int,
     num_measured: int,
-    trans_inv: Optional[bool],
+    trans_inv: Optional[bool] = True,
     qnn_ver: Optional[str] = None,
 ) -> Tuple[Callable, int, np.ndarray]:
     r"""Construct Quantum Convolutional Neural Network architecture uing the specified
@@ -80,7 +79,7 @@ def QCNN(
         trans_inv (bool, optional) : Boolean to indicate whether the QCNN is
             translational invariant or not. If True, all filters in a layer share
             identical parameters; otherwise, different parameters are used. (To be
-            implemented)
+            implemented) Default to ``True``.
         qnn_ver (str, optional) : Version of the quantum circuit architecture to be
             used. If set to None, the default architecture with U_TTN convolutional
             filters is used.

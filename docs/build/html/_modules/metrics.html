@@ -69,7 +69,10 @@
            <div itemprop="articleBody">
              
   <h1>Source code for metrics</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">jax</span>
+<span></span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Losses used for quantum classifier training.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">jax</span>
 <span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
 
 <span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">Array</span>
@@ -79,24 +82,64 @@
 
 <div class="viewcode-block" id="MSE">
 <a class="viewcode-back" href="../metrics.html#metrics.MSE">[docs]</a>
-<span class="k">def</span> <span class="nf">MSE</span><span class="p">(</span><span class="n">targets</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span> <span class="n">preds</span><span class="p">:</span> <span class="n">Array</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Array</span><span class="p">:</span>
-    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">targets</span> <span class="o">-</span> <span class="n">preds</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span></div>
+<span class="k">def</span> <span class="nf">MSE</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Array</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Array</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Measures the Mean Squared Error (MSE) loss between each element in the target</span>
+<span class="sd">    :math:`x` and the input :math:`y` given by the equation :</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \ell_{\text{MSE}}(x, y) = \frac{1}{N}\sum_{n=1}^N\sqrt{\left( x_n - y_n \right)^2},</span>
+
+<span class="sd">    where :math:`N` is the number of elements in :math:`x` and :math:`y`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x (Array): Targets of shape ``(N, 1)``</span>
+<span class="sd">        y (Array): Inputs of shape ``(N, 1)``.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Array: MSE loss value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="BCE_loss">
 <a class="viewcode-back" href="../metrics.html#metrics.BCE_loss">[docs]</a>
-<span class="k">def</span> <span class="nf">BCE_loss</span><span class="p">(</span><span class="n">targets</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span> <span class="n">preds</span><span class="p">:</span> <span class="n">Array</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Array</span><span class="p">:</span>
-    <span class="n">num_classes</span> <span class="o">=</span> <span class="n">preds</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="k">def</span> <span class="nf">BCE_loss</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Array</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Array</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Measures the Binary Cross Entropy (BCE) loss between each element in the one-hot</span>
+<span class="sd">    encoded target :math:`x` and the input :math:`y` given by the equations :</span>
 
-    <span class="n">one_hot_labels</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">one_hot</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">)</span>
-    <span class="k">return</span> <span class="o">-</span><span class="n">jnp</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">one_hot_labels</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">preds</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span></div>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \ell(x, y) = - \sum_{n=1}^N_\mathbf{x}_n \cdot \log (\mathbf{y}_n),</span>
+
+<span class="sd">    where :math:`N` is the batch size.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x (Array): Targets of shape ``(N, L)``</span>
+<span class="sd">        y (Array): Targets of shape ``(N, L)``</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Array: BCE loss value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">num_classes</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">one_hot_labels</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">one_hot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">)</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">jnp</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">one_hot_labels</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span></div>
 
 
 
 <div class="viewcode-block" id="accuracy">
 <a class="viewcode-back" href="../metrics.html#metrics.accuracy">[docs]</a>
 <span class="k">def</span> <span class="nf">accuracy</span><span class="p">(</span><span class="n">targets</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span> <span class="n">class_outputs</span><span class="p">:</span> <span class="n">Array</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Array</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;_summary_</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        targets (Array): _description_</span>
+<span class="sd">        class_outputs (Array): _description_</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Array: Accuracy caculated between ``targets`` and ``class_outputs``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">class_outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">preds</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">class_outputs</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -114,6 +157,19 @@
 <span class="k">def</span> <span class="nf">compute_metrics</span><span class="p">(</span>
     <span class="n">loss_type</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">targets</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span> <span class="n">preds</span><span class="p">:</span> <span class="n">Array</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Array</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Array</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute the</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        loss_type (List[str]): List of strings representing the loss types that are</span>
+<span class="sd">            computed.</span>
+<span class="sd">        targets (Array): The ground truth labels.</span>
+<span class="sd">        preds (Array): The predicted labels.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple[Array, Dict[str, Array]]: A tuple containing the sum of losses that on</span>
+<span class="sd">        which the gradient of the parameters is computed, and a dictionary of individual</span>
+<span class="sd">        losses.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">losses</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Array</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">final_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
 
@@ -134,7 +190,7 @@
         <span class="k">if</span> <span class="s2">&quot;loss&quot;</span> <span class="ow">in</span> <span class="n">loss_str</span><span class="p">:</span>
             <span class="n">final_loss</span> <span class="o">+=</span> <span class="n">loss</span>
 
-    <span class="k">return</span> <span class="n">final_loss</span><span class="p">,</span> <span class="n">losses</span></div>
+    <span class="k">return</span> <span class="n">final_loss</span><span class="p">,</span> <span class="n">losses</span>  <span class="c1"># type: ignore</span></div>
 
 </pre></div>
 

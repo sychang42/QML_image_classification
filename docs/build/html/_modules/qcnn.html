@@ -79,7 +79,6 @@
 
 <span class="kn">import</span> <span class="nn">json</span>
 
-<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
 <span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">Array</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -143,7 +142,7 @@
 <span class="k">def</span> <span class="nf">QCNN</span><span class="p">(</span>
     <span class="n">num_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">num_measured</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="n">trans_inv</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">],</span>
+    <span class="n">trans_inv</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">qnn_ver</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Callable</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Construct Quantum Convolutional Neural Network architecture uing the specified</span>
@@ -156,7 +155,7 @@
 <span class="sd">        trans_inv (bool, optional) : Boolean to indicate whether the QCNN is</span>
 <span class="sd">            translational invariant or not. If True, all filters in a layer share</span>
 <span class="sd">            identical parameters; otherwise, different parameters are used. (To be</span>
-<span class="sd">            implemented)</span>
+<span class="sd">            implemented) Default to ``True``.</span>
 <span class="sd">        qnn_ver (str, optional) : Version of the quantum circuit architecture to be</span>
 <span class="sd">            used. If set to None, the default architecture with U_TTN convolutional</span>
 <span class="sd">            filters is used.</span>

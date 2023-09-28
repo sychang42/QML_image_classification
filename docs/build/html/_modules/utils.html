@@ -84,8 +84,7 @@
 <div class="viewcode-block" id="save_outputs">
 <a class="viewcode-back" href="../utils.html#utils.save_outputs">[docs]</a>
 <span class="k">def</span> <span class="nf">save_outputs</span><span class="p">(</span><span class="n">epoch</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">snapshot_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">outputs</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="n">Array</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Saves the classifier&#39;s predictions and the corresponding ground truth labels at</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Saves the classifier&#39;s predictions and the corresponding ground truth labels at</span>
 <span class="sd">    a specific training epoch as a CSV file.</span>
 
 <span class="sd">    Args:</span>
@@ -94,9 +93,6 @@
 <span class="sd">        outputs (jax.Array): The predictions made by the classifier at the</span>
 <span class="sd">                             specified epoch.</span>
 <span class="sd">        labels (jax.Array): The ground truth labels.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;preds&quot;</span><span class="p">:</span> <span class="n">outputs</span><span class="p">})</span>
@@ -109,18 +105,15 @@
 <div class="viewcode-block" id="print_losses">
 <a class="viewcode-back" href="../utils.html#utils.print_losses">[docs]</a>
 <span class="k">def</span> <span class="nf">print_losses</span><span class="p">(</span>
-    <span class="n">epoch</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">epochs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">train_loss</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Array</span><span class="p">],</span> <span class="n">valid_loss</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Array</span><span class="p">]</span>
+    <span class="n">epoch</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">epochs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">train_loss</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">valid_loss</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Print the training and validation losses.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Print the training and validation losses.</span>
 
 <span class="sd">    Args :</span>
 <span class="sd">        epoch (int) : Current epoch.</span>
 <span class="sd">        epochs (int) : Total number of epohcs.</span>
 <span class="sd">        train_loss (dict) : Training loss.</span>
 <span class="sd">        valid_loss (dict) : Validation loss.</span>
-<span class="sd">    Return :</span>
-<span class="sd">        None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">print</span><span class="p">(</span>
         <span class="sa">f</span><span class="s2">&quot;Epoch : </span><span class="si">{</span><span class="n">epoch</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">epochs</span><span class="si">}</span><span class="s2">, Train loss (average) = &quot;</span>

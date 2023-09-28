@@ -107,6 +107,24 @@
     <span class="n">optimizer</span><span class="p">:</span> <span class="n">optax</span><span class="o">.</span><span class="n">GradientTransformation</span><span class="p">,</span>
     <span class="n">opt_state</span><span class="p">:</span> <span class="n">optax</span><span class="o">.</span><span class="n">OptState</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">optax</span><span class="o">.</span><span class="n">OptState</span><span class="p">,</span> <span class="n">optax</span><span class="o">.</span><span class="n">Params</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Array</span><span class="p">],</span> <span class="n">Array</span><span class="p">]:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Train the quantum classifier model on a batch.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x_batch (Array): Batch of training data.</span>
+<span class="sd">        y_batch (Array): Batch of training data labels.</span>
+<span class="sd">        loss_type (List): List of strings representing the loss types used in the</span>
+<span class="sd">            training.</span>
+<span class="sd">        circuit (Callable): Callable representing the quantum classifier circuit.</span>
+<span class="sd">        class_params (optax.Params): Quantum circuit parameters.</span>
+<span class="sd">        optimizer (optax.GradientTransformation): Optimizer used for training.</span>
+<span class="sd">        opt_state (optax.OptState): Optimizer state which is going to be updated.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple[optax.OptState, optax.Params, Dict[str, Array], Array]: A tuple containing</span>
+<span class="sd">        updated optimizer state, updated training parameters, calculated loss, and the</span>
+<span class="sd">        classifier outputs for the input data ``x_batch``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">loss_fn</span><span class="p">(</span><span class="n">params</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Array</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Array</span><span class="p">],</span> <span class="n">Array</span><span class="p">]]:</span>
         <span class="n">vcircuit</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">circuit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">params</span><span class="p">))</span>
 
@@ -130,16 +148,32 @@
     <span class="n">loss_type</span><span class="p">:</span> <span class="n">List</span><span class="p">,</span>
     <span class="n">circuit</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
     <span class="n">class_params</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Array</span><span class="p">],</span> <span class="n">Array</span><span class="p">]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Array</span><span class="p">],</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Evaluate the validation loss for the model.</span>
+
+
+<span class="sd">    Args:</span>
+<span class="sd">        x_batch (Array): A batch of validation data.</span>
+<span class="sd">        y_batch (Array): A batch of validation labels.</span>
+<span class="sd">        loss_type (List): List of strings representing the loss types used in the</span>
+<span class="sd">            training.</span>
+<span class="sd">        circuit (Callable): A runction representig the quantum classifier.</span>
+<span class="sd">        class_params (Array): Trained parameters of quantum classifier.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple[Dict[str, Array], Array]:  A tuple containing a dictionary with validation</span>
+<span class="sd">        loss values and the predicted class labels for the test set.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">vcircuit</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">circuit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">class_params</span><span class="p">))</span>
 
     <span class="n">class_outputs</span> <span class="o">=</span> <span class="n">vcircuit</span><span class="p">(</span><span class="n">x_batch</span><span class="p">)</span>
     <span class="n">loss</span><span class="p">,</span> <span class="n">losses</span> <span class="o">=</span> <span class="n">compute_metrics</span><span class="p">(</span><span class="n">loss_type</span><span class="p">,</span> <span class="n">y_batch</span><span class="p">,</span> <span class="n">class_outputs</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">class_outputs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">preds</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">class_outputs</span><span class="p">)</span>
+        <span class="n">preds</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">class_outputs</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">preds</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">class_outputs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">preds</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">class_outputs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">losses</span><span class="p">,</span> <span class="n">preds</span></div>
 
 
@@ -165,20 +199,20 @@
 <span class="sd">            - *num_epochs*: Integer indicating the number of training epochs.</span>
 <span class="sd">            - *batch_size*: Integer indicating the training batch size.</span>
 <span class="sd">            - *loss_type*: List of strings representing the loss types used in the</span>
-<span class="sd">                training. Currently, only :func:`metrics.BCE_loss` and</span>
-<span class="sd">                :func:`metrics.accuracy` are supported.</span>
+<span class="sd">            training. Currently, only :func:`metrics.BCE_loss` and</span>
+<span class="sd">            :func:`metrics.accuracy` are supported.</span>
 <span class="sd">            - *seed*: Seed used to generate random values using JAX&#39;s random number</span>
-<span class="sd">                generator (class:`jax.random`).</span>
+<span class="sd">            generator (:class:`jax.random`).</span>
 
 <span class="sd">        model_args (Dict[str, Any]): Arguments required to constructed the QCNN.</span>
 
 <span class="sd">            - *num_wires*: Number of qubits in the QCNN.</span>
 <span class="sd">            - *num_measured*:Number of measured qubits at the end of the circuit.</span>
-<span class="sd">                For L classes, we measure :math:`\lceil (log2(L))\rceil` qubits.</span>
+<span class="sd">            For L classes, we measure :math:`\lceil (\log_2(L))\rceil` qubits.</span>
 <span class="sd">            - *trans_inv*: Boolean to indicate whether the QCNN is</span>
-<span class="sd">                translational invariant or not. If True, all filters in a layer share</span>
-<span class="sd">                identical parameters; otherwise, different parameters are used. (To be</span>
-<span class="sd">                implemented)</span>
+<span class="sd">            translational invariant or not. If True, all filters in a layer share</span>
+<span class="sd">            identical parameters; otherwise, different parameters are used. (To be</span>
+<span class="sd">            implemented)</span>
 
 <span class="sd">        optim_args (Dict[str, float]): :class:`optax.adam` optimizer hyperparameters.</span>
 
@@ -192,6 +226,21 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        Tuple[Dict[str, Any], Dict[str, Any]]: Tuple of dictionaries containing the</span>
 <span class="sd">        training and test set loss progression based on the specified ``loss_type``.</span>
+
+<span class="sd">    Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; train_args = {&quot;num_epochs&quot;: 5, &quot;batch_size&quot; : 1024, &quot;loss_type&quot;: [&#39;BCE_loss&#39;,</span>
+<span class="sd">        &#39;accuracy]}</span>
+<span class="sd">        &gt;&gt;&gt; model_args = {&quot;num_wires&quot;: 8, &quot;num_measured&quot; : 1, &quot;trans_inv&quot;: True}</span>
+<span class="sd">        &gt;&gt;&gt; opt_args = {&quot;learning_rate&quot;: 0.01, &quot;b1&quot; : 0.9, &quot;b2&quot;: 0.999}</span>
+<span class="sd">        &gt;&gt;&gt; train_loss, test_loss = train(train_ds, test_ds, train_args, model_args,</span>
+<span class="sd">        opt_args, &quot;Result&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(train_loss)</span>
+<span class="sd">            {&#39;BCE_loss&#39;: [0.6449261327584586, 0.600408172607422, 0.5616568744182586,</span>
+<span class="sd">            0.5470444520314535, 0.537257703145345], &#39;accuracy&#39;: [0.6750000019868214,</span>
+<span class="sd">            0.7497685273488361, 0.8037037114302319, 0.8217592616875966, 0.8263888935248058]</span>
+<span class="sd">            }</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">num_epochs</span> <span class="o">=</span> <span class="n">train_args</span><span class="p">[</span><span class="s2">&quot;num_epochs&quot;</span><span class="p">]</span>
     <span class="n">batch_size</span> <span class="o">=</span> <span class="n">train_args</span><span class="p">[</span><span class="s2">&quot;batch_size&quot;</span><span class="p">]</span>
@@ -281,13 +330,13 @@
                 <span class="p">)</span>
 
                 <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">losses</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                    <span class="n">train_losses</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">v</span> <span class="o">/</span> <span class="n">steps_per_epoch</span>
+                    <span class="n">train_losses</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">v</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="o">/</span> <span class="n">steps_per_epoch</span>
 
         <span class="n">test_loss</span><span class="p">,</span> <span class="n">test_predictions</span> <span class="o">=</span> <span class="n">validate</span><span class="p">(</span>
             <span class="n">test_ds</span><span class="p">[</span><span class="s2">&quot;image&quot;</span><span class="p">],</span> <span class="n">test_ds</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">],</span> <span class="n">loss_type</span><span class="p">,</span> <span class="n">qcircuit</span><span class="p">,</span> <span class="n">params</span>  <span class="c1"># type: ignore</span>
         <span class="p">)</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">test_loss</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">test_losses</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="n">test_losses</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
 
         <span class="c1"># Save results.</span>
         <span class="k">if</span> <span class="n">snapshot_dir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -297,8 +346,8 @@
 
                 <span class="n">to_write</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;epoch&quot;</span><span class="p">:</span> <span class="n">epoch</span><span class="p">}</span>
                 <span class="n">to_write</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;train_&quot;</span> <span class="o">+</span> <span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">train_losses</span><span class="o">.</span><span class="n">items</span><span class="p">()})</span>
-                <span class="n">to_write</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;test_&quot;</span> <span class="o">+</span> <span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">test_loss</span><span class="o">.</span><span class="n">items</span><span class="p">()})</span>
-                <span class="n">to_write</span><span class="p">[</span><span class="s2">&quot;time_taken&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span> <span class="o">/</span> <span class="mf">60.0</span>
+                <span class="n">to_write</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;test_&quot;</span> <span class="o">+</span> <span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">test_loss</span><span class="o">.</span><span class="n">items</span><span class="p">()})</span>  <span class="c1"># type: ignore</span>
+                <span class="n">to_write</span><span class="p">[</span><span class="s2">&quot;time_taken&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span> <span class="o">/</span> <span class="mf">60.0</span>  <span class="c1"># type: ignore</span>
 
                 <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">to_write</span><span class="p">)</span>
 
@@ -312,7 +361,7 @@
                 <span class="n">save_outputs</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">snapshot_dir</span><span class="p">,</span> <span class="n">test_predictions</span><span class="p">,</span> <span class="n">test_ds</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">])</span>
 
         <span class="n">print_losses</span><span class="p">(</span>
-            <span class="n">epoch</span><span class="p">,</span> <span class="n">num_epochs</span><span class="p">,</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">train_losses</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span> <span class="n">test_loss</span>
+            <span class="n">epoch</span><span class="p">,</span> <span class="n">num_epochs</span><span class="p">,</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">train_losses</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span> <span class="n">test_loss</span>  <span class="c1"># type: ignore</span>
         <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">train_losses</span><span class="p">,</span> <span class="n">test_losses</span></div>

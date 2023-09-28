@@ -11,8 +11,7 @@ from jax import Array
 
 
 def save_outputs(epoch: int, snapshot_dir: str, outputs: Array, labels: Array) -> None:
-    """
-    Saves the classifier's predictions and the corresponding ground truth labels at
+    r"""Saves the classifier's predictions and the corresponding ground truth labels at
     a specific training epoch as a CSV file.
 
     Args:
@@ -21,9 +20,6 @@ def save_outputs(epoch: int, snapshot_dir: str, outputs: Array, labels: Array) -
         outputs (jax.Array): The predictions made by the classifier at the
                              specified epoch.
         labels (jax.Array): The ground truth labels.
-
-    Returns:
-        None
     """
 
     df = pd.DataFrame({"preds": outputs})
@@ -33,18 +29,15 @@ def save_outputs(epoch: int, snapshot_dir: str, outputs: Array, labels: Array) -
 
 
 def print_losses(
-    epoch: int, epochs: int, train_loss: Dict[str, Array], valid_loss: Dict[str, Array]
+    epoch: int, epochs: int, train_loss: Dict[str, float], valid_loss: Dict[str, float]
 ) -> None:
-    """
-    Print the training and validation losses.
+    r"""Print the training and validation losses.
 
     Args :
         epoch (int) : Current epoch.
         epochs (int) : Total number of epohcs.
         train_loss (dict) : Training loss.
         valid_loss (dict) : Validation loss.
-    Return :
-        None
     """
     print(
         f"Epoch : {epoch + 1}/{epochs}, Train loss (average) = "
