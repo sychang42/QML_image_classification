@@ -106,13 +106,12 @@ The dictionary should contain the following points:</p>
 <ul>
 <li><p><em>num_epochs</em>: Integer indicating the number of training epochs.</p></li>
 <li><p><em>batch_size</em>: Integer indicating the training batch size.</p></li>
-<li><p><em>loss_type</em>: List of strings representing the loss types used in the</p></li>
-</ul>
-<dl class="simple">
-<dt>training. Currently, only <a class="reference internal" href="metrics.html#metrics.BCE_loss" title="metrics.BCE_loss"><code class="xref py py-func docutils literal notranslate"><span class="pre">metrics.BCE_loss()</span></code></a> and</dt><dd><p><a class="reference internal" href="metrics.html#metrics.accuracy" title="metrics.accuracy"><code class="xref py py-func docutils literal notranslate"><span class="pre">metrics.accuracy()</span></code></a> are supported.</p>
+<li><dl class="simple">
+<dt><em>loss_type</em>: List of strings representing the loss types used in the</dt><dd><p>training. Currently, only <a class="reference internal" href="metrics.html#metrics.BCE_loss" title="metrics.BCE_loss"><code class="xref py py-func docutils literal notranslate"><span class="pre">metrics.BCE_loss()</span></code></a> and
+<a class="reference internal" href="metrics.html#metrics.accuracy" title="metrics.accuracy"><code class="xref py py-func docutils literal notranslate"><span class="pre">metrics.accuracy()</span></code></a> are supported.</p>
 </dd>
 </dl>
-<ul>
+</li>
 <li><dl class="simple">
 <dt><em>seed</em>: Seed used to generate random values using JAX’s random number</dt><dd><p>generator (<code class="xref py py-class docutils literal notranslate"><span class="pre">jax.random</span></code>).</p>
 </dd>
@@ -124,7 +123,7 @@ The dictionary should contain the following points:</p>
 <ul>
 <li><p><em>num_wires</em>: Number of qubits in the QCNN.</p></li>
 <li><dl class="simple">
-<dt><em>num_measured</em>:Number of measured qubits at the end of the circuit.For</dt><dd><p>L classes, we measure <span class="math notranslate nohighlight">\(\lceil (\log_2(L))\rceil\)</span> qubits.</p>
+<dt><em>num_measured</em>: Number of measured qubits at the end of the circuit.For</dt><dd><p>L classes, we measure <span class="math notranslate nohighlight">\(\lceil (\log_2(L))\rceil\)</span> qubits.</p>
 </dd>
 </dl>
 </li>
