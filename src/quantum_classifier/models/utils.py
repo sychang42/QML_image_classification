@@ -33,7 +33,7 @@ def print_losses(
 ) -> None:
     r"""Print the training and validation losses.
 
-    Args :
+    Args:
         epoch (int) : Current epoch.
         epochs (int) : Total number of epohcs.
         train_loss (dict) : Training loss.
@@ -47,20 +47,3 @@ def print_losses(
         f"Epoch : {epoch + 1}/{epochs}, Valid loss = "
         f", ".join("{}: {}".format(k, v) for k, v in valid_loss.items())
     )
-
-
-def plot_result(train_loss, test_loss, snapshot_dir):
-    N = len(train_loss.keys())
-    fig, axes = plt.subplots(1, N, figsize=(N * 5, 4))
-
-    for ax, k in zip(axes, train_loss.keys()):
-        epoch = range(len(train_loss[k]))
-        plt.plot(epoch, train_loss[k], label="Train")
-        plt.plot(epoch, test_loss[k], label="Test")
-
-        ax.set_xlabel("Epoch")
-        ax.set_ylabel(k)
-
-        ax.legend()
-
-    plt.savefig(fig, os.path.join(snapshot_dir, "loss.png"))

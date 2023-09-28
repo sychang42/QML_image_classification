@@ -122,6 +122,7 @@ def train(
             - *loss_type*: List of strings representing the loss types used in the
             training. Currently, only :func:`metrics.BCE_loss` and
             :func:`metrics.accuracy` are supported.
+
             - *seed*: Seed used to generate random values using JAX's random number
             generator (:class:`jax.random`).
 
@@ -130,6 +131,7 @@ def train(
             - *num_wires*: Number of qubits in the QCNN.
             - *num_measured*:Number of measured qubits at the end of the circuit.
             For L classes, we measure :math:`\lceil (\log_2(L))\rceil` qubits.
+
             - *trans_inv*: Boolean to indicate whether the QCNN is
             translational invariant or not. If True, all filters in a layer share
             identical parameters; otherwise, different parameters are used. (To be
@@ -151,11 +153,11 @@ def train(
     Example:
 
         >>> train_args = {"num_epochs": 5, "batch_size" : 1024, "loss_type": ['BCE_loss',
-        'accuracy]}
+        ...               'accuracy]}
         >>> model_args = {"num_wires": 8, "num_measured" : 1, "trans_inv": True}
         >>> opt_args = {"learning_rate": 0.01, "b1" : 0.9, "b2": 0.999}
         >>> train_loss, test_loss = train(train_ds, test_ds, train_args, model_args,
-        opt_args, "Result")
+        ...                         opt_args, "Result")
         >>> print(train_loss)
             {'BCE_loss': [0.6449261327584586, 0.600408172607422, 0.5616568744182586,
             0.5470444520314535, 0.537257703145345], 'accuracy': [0.6750000019868214,

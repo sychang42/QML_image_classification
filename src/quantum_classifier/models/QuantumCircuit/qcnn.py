@@ -21,18 +21,13 @@ from typing import Callable, Tuple, Optional
 _valid_gates = {
     "RZ": (qml.RZ, 2, 2),
     "U_TTN": (unitary.U_TTN, 2, 2),
-    "U_5": (unitary.U_5, 10, 2),
     "U_6": (unitary.U_6, 10, 2),
-    "U_9": (unitary.U_9, 2, 2),
-    "U_13": (unitary.U_13, 6, 2),
-    "U_14": (unitary.U_14, 6, 2),
-    "U_15": (unitary.U_15, 4, 2),
     "U_SO4": (unitary.U_SO4, 6, 2),
     "U_SU4": (unitary.U_SU4, 15, 2),
     "U_ZZ": (unitary.U_ZZ, 15, 2),
     "U_qiskit": (unitary.U_qiskit, 15, 2),
     "U_RX": (unitary.U_RX, 2, 2),
-    "Pooling_ansatz1": (unitary.Pooling_ansatz1, 2, 2),
+    "Pooling_ansatz1": (unitary.Pooling_ansatz, 2, 2),
 }
 
 
