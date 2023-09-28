@@ -196,29 +196,29 @@
 <span class="sd">        train_args (Dict[str, Any]): Hyperparameters needed for classifier training.</span>
 <span class="sd">            The dictionary should contain the following points:</span>
 
-<span class="sd">            - *num_epochs*: Integer indicating the number of training epochs.</span>
-<span class="sd">            - *batch_size*: Integer indicating the training batch size.</span>
-<span class="sd">            - *loss_type*: List of strings representing the loss types used in the</span>
+<span class="sd">            * *num_epochs*: Integer indicating the number of training epochs.</span>
+<span class="sd">            * *batch_size*: Integer indicating the training batch size.</span>
+<span class="sd">            * *loss_type*: List of strings representing the loss types used in the</span>
 <span class="sd">            training. Currently, only :func:`metrics.BCE_loss` and</span>
-<span class="sd">            :func:`metrics.accuracy` are supported.</span>
-<span class="sd">            - *seed*: Seed used to generate random values using JAX&#39;s random number</span>
-<span class="sd">            generator (:class:`jax.random`).</span>
+<span class="sd">                :func:`metrics.accuracy` are supported.</span>
+<span class="sd">            * *seed*: Seed used to generate random values using JAX&#39;s random number</span>
+<span class="sd">                generator (:class:`jax.random`).</span>
 
 <span class="sd">        model_args (Dict[str, Any]): Arguments required to constructed the QCNN.</span>
 
-<span class="sd">            - *num_wires*: Number of qubits in the QCNN.</span>
-<span class="sd">            - *num_measured*:Number of measured qubits at the end of the circuit.</span>
-<span class="sd">            For L classes, we measure :math:`\lceil (\log_2(L))\rceil` qubits.</span>
-<span class="sd">            - *trans_inv*: Boolean to indicate whether the QCNN is</span>
-<span class="sd">            translational invariant or not. If True, all filters in a layer share</span>
-<span class="sd">            identical parameters; otherwise, different parameters are used. (To be</span>
-<span class="sd">            implemented)</span>
+<span class="sd">            * *num_wires*: Number of qubits in the QCNN.</span>
+<span class="sd">            * *num_measured*:Number of measured qubits at the end of the circuit.For</span>
+<span class="sd">                L classes, we measure :math:`\lceil (\log_2(L))\rceil` qubits.</span>
+<span class="sd">            * *trans_inv*: Boolean to indicate whether the QCNN is</span>
+<span class="sd">                translational invariant or not. If True, all filters in a layer share</span>
+<span class="sd">                identical parameters; otherwise, different parameters are used. (To be</span>
+<span class="sd">                implemented)</span>
 
 <span class="sd">        optim_args (Dict[str, float]): :class:`optax.adam` optimizer hyperparameters.</span>
 
-<span class="sd">            - *learning_rate*: Learning rate for the optimizer.</span>
-<span class="sd">            - *b1*: :math:`\beta_1` value of the Adam optimizer.</span>
-<span class="sd">            - *b2*: :math:`\beta_2` value of the Adam optimizer.</span>
+<span class="sd">            * *learning_rate*: Learning rate for the optimizer.</span>
+<span class="sd">            * *b1*: :math:`\beta_1` value of the Adam optimizer.</span>
+<span class="sd">            * *b2*: :math:`\beta_2` value of the Adam optimizer.</span>
 
 <span class="sd">        snapshot_dir (str, optional): Directory to store the training result if not</span>
 <span class="sd">            None. Defaults to None.</span>
@@ -230,11 +230,11 @@
 <span class="sd">    Example:</span>
 
 <span class="sd">        &gt;&gt;&gt; train_args = {&quot;num_epochs&quot;: 5, &quot;batch_size&quot; : 1024, &quot;loss_type&quot;: [&#39;BCE_loss&#39;,</span>
-<span class="sd">        &#39;accuracy]}</span>
+<span class="sd">        ...               &#39;accuracy]}</span>
 <span class="sd">        &gt;&gt;&gt; model_args = {&quot;num_wires&quot;: 8, &quot;num_measured&quot; : 1, &quot;trans_inv&quot;: True}</span>
 <span class="sd">        &gt;&gt;&gt; opt_args = {&quot;learning_rate&quot;: 0.01, &quot;b1&quot; : 0.9, &quot;b2&quot;: 0.999}</span>
 <span class="sd">        &gt;&gt;&gt; train_loss, test_loss = train(train_ds, test_ds, train_args, model_args,</span>
-<span class="sd">        opt_args, &quot;Result&quot;)</span>
+<span class="sd">        ...                         opt_args, &quot;Result&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; print(train_loss)</span>
 <span class="sd">            {&#39;BCE_loss&#39;: [0.6449261327584586, 0.600408172607422, 0.5616568744182586,</span>
 <span class="sd">            0.5470444520314535, 0.537257703145345], &#39;accuracy&#39;: [0.6750000019868214,</span>

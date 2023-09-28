@@ -10,10 +10,11 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=2709fde1"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" /> 
@@ -68,50 +69,65 @@
            <div itemprop="articleBody">
              
   <h1>Source code for unitary</h1><div class="highlight"><pre>
-<span></span><span class="c1"># This module contains the set of unitary ansatze that will be used to benchmark the performances of Quantum Convolutional Neural Network (QCNN) in QCNN.ipynb module</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module contains the set of unitary ansatze that are used as convolutional filters</span>
+<span class="sd">in :func:`qcnn.QCNN`. Some of them are defined following the definition given in Ref.</span>
+<span class="sd">[1].</span>
+<span class="sd">    </span>
+<span class="sd">    **References** </span>
+<span class="sd">    [1]: T. Hur, L. Kim, and D. K. Park, `Quantum convolutional neural network for </span>
+<span class="sd">    classical data classification &lt;https://link.springer.com/article/10.1007/s42484-021-00061-x&gt;`__. </span>
+<span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">pennylane</span> <span class="k">as</span> <span class="nn">qml</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<div class="viewcode-block" id="U_TTN"><a class="viewcode-back" href="../unitary.html#unitary.U_TTN">[docs]</a><span class="k">def</span> <span class="nf">U_TTN</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">wires</span><span class="p">):</span>
-    <span class="c1">#num_wires = 2</span>
-    <span class="c1">#num_params = 2 #int: Number of trainable parameters that the operator depends on.</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span>
 
 
-    <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> 
-    <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> 
+<div class="viewcode-block" id="U_TTN">
+<a class="viewcode-back" href="../unitary.html#unitary.U_TTN">[docs]</a>
+<span class="k">def</span> <span class="nf">U_TTN</span><span class="p">(</span><span class="n">angle</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">wires</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The quantum convolutional filter ansatz employing the architecture of</span>
+<span class="sd">    `Quantum Tree Tensor Networks &lt;https://iopscience.iop.org/article/10.1088/2058-9565/aaea94&gt;`.</span>
+<span class="sd">    The ansatz is parameterized with 2 rotation angles.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        angle (Union[List, np.ndarray]): Rotation angles.</span>
+<span class="sd">        wires (Union[List, np.ndarray]): The list of qubits on which the ansatz is</span>
+<span class="sd">            applied.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">qml</span><span class="o">.</span><span class="n">CNOT</span><span class="p">(</span><span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span></div>
-        
-<div class="viewcode-block" id="U_RX"><a class="viewcode-back" href="../unitary.html#unitary.U_RX">[docs]</a><span class="k">def</span> <span class="nf">U_RX</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">wires</span><span class="p">):</span>
-    <span class="c1">#num_wires = 2</span>
-    <span class="c1">#num_params = 2 #int: Number of trainable parameters that the operator depends on.</span>
 
 
-    <span class="n">qml</span><span class="o">.</span><span class="n">RX</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> 
-    <span class="n">qml</span><span class="o">.</span><span class="n">RX</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> </div>
-    
 
-<div class="viewcode-block" id="U_5"><a class="viewcode-back" href="../unitary.html#unitary.U_5">[docs]</a><span class="k">def</span> <span class="nf">U_5</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">wires</span><span class="p">):</span>
-            
-    <span class="n">qml</span><span class="o">.</span><span class="n">RX</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> 
-    <span class="n">qml</span><span class="o">.</span><span class="n">RX</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> 
-    <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-    <span class="n">qml</span><span class="o">.</span><span class="n">CRZ</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
-    <span class="n">qml</span><span class="o">.</span><span class="n">CRZ</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
-    <span class="n">qml</span><span class="o">.</span><span class="n">RX</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">qml</span><span class="o">.</span><span class="n">RX</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-    <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">8</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">9</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
-        
-        
-    
-<div class="viewcode-block" id="U_6"><a class="viewcode-back" href="../unitary.html#unitary.U_6">[docs]</a><span class="k">def</span> <span class="nf">U_6</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">wires</span><span class="p">):</span>
-    <span class="c1">#num_wires = 2</span>
-    <span class="c1">#num_params = 10 #int: Number of trainable parameters that the operator depends on.</span>
+<div class="viewcode-block" id="U_RX">
+<a class="viewcode-back" href="../unitary.html#unitary.U_RX">[docs]</a>
+<span class="k">def</span> <span class="nf">U_RX</span><span class="p">(</span><span class="n">angle</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">wires</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The quantum convolutional filter ansatz containing only :func:`pennylane.RX`</span>
+<span class="sd">    gates.</span>
+<span class="sd">    The ansatz is parameterized with 2 rotation angles.</span>
 
-            
-    <span class="n">qml</span><span class="o">.</span><span class="n">RX</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> 
-    <span class="n">qml</span><span class="o">.</span><span class="n">RX</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> 
+<span class="sd">    Args:</span>
+<span class="sd">        angle (Union[List, np.ndarray]): Rotation angles.</span>
+<span class="sd">        wires (Union[List, np.ndarray]): The list of qubits on which the ansatz is</span>
+<span class="sd">            applied.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">qml</span><span class="o">.</span><span class="n">RX</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">RX</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
+
+
+
+<div class="viewcode-block" id="U_6">
+<a class="viewcode-back" href="../unitary.html#unitary.U_6">[docs]</a>
+<span class="k">def</span> <span class="nf">U_6</span><span class="p">(</span><span class="n">angle</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">wires</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="c1"># num_wires = 2</span>
+    <span class="c1"># num_params = 10 #int: Number of trainable parameters that the operator depends on.</span>
+
+    <span class="n">qml</span><span class="o">.</span><span class="n">RX</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">RX</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">qml</span><span class="o">.</span><span class="n">CRX</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
@@ -120,148 +136,103 @@
     <span class="n">qml</span><span class="o">.</span><span class="n">RX</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">8</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">9</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
-        
-            
-
-<div class="viewcode-block" id="U_9"><a class="viewcode-back" href="../unitary.html#unitary.U_9">[docs]</a><span class="k">def</span> <span class="nf">U_9</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">wires</span><span class="p">):</span>
-    <span class="c1">#num_wires = 2</span>
-    <span class="c1">#num_params = 2 #int: Number of trainable parameters that the operator depends on.</span>
-
-    <span class="n">qml</span><span class="o">.</span><span class="n">Hadamard</span><span class="p">(</span><span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> 
-    <span class="n">qml</span><span class="o">.</span><span class="n">Hadamard</span><span class="p">(</span><span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> 
-    <span class="n">qml</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
-    <span class="n">qml</span><span class="o">.</span><span class="n">RX</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">qml</span><span class="o">.</span><span class="n">RX</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
-
-        
-
-<div class="viewcode-block" id="U_13"><a class="viewcode-back" href="../unitary.html#unitary.U_13">[docs]</a><span class="k">def</span> <span class="nf">U_13</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">wires</span><span class="p">):</span>
-    <span class="c1">#num_wires = 2</span>
-    <span class="c1">#num_params = 6 #int: Number of trainable parameters that the operator depends on.</span>
-            
-    <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> 
-    <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> 
-    <span class="n">qml</span><span class="o">.</span><span class="n">CRZ</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
-    <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-    <span class="n">qml</span><span class="o">.</span><span class="n">CRZ</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span></div>
-
-        
 
 
-<div class="viewcode-block" id="U_14"><a class="viewcode-back" href="../unitary.html#unitary.U_14">[docs]</a><span class="k">def</span> <span class="nf">U_14</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">wires</span><span class="p">):</span>
-    <span class="c1">#num_wires = 2</span>
-    <span class="c1">#num_params = 6 #int: Number of trainable parameters that the operator depends on.</span>
 
-            
-    <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> 
-    <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> 
-    <span class="n">qml</span><span class="o">.</span><span class="n">CRX</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
-    <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-    <span class="n">qml</span><span class="o">.</span><span class="n">CRX</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span></div>
+<div class="viewcode-block" id="U_SO4">
+<a class="viewcode-back" href="../unitary.html#unitary.U_SO4">[docs]</a>
+<span class="k">def</span> <span class="nf">U_SO4</span><span class="p">(</span><span class="n">angle</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">wires</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The quantum convolutional filter ansatz generating an arbitrary :math:`SO_4`</span>
+<span class="sd">    quantum state [1].</span>
+<span class="sd">    The ansatz is parameterized with 6 rotation angles.</span>
 
-        
-    
-    
-<div class="viewcode-block" id="U_15"><a class="viewcode-back" href="../unitary.html#unitary.U_15">[docs]</a><span class="k">def</span> <span class="nf">U_15</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">wires</span><span class="p">):</span>
-    <span class="c1">#num_wires = 2</span>
-    <span class="c1">#num_params = 4 #int: Number of trainable parameters that the operator depends on.  </span>
-            
-    <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> 
-    <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> 
-    <span class="n">qml</span><span class="o">.</span><span class="n">CNOT</span><span class="p">(</span><span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
-    <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-    <span class="n">qml</span><span class="o">.</span><span class="n">CNOT</span><span class="p">(</span><span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span></div>
+<span class="sd">    Args:</span>
+<span class="sd">        angle (Union[List, np.ndarray]): Rotation angles.</span>
+<span class="sd">        wires (Union[List, np.ndarray]): The list of qubits on which the ansatz is</span>
+<span class="sd">            applied.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-        
-
-    
-<div class="viewcode-block" id="U_SO4"><a class="viewcode-back" href="../unitary.html#unitary.U_SO4">[docs]</a><span class="k">def</span> <span class="nf">U_SO4</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">wires</span><span class="p">):</span>
-    <span class="c1">##num_wires = 2</span>
-    <span class="c1">#num_params = 6 #int: Number of trainable parameters that the operator depends on.</span>
-            
-    <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> 
-    <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> 
+    <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">qml</span><span class="o">.</span><span class="n">CNOT</span><span class="p">(</span><span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
     <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">qml</span><span class="o">.</span><span class="n">CNOT</span><span class="p">(</span><span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
-    <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> 
-    <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> </div>
+    <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
 
-        
-    
-<div class="viewcode-block" id="U_SU4"><a class="viewcode-back" href="../unitary.html#unitary.U_SU4">[docs]</a><span class="k">def</span> <span class="nf">U_SU4</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">wires</span><span class="p">):</span>
-    <span class="c1">#num_wires = 2</span>
-    <span class="c1">#num_params = 15 #int: Number of trainable parameters that the operator depends on.</span>
 
-            
-    <span class="n">qml</span><span class="o">.</span><span class="n">U3</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">angle</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">angle</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> 
-    <span class="n">qml</span><span class="o">.</span><span class="n">U3</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">angle</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">angle</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> 
+
+<div class="viewcode-block" id="U_SU4">
+<a class="viewcode-back" href="../unitary.html#unitary.U_SU4">[docs]</a>
+<span class="k">def</span> <span class="nf">U_SU4</span><span class="p">(</span><span class="n">angle</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">wires</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The quantum convolutional filter ansatz generating an arbitrary :math:`SU_4`</span>
+<span class="sd">    quantum state [1].</span>
+<span class="sd">    The ansatz is parameterized with 15 rotation angles.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        angle (Union[List, np.ndarray]): Rotation angles.</span>
+<span class="sd">        wires (Union[List, np.ndarray]): The list of qubits on which the ansatz is</span>
+<span class="sd">            applied.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">qml</span><span class="o">.</span><span class="n">U3</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">angle</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">angle</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">U3</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">angle</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">angle</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">qml</span><span class="o">.</span><span class="n">CNOT</span><span class="p">(</span><span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
     <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">qml</span><span class="o">.</span><span class="n">CNOT</span><span class="p">(</span><span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
-    <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">8</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> 
-    <span class="n">qml</span><span class="o">.</span><span class="n">CNOT</span><span class="p">(</span><span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span> 
-    <span class="n">qml</span><span class="o">.</span><span class="n">U3</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">9</span><span class="p">],</span> <span class="n">angle</span><span class="p">[</span><span class="mi">10</span><span class="p">],</span> <span class="n">angle</span><span class="p">[</span><span class="mi">11</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> 
+    <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">8</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">CNOT</span><span class="p">(</span><span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">U3</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">9</span><span class="p">],</span> <span class="n">angle</span><span class="p">[</span><span class="mi">10</span><span class="p">],</span> <span class="n">angle</span><span class="p">[</span><span class="mi">11</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="n">qml</span><span class="o">.</span><span class="n">U3</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">12</span><span class="p">],</span> <span class="n">angle</span><span class="p">[</span><span class="mi">13</span><span class="p">],</span> <span class="n">angle</span><span class="p">[</span><span class="mi">14</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
 
-        
-    
-<div class="viewcode-block" id="Pooling_ansatz1"><a class="viewcode-back" href="../unitary.html#unitary.Pooling_ansatz1">[docs]</a><span class="k">def</span> <span class="nf">Pooling_ansatz1</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">wires</span><span class="p">):</span>
-    <span class="c1">#num_wires = 2</span>
+
+
+<div class="viewcode-block" id="Pooling_ansatz">
+<a class="viewcode-back" href="../unitary.html#unitary.Pooling_ansatz">[docs]</a>
+<span class="k">def</span> <span class="nf">Pooling_ansatz</span><span class="p">(</span>
+    <span class="n">angle</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">wires</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="c1"># num_wires = 2</span>
     <span class="c1"># num_params = 2 #int: Number of trainable parameters that the operator depends on</span>
-            
+
     <span class="n">qml</span><span class="o">.</span><span class="n">CRZ</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
     <span class="n">qml</span><span class="o">.</span><span class="n">PauliX</span><span class="p">(</span><span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">qml</span><span class="o">.</span><span class="n">CRX</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span></div>
-       
-<div class="viewcode-block" id="Pooling_ansatz2"><a class="viewcode-back" href="../unitary.html#unitary.Pooling_ansatz2">[docs]</a><span class="k">def</span> <span class="nf">Pooling_ansatz2</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">wires</span><span class="p">):</span>
-   <span class="c1"># num_wires = 2</span>
-   <span class="c1"># num_params = 0 #int: Number of trainable parameters that the operator depends on.</span>
 
-    <span class="n">qml</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span></div>
 
-    
-    
-<div class="viewcode-block" id="Pooling_ansatz3"><a class="viewcode-back" href="../unitary.html#unitary.Pooling_ansatz3">[docs]</a><span class="k">def</span> <span class="nf">Pooling_ansatz3</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">wires</span><span class="p">):</span>
-    <span class="c1">#num_wires = 2</span>
-    <span class="c1">#num_params = 3 #int: Number of trainable parameters that the operator depends on.</span>
-            
-    <span class="n">qml</span><span class="o">.</span><span class="n">CRot</span><span class="p">(</span><span class="o">*</span><span class="n">angle</span><span class="p">,</span> <span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span></div>
 
-        
-    
-        
-<div class="viewcode-block" id="U_ZZ"><a class="viewcode-back" href="../unitary.html#unitary.U_ZZ">[docs]</a><span class="k">def</span> <span class="nf">U_ZZ</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">wires</span><span class="p">):</span>
-    <span class="c1">#num_wires = 2</span>
-    <span class="c1">#num_params = 7</span>
-    
-    <span class="n">qml</span><span class="o">.</span><span class="n">RX</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> 
-    <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> 
-    <span class="n">qml</span><span class="o">.</span><span class="n">RX</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> 
-    
-    <span class="n">qml</span><span class="o">.</span><span class="n">RX</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> 
+<div class="viewcode-block" id="U_ZZ">
+<a class="viewcode-back" href="../unitary.html#unitary.U_ZZ">[docs]</a>
+<span class="k">def</span> <span class="nf">U_ZZ</span><span class="p">(</span><span class="n">angle</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">wires</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="c1"># num_wires = 2</span>
+    <span class="c1"># num_params = 7</span>
+
+    <span class="n">qml</span><span class="o">.</span><span class="n">RX</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">RX</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="n">qml</span><span class="o">.</span><span class="n">RX</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">qml</span><span class="o">.</span><span class="n">RX</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-    <span class="n">qml</span><span class="o">.</span><span class="n">IsingZZ</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">)</span> </div>
-    
-    
-<div class="viewcode-block" id="U_qiskit"><a class="viewcode-back" href="../unitary.html#unitary.U_qiskit">[docs]</a><span class="k">def</span> <span class="nf">U_qiskit</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">wires</span><span class="p">):</span>
-    <span class="c1">#num_wires = 2</span>
-    <span class="c1">#num_params = 3 #int: Number of trainable parameters that the operator depends on.</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">IsingZZ</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">)</span></div>
 
 
-    <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> 
-    <span class="n">qml</span><span class="o">.</span><span class="n">CNOT</span><span class="p">(</span><span class="n">wires</span> <span class="o">=</span> <span class="p">[</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span> 
-    <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span> <span class="o">=</span> <span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span> <span class="o">=</span> <span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-    <span class="n">qml</span><span class="o">.</span><span class="n">CNOT</span><span class="p">(</span><span class="n">wires</span> <span class="o">=</span> <span class="p">[</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span> 
-    
-    <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> </div>
+
+<div class="viewcode-block" id="U_qiskit">
+<a class="viewcode-back" href="../unitary.html#unitary.U_qiskit">[docs]</a>
+<span class="k">def</span> <span class="nf">U_qiskit</span><span class="p">(</span><span class="n">angle</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">wires</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="c1"># num_wires = 2</span>
+    <span class="c1"># num_params = 3 #int: Number of trainable parameters that the operator depends on.</span>
+
+    <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">CNOT</span><span class="p">(</span><span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">CNOT</span><span class="p">(</span><span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+
+    <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">wires</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
 
 </pre></div>
 
