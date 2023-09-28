@@ -25,25 +25,6 @@ from tqdm import tqdm
 from utils import save_outputs, print_losses
 
 
-def Encoding_to_Embedding(Encoding: str) -> str:
-    # Angular HybridEmbedding
-    # 4 qubit block
-    if Encoding == "map1":
-        Embedding = "Angular-Hybrid4-1"
-    elif Encoding == "map2":
-        Embedding = "Angular-Hybrid4-2"
-
-    elif Encoding == "map3":
-        Embedding = "Angular-Hybrid4-3"
-
-    elif Encoding == "map4":
-        Embedding = "Angular-Hybrid4-4"
-    else:
-        raise NotImplementedError("Encoding type not supported")
-
-    return Embedding
-
-
 def train_batch(
     x_batch: Array,
     y_batch: Array,
@@ -93,14 +74,45 @@ def train(
     model_args: Dict[str, Any],
     optim_args: Dict[str, float],
     snapshot_dir: Optional[str] = None,
-) -> Tuple[Dict[str, float], Dict[str, float]]:
-    """
-    Train the quantum classifier.
+) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    r"""Train the quantum classifier using the provided datasets and hyperparameters.
 
     Args:
-        train_ds (Dict[str, Array]) : The training dataset.
-        test_ds (Dict[str, Array]) : The test dataset.
+        train_ds (Dict[str, Array]): The training dataset.
+        test_ds (Dict[str, Array]): The test dataset.
+        train_args (Dict[str, Any]): Hyperparameters needed for classifier training.
+            The dictionary should contain the following points:
 
+            - *num_epochs*: Integer indicating the number of training epochs.
+            - *batch_size*: Integer indicating the training batch size.
+            - *loss_type*: List of strings representing the loss types used in the
+                training. Currently, only :func:`metrics.BCE_loss` and
+                :func:`metrics.accuracy` are supported.
+            - *seed*: Seed used to generate random values using JAX's random number
+                generator (class:`jax.random`).
+
+        model_args (Dict[str, Any]): Arguments required to constructed the QCNN.
+
+            - *num_wires*: Number of qubits in the QCNN.
+            - *num_measured*:Number of measured qubits at the end of the circuit.
+                For L classes, we measure :math:`\lceil (log2(L))\rceil` qubits.
+            - *trans_inv*: Boolean to indicate whether the QCNN is
+                translational invariant or not. If True, all filters in a layer share
+                identical parameters; otherwise, different parameters are used. (To be
+                implemented)
+
+        optim_args (Dict[str, float]): :class:`optax.adam` optimizer hyperparameters.
+
+            - *learning_rate*: Learning rate for the optimizer.
+            - *b1*: :math:`\beta_1` value of the Adam optimizer.
+            - *b2*: :math:`\beta_2` value of the Adam optimizer.
+
+        snapshot_dir (str, optional): Directory to store the training result if not
+            None. Defaults to None.
+
+    Returns:
+        Tuple[Dict[str, Any], Dict[str, Any]]: Tuple of dictionaries containing the
+        training and test set loss progression based on the specified ``loss_type``.
     """
     num_epochs = train_args["num_epochs"]
     batch_size = train_args["batch_size"]

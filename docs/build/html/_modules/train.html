@@ -96,28 +96,6 @@
 <span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">save_outputs</span><span class="p">,</span> <span class="n">print_losses</span>
 
 
-<div class="viewcode-block" id="Encoding_to_Embedding">
-<a class="viewcode-back" href="../train.html#train.Encoding_to_Embedding">[docs]</a>
-<span class="k">def</span> <span class="nf">Encoding_to_Embedding</span><span class="p">(</span><span class="n">Encoding</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="c1"># Angular HybridEmbedding</span>
-    <span class="c1"># 4 qubit block</span>
-    <span class="k">if</span> <span class="n">Encoding</span> <span class="o">==</span> <span class="s2">&quot;map1&quot;</span><span class="p">:</span>
-        <span class="n">Embedding</span> <span class="o">=</span> <span class="s2">&quot;Angular-Hybrid4-1&quot;</span>
-    <span class="k">elif</span> <span class="n">Encoding</span> <span class="o">==</span> <span class="s2">&quot;map2&quot;</span><span class="p">:</span>
-        <span class="n">Embedding</span> <span class="o">=</span> <span class="s2">&quot;Angular-Hybrid4-2&quot;</span>
-
-    <span class="k">elif</span> <span class="n">Encoding</span> <span class="o">==</span> <span class="s2">&quot;map3&quot;</span><span class="p">:</span>
-        <span class="n">Embedding</span> <span class="o">=</span> <span class="s2">&quot;Angular-Hybrid4-3&quot;</span>
-
-    <span class="k">elif</span> <span class="n">Encoding</span> <span class="o">==</span> <span class="s2">&quot;map4&quot;</span><span class="p">:</span>
-        <span class="n">Embedding</span> <span class="o">=</span> <span class="s2">&quot;Angular-Hybrid4-4&quot;</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Encoding type not supported&quot;</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">Embedding</span></div>
-
-
-
 <div class="viewcode-block" id="train_batch">
 <a class="viewcode-back" href="../train.html#train.train_batch">[docs]</a>
 <span class="k">def</span> <span class="nf">train_batch</span><span class="p">(</span>
@@ -175,14 +153,45 @@
     <span class="n">model_args</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
     <span class="n">optim_args</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
     <span class="n">snapshot_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Train the quantum classifier.</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Train the quantum classifier using the provided datasets and hyperparameters.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        train_ds (Dict[str, Array]) : The training dataset.</span>
-<span class="sd">        test_ds (Dict[str, Array]) : The test dataset.</span>
+<span class="sd">        train_ds (Dict[str, Array]): The training dataset.</span>
+<span class="sd">        test_ds (Dict[str, Array]): The test dataset.</span>
+<span class="sd">        train_args (Dict[str, Any]): Hyperparameters needed for classifier training.</span>
+<span class="sd">            The dictionary should contain the following points:</span>
 
+<span class="sd">            - *num_epochs*: Integer indicating the number of training epochs.</span>
+<span class="sd">            - *batch_size*: Integer indicating the training batch size.</span>
+<span class="sd">            - *loss_type*: List of strings representing the loss types used in the</span>
+<span class="sd">                training. Currently, only :func:`metrics.BCE_loss` and</span>
+<span class="sd">                :func:`metrics.accuracy` are supported.</span>
+<span class="sd">            - *seed*: Seed used to generate random values using JAX&#39;s random number</span>
+<span class="sd">                generator (class:`jax.random`).</span>
+
+<span class="sd">        model_args (Dict[str, Any]): Arguments required to constructed the QCNN.</span>
+
+<span class="sd">            - *num_wires*: Number of qubits in the QCNN.</span>
+<span class="sd">            - *num_measured*:Number of measured qubits at the end of the circuit.</span>
+<span class="sd">                For L classes, we measure :math:`\lceil (log2(L))\rceil` qubits.</span>
+<span class="sd">            - *trans_inv*: Boolean to indicate whether the QCNN is</span>
+<span class="sd">                translational invariant or not. If True, all filters in a layer share</span>
+<span class="sd">                identical parameters; otherwise, different parameters are used. (To be</span>
+<span class="sd">                implemented)</span>
+
+<span class="sd">        optim_args (Dict[str, float]): :class:`optax.adam` optimizer hyperparameters.</span>
+
+<span class="sd">            - *learning_rate*: Learning rate for the optimizer.</span>
+<span class="sd">            - *b1*: :math:`\beta_1` value of the Adam optimizer.</span>
+<span class="sd">            - *b2*: :math:`\beta_2` value of the Adam optimizer.</span>
+
+<span class="sd">        snapshot_dir (str, optional): Directory to store the training result if not</span>
+<span class="sd">            None. Defaults to None.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple[Dict[str, Any], Dict[str, Any]]: Tuple of dictionaries containing the</span>
+<span class="sd">        training and test set loss progression based on the specified ``loss_type``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">num_epochs</span> <span class="o">=</span> <span class="n">train_args</span><span class="p">[</span><span class="s2">&quot;num_epochs&quot;</span><span class="p">]</span>
     <span class="n">batch_size</span> <span class="o">=</span> <span class="n">train_args</span><span class="p">[</span><span class="s2">&quot;batch_size&quot;</span><span class="p">]</span>

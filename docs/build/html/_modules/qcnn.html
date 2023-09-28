@@ -138,29 +138,6 @@
 
 
 
-<div class="viewcode-block" id="U2_conv">
-<a class="viewcode-back" href="../qcnn.html#qcnn.U2_conv">[docs]</a>
-<span class="k">def</span> <span class="nf">U2_conv</span><span class="p">(</span><span class="n">params</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span> <span class="n">gate</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">wires</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Convolutional filter applied on two qubits.</span>
-
-<span class="sd">    Args :</span>
-<span class="sd">        params (Array) : Convolutional filter parameters.</span>
-<span class="sd">        gate (Callabel) : Callable representing convolutional filter.</span>
-<span class="sd">        wires (list[int]) : Index of wires where the gate will be applied.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">wires</span><span class="p">),</span> <span class="mi">2</span><span class="p">):</span>
-        <span class="n">gate</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="n">wires</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">wires</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]])</span>
-        <span class="n">idx</span> <span class="o">=</span> <span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span>
-
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">wires</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
-        <span class="n">gate</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="n">wires</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">wires</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]])</span>
-        <span class="n">idx</span> <span class="o">=</span> <span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span>
-
-    <span class="n">gate</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="n">wires</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span></div>
-
-
-
 <div class="viewcode-block" id="QCNN">
 <a class="viewcode-back" href="../qcnn.html#qcnn.QCNN">[docs]</a>
 <span class="k">def</span> <span class="nf">QCNN</span><span class="p">(</span>
@@ -172,7 +149,7 @@
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Construct Quantum Convolutional Neural Network architecture uing the specified</span>
 <span class="sd">    QCNN version.</span>
 
-<span class="sd">    Args :</span>
+<span class="sd">    Args:</span>
 <span class="sd">        num_qubits (int) : Number of qubits in the QCNN.</span>
 <span class="sd">        num_measured (int) : Number of measured qubits at the end of the circuit.</span>
 <span class="sd">            For L classes, we measure ceil(log2(L)) qubits.</span>
@@ -181,10 +158,10 @@
 <span class="sd">            identical parameters; otherwise, different parameters are used. (To be</span>
 <span class="sd">            implemented)</span>
 <span class="sd">        qnn_ver (str, optional) : Version of the quantum circuit architecture to be</span>
-<span class="sd">                            used. If set to None, the default architecture with U_TTN</span>
-<span class="sd">                            convolutional filters is used.</span>
+<span class="sd">            used. If set to None, the default architecture with U_TTN convolutional</span>
+<span class="sd">            filters is used.</span>
 
-<span class="sd">    Returns :</span>
+<span class="sd">    Returns:</span>
 <span class="sd">        Tuple[Callable, int, np.ndarray]: Return a functionrepresenting the QCNN circuit,</span>
 <span class="sd">        the total number of parameters in the circuit, and the list of wires measurment</span>
 <span class="sd">        at the end of the circuit.</span>

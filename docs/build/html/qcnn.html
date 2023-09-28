@@ -97,37 +97,28 @@
 <span class="sig-prename descclassname"><span class="pre">qcnn.</span></span><span class="sig-name descname"><span class="pre">QCNN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_qubits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_measured</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trans_inv</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qnn_ver</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/qcnn.html#QCNN"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qcnn.QCNN" title="Link to this definition"></a></dt>
 <dd><p>Construct Quantum Convolutional Neural Network architecture uing the specified
 QCNN version.</p>
-<dl>
-<dt>Args :</dt><dd><p>num_qubits (int) : Number of qubits in the QCNN.
-num_measured (int) : Number of measured qubits at the end of the circuit.</p>
-<blockquote>
-<div><p>For L classes, we measure ceil(log2(L)) qubits.</p>
-</div></blockquote>
-<dl class="simple">
-<dt>trans_inv (bool, optional)<span class="classifier">Boolean to indicate whether the QCNN is</span></dt><dd><p>translational invariant or not. If True, all filters in a layer share
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num_qubits</strong> (<em>int</em>) – Number of qubits in the QCNN.</p></li>
+<li><p><strong>num_measured</strong> (<em>int</em>) – Number of measured qubits at the end of the circuit.
+For L classes, we measure ceil(log2(L)) qubits.</p></li>
+<li><p><strong>trans_inv</strong> (<em>bool</em><em>, </em><em>optional</em>) – Boolean to indicate whether the QCNN is
+translational invariant or not. If True, all filters in a layer share
 identical parameters; otherwise, different parameters are used. (To be
-implemented)</p>
+implemented)</p></li>
+<li><p><strong>qnn_ver</strong> (<em>str</em><em>, </em><em>optional</em>) – Version of the quantum circuit architecture to be
+used. If set to None, the default architecture with U_TTN convolutional
+filters is used.</p></li>
+</ul>
 </dd>
-<dt>qnn_ver (str, optional)<span class="classifier">Version of the quantum circuit architecture to be</span></dt><dd><p>used. If set to None, the default architecture with U_TTN
-convolutional filters is used.</p>
-</dd>
-</dl>
-</dd>
-<dt>Returns :</dt><dd><p>Tuple[Callable, int, np.ndarray]: Return a functionrepresenting the QCNN circuit,
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Return a functionrepresenting the QCNN circuit,
 the total number of parameters in the circuit, and the list of wires measurment
 at the end of the circuit.</p>
 </dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="qcnn.U2_conv">
-<span class="sig-prename descclassname"><span class="pre">qcnn.</span></span><span class="sig-name descname"><span class="pre">U2_conv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wires</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/qcnn.html#U2_conv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qcnn.U2_conv" title="Link to this definition"></a></dt>
-<dd><p>Convolutional filter applied on two qubits.</p>
-<dl class="simple">
-<dt>Args :</dt><dd><p>params (Array) : Convolutional filter parameters.
-gate (Callabel) : Callable representing convolutional filter.
-wires (list[int]) : Index of wires where the gate will be applied.</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[Callable, int, np.ndarray]</p>
 </dd>
 </dl>
 </dd></dl>

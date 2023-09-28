@@ -36,9 +36,9 @@ Currently supported features include:
 - Dimensionality reduction methods
     - *PCA*
     - *Convolutional Autoencoder*
-- Image dataset
-    - *MNIST*
-    - *EuroSAT*
+- Image dataset 
+    - [*MNIST*](https://pytorch.org/vision/0.15/generated/torchvision.datasets.MNIST.html#torchvision.datasets.MNIST)
+    - [*EuroSAT*](https://github.com/phelber/EuroSAT)
 
 ## Prerequisites
 Before running the code, make sure to install the required packages by running:

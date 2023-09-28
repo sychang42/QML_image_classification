@@ -64,26 +64,6 @@ def choose_gate(gate_str: str) -> Tuple[str, Callable, int, int]:
     return (gate_str, gate[0], gate[1], gate[2])
 
 
-def U2_conv(params: Array, gate: Callable, wires: list[int]) -> None:
-    r"""Convolutional filter applied on two qubits.
-
-    Args :
-        params (Array) : Convolutional filter parameters.
-        gate (Callabel) : Callable representing convolutional filter.
-        wires (list[int]) : Index of wires where the gate will be applied.
-    """
-    idx = 0
-    for i in range(0, len(wires), 2):
-        gate(params[idx], wires=[wires[i], wires[i + 1]])
-        idx = idx + 1
-
-    for i in range(1, len(wires) - 1, 2):
-        gate(params[idx], wires=[wires[i], wires[i + 1]])
-        idx = idx + 1
-
-    gate(params[idx], wires=[wires[-1], wires[0]])
-
-
 def QCNN(
     num_qubits: int,
     num_measured: int,
@@ -93,7 +73,7 @@ def QCNN(
     r"""Construct Quantum Convolutional Neural Network architecture uing the specified
     QCNN version.
 
-    Args :
+    Args:
         num_qubits (int) : Number of qubits in the QCNN.
         num_measured (int) : Number of measured qubits at the end of the circuit.
             For L classes, we measure ceil(log2(L)) qubits.
@@ -102,10 +82,10 @@ def QCNN(
             identical parameters; otherwise, different parameters are used. (To be
             implemented)
         qnn_ver (str, optional) : Version of the quantum circuit architecture to be
-                            used. If set to None, the default architecture with U_TTN
-                            convolutional filters is used.
+            used. If set to None, the default architecture with U_TTN convolutional
+            filters is used.
 
-    Returns :
+    Returns:
         Tuple[Callable, int, np.ndarray]: Return a functionrepresenting the QCNN circuit,
         the total number of parameters in the circuit, and the list of wires measurment
         at the end of the circuit.
