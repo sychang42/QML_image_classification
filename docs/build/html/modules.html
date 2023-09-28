@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>src &mdash; Practical QML for Image Classification 0.1 documentation</title>
@@ -11,10 +11,11 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=2709fde1"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -75,23 +76,90 @@
            <div itemprop="articleBody">
              
   <section id="src">
-<h1>src<a class="headerlink" href="#src" title="Permalink to this headline"></a></h1>
+<h1>src<a class="headerlink" href="#src" title="Link to this heading"></a></h1>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="dimen_red.html">dimen_red</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="ae_vanilla.html">ae_vanilla module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="datasets.html">datasets module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dimensionality_reduction.html">dimensionality_reduction module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="load_data.html">load_data module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ae_vanilla.html">ae_vanilla module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ae_vanilla.html#ae_vanilla.initialize_weights"><code class="docutils literal notranslate"><span class="pre">initialize_weights()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="ae_vanilla.html#ae_vanilla.vanilla_autoencoder"><code class="docutils literal notranslate"><span class="pre">vanilla_autoencoder</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="ae_vanilla.html#ae_vanilla.vanilla_autoencoder.compute_loss"><code class="docutils literal notranslate"><span class="pre">vanilla_autoencoder.compute_loss()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ae_vanilla.html#ae_vanilla.vanilla_autoencoder.construct_decoder"><code class="docutils literal notranslate"><span class="pre">vanilla_autoencoder.construct_decoder()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ae_vanilla.html#ae_vanilla.vanilla_autoencoder.construct_encoder"><code class="docutils literal notranslate"><span class="pre">vanilla_autoencoder.construct_encoder()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ae_vanilla.html#ae_vanilla.vanilla_autoencoder.decode"><code class="docutils literal notranslate"><span class="pre">vanilla_autoencoder.decode()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ae_vanilla.html#ae_vanilla.vanilla_autoencoder.display_loss"><code class="docutils literal notranslate"><span class="pre">vanilla_autoencoder.display_loss()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ae_vanilla.html#ae_vanilla.vanilla_autoencoder.early_stopping"><code class="docutils literal notranslate"><span class="pre">vanilla_autoencoder.early_stopping()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ae_vanilla.html#ae_vanilla.vanilla_autoencoder.encode"><code class="docutils literal notranslate"><span class="pre">vanilla_autoencoder.encode()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ae_vanilla.html#ae_vanilla.vanilla_autoencoder.export_hyperparameters"><code class="docutils literal notranslate"><span class="pre">vanilla_autoencoder.export_hyperparameters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ae_vanilla.html#ae_vanilla.vanilla_autoencoder.forward"><code class="docutils literal notranslate"><span class="pre">vanilla_autoencoder.forward()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ae_vanilla.html#ae_vanilla.vanilla_autoencoder.instantiate_optimizer"><code class="docutils literal notranslate"><span class="pre">vanilla_autoencoder.instantiate_optimizer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ae_vanilla.html#ae_vanilla.vanilla_autoencoder.load_model"><code class="docutils literal notranslate"><span class="pre">vanilla_autoencoder.load_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ae_vanilla.html#ae_vanilla.vanilla_autoencoder.predict"><code class="docutils literal notranslate"><span class="pre">vanilla_autoencoder.predict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ae_vanilla.html#ae_vanilla.vanilla_autoencoder.save_best_loss_model"><code class="docutils literal notranslate"><span class="pre">vanilla_autoencoder.save_best_loss_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ae_vanilla.html#ae_vanilla.vanilla_autoencoder.save_loss"><code class="docutils literal notranslate"><span class="pre">vanilla_autoencoder.save_loss()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ae_vanilla.html#ae_vanilla.vanilla_autoencoder.train_all_batches"><code class="docutils literal notranslate"><span class="pre">vanilla_autoencoder.train_all_batches()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ae_vanilla.html#ae_vanilla.vanilla_autoencoder.train_batch"><code class="docutils literal notranslate"><span class="pre">vanilla_autoencoder.train_batch()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ae_vanilla.html#ae_vanilla.vanilla_autoencoder.train_model"><code class="docutils literal notranslate"><span class="pre">vanilla_autoencoder.train_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ae_vanilla.html#ae_vanilla.vanilla_autoencoder.valid"><code class="docutils literal notranslate"><span class="pre">vanilla_autoencoder.valid()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="datasets.html">datasets module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="datasets.html#datasets.EuroSAT"><code class="docutils literal notranslate"><span class="pre">EuroSAT</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datasets.html#datasets.EuroSAT.class_to_idx"><code class="docutils literal notranslate"><span class="pre">EuroSAT.class_to_idx</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="datasets.html#datasets.EuroSAT.classes"><code class="docutils literal notranslate"><span class="pre">EuroSAT.classes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="datasets.html#datasets.EuroSAT.download"><code class="docutils literal notranslate"><span class="pre">EuroSAT.download()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="datasets.html#datasets.EuroSAT.download_url"><code class="docutils literal notranslate"><span class="pre">EuroSAT.download_url</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="datasets.html#datasets.EuroSAT.resources"><code class="docutils literal notranslate"><span class="pre">EuroSAT.resources</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="datasets.html#datasets.SAT4"><code class="docutils literal notranslate"><span class="pre">SAT4</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datasets.html#datasets.SAT4.class_to_idx"><code class="docutils literal notranslate"><span class="pre">SAT4.class_to_idx</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="datasets.html#datasets.SAT4.classes"><code class="docutils literal notranslate"><span class="pre">SAT4.classes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="datasets.html#datasets.SAT4.download"><code class="docutils literal notranslate"><span class="pre">SAT4.download()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="datasets.html#datasets.SAT4.extra_repr"><code class="docutils literal notranslate"><span class="pre">SAT4.extra_repr()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dimensionality_reduction.html">dimensionality_reduction module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dimensionality_reduction.html#dimensionality_reduction.dimensionality_reduction"><code class="docutils literal notranslate"><span class="pre">dimensionality_reduction()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="load_data.html">load_data module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="load_data.html#load_data.load_data"><code class="docutils literal notranslate"><span class="pre">load_data()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="run.html">run module</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="quantum_classifier.html">quantum_classifier</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="classifier_dataset.html">dataset module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classifier_dataset.html">dataset module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="classifier_dataset.html#dataset.load_data"><code class="docutils literal notranslate"><span class="pre">load_data()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="quantum_models.html">models</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="metrics.html">metrics module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="train.html">train module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="utils.html">utils module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="metrics.html">metrics module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="metrics.html#metrics.BCE_loss"><code class="docutils literal notranslate"><span class="pre">BCE_loss()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="metrics.html#metrics.MSE"><code class="docutils literal notranslate"><span class="pre">MSE()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="metrics.html#metrics.accuracy"><code class="docutils literal notranslate"><span class="pre">accuracy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="metrics.html#metrics.compute_metrics"><code class="docutils literal notranslate"><span class="pre">compute_metrics()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="train.html">train module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="train.html#train.Encoding_to_Embedding"><code class="docutils literal notranslate"><span class="pre">Encoding_to_Embedding()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="train.html#train.train"><code class="docutils literal notranslate"><span class="pre">train()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="train.html#train.train_batch"><code class="docutils literal notranslate"><span class="pre">train_batch()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="train.html#train.validate"><code class="docutils literal notranslate"><span class="pre">validate()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="utils.html">utils module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="utils.html#utils.plot_result"><code class="docutils literal notranslate"><span class="pre">plot_result()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utils.html#utils.print_losses"><code class="docutils literal notranslate"><span class="pre">print_losses()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="utils.html#utils.save_outputs"><code class="docutils literal notranslate"><span class="pre">save_outputs()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="QuantumCircuits.html">QuantumCircuit</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="embedding.html">embedding module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="qcnn.html">qcnn module</a></li>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ae_vanilla module &mdash; Practical QML for Image Classification 0.1 documentation</title>
@@ -11,10 +11,11 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=2709fde1"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -45,7 +46,11 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">src</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="dimen_red.html">dimen_red</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">ae_vanilla module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">ae_vanilla module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ae_vanilla.initialize_weights"><code class="docutils literal notranslate"><span class="pre">initialize_weights()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ae_vanilla.vanilla_autoencoder"><code class="docutils literal notranslate"><span class="pre">vanilla_autoencoder</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="datasets.html">datasets module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="dimensionality_reduction.html">dimensionality_reduction module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="load_data.html">load_data module</a></li>
@@ -84,23 +89,23 @@
            <div itemprop="articleBody">
              
   <section id="module-ae_vanilla">
-<span id="ae-vanilla-module"></span><h1>ae_vanilla module<a class="headerlink" href="#module-ae_vanilla" title="Permalink to this headline"></a></h1>
+<span id="ae-vanilla-module"></span><h1>ae_vanilla module<a class="headerlink" href="#module-ae_vanilla" title="Link to this heading"></a></h1>
 <p>Vanilla Autoencoder to reduce dimensionality of images</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="ae_vanilla.initialize_weights">
-<span class="sig-prename descclassname"><span class="pre">ae_vanilla.</span></span><span class="sig-name descname"><span class="pre">initialize_weights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">net_l</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#initialize_weights"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.initialize_weights" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">ae_vanilla.</span></span><span class="sig-name descname"><span class="pre">initialize_weights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">net_l</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#initialize_weights"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.initialize_weights" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="ae_vanilla.vanilla_autoencoder">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ae_vanilla.</span></span><span class="sig-name descname"><span class="pre">vanilla_autoencoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hp</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snapshot_dir</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ae_vanilla.</span></span><span class="sig-name descname"><span class="pre">vanilla_autoencoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snapshot_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="ae_vanilla.vanilla_autoencoder.compute_loss">
-<span class="sig-name descname"><span class="pre">compute_loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_batch</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">,</span> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_batch</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.Tensor</span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.compute_loss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.compute_loss" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">compute_loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_batch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_batch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.compute_loss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.compute_loss" title="Link to this definition"></a></dt>
 <dd><p>Compute loss for the forward pass.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>x_batch</strong> (<em>Union</em><em>[</em><em>torch.Tensor</em><em>, </em><em>np.ndarray</em><em>]</em>) – he input image data.
 If the input data type is <code class="docutils literal notranslate"><span class="pre">np.ndarray</span></code>, the method automatically
@@ -109,11 +114,11 @@ converts it into <code class="docutils literal notranslate"><span class="pre">to
 (Not used in <a class="reference internal" href="#ae_vanilla.vanilla_autoencoder" title="ae_vanilla.vanilla_autoencoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">ae_vanilla.vanilla_autoencoder</span></code></a>).</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Loss computed between the original and the reconstructed image.
 By default, we use <code class="docutils literal notranslate"><span class="pre">torch.nn.MSELoss</span></code>.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>torch.Tensor</p>
 </dd>
 </dl>
@@ -121,14 +126,14 @@ By default, we use <code class="docutils literal notranslate"><span class="pre">
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ae_vanilla.vanilla_autoencoder.construct_decoder">
-<span class="sig-name descname"><span class="pre">construct_decoder</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">torch.nn.modules.container.Sequential</span><span class="p"><span class="pre">,</span> </span><span class="pre">torch.nn.modules.container.Sequential</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.construct_decoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.construct_decoder" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">construct_decoder</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequential</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequential</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.construct_decoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.construct_decoder" title="Link to this definition"></a></dt>
 <dd><p>Construct decoder based on the model hyperparameters.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Tuple of convolutional layers
 and the fully connected layers <code class="docutils literal notranslate"><span class="pre">(dec_conv,</span> <span class="pre">dec_fc)</span></code> in the decoder.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Tuple[nn.Sequantial, nn.Sequantial]</p>
 </dd>
 </dl>
@@ -136,14 +141,14 @@ and the fully connected layers <code class="docutils literal notranslate"><span 
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ae_vanilla.vanilla_autoencoder.construct_encoder">
-<span class="sig-name descname"><span class="pre">construct_encoder</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">torch.nn.modules.container.Sequential</span><span class="p"><span class="pre">,</span> </span><span class="pre">torch.nn.modules.container.Sequential</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.construct_encoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.construct_encoder" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">construct_encoder</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequential</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequential</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.construct_encoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.construct_encoder" title="Link to this definition"></a></dt>
 <dd><p>Construct encoder based on the model hyperparameters.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Tuple of convolutional layers
 and the fully connected layers <code class="docutils literal notranslate"><span class="pre">(enc_conv,</span> <span class="pre">enc_fc)</span></code> in the encoder.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Tuple[nn.Sequantial, nn.Sequantial]</p>
 </dd>
 </dl>
@@ -151,16 +156,16 @@ and the fully connected layers <code class="docutils literal notranslate"><span 
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ae_vanilla.vanilla_autoencoder.decode">
-<span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.Tensor</span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.decode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.decode" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.decode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.decode" title="Link to this definition"></a></dt>
 <dd><p>Reconstruct image from a input latent feature.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>z</strong> (<em>torch.Tensor</em>) – Input latent feature.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Reconstructed image.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>torch.Tensor</p>
 </dd>
 </dl>
@@ -168,20 +173,20 @@ and the fully connected layers <code class="docutils literal notranslate"><span 
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ae_vanilla.vanilla_autoencoder.display_loss">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">display_loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epoch</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_epoch</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_loss</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid_loss</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.display_loss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.display_loss" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">display_loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epoch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_epoch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_loss</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid_loss</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.display_loss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.display_loss" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ae_vanilla.vanilla_autoencoder.early_stopping">
-<span class="sig-name descname"><span class="pre">early_stopping</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.early_stopping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.early_stopping" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">early_stopping</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.early_stopping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.early_stopping" title="Link to this definition"></a></dt>
 <dd><p>Stops the model training if the model does not show improvement for a
 specified number of consecutive epochs, determined by the value of
 <cite>self.early_stopping_limit</cite> (default: 20 epochs).</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True if the early stopping limit was exceeded; False otherwise.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>bool</p>
 </dd>
 </dl>
@@ -189,16 +194,16 @@ specified number of consecutive epochs, determined by the value of
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ae_vanilla.vanilla_autoencoder.encode">
-<span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">torch.Tensor</span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.encode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.encode" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.encode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.encode" title="Link to this definition"></a></dt>
 <dd><p>Encode the input image into a latent space</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>z</strong> (<em>torch.Tensor</em>) – Input image.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Latent feature of the image.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>torch.Tensor</p>
 </dd>
 </dl>
@@ -206,10 +211,10 @@ specified number of consecutive epochs, determined by the value of
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ae_vanilla.vanilla_autoencoder.export_hyperparameters">
-<span class="sig-name descname"><span class="pre">export_hyperparameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snapshot_dir</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.export_hyperparameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.export_hyperparameters" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">export_hyperparameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">snapshot_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.export_hyperparameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.export_hyperparameters" title="Link to this definition"></a></dt>
 <dd><p>Store the hyperparameter used for the autoencoder training in the given path.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>snapshot_dir</strong> (<em>str</em>) – Directory to store the hyperparameters.</p>
 </dd>
 </dl>
@@ -217,17 +222,17 @@ specified number of consecutive epochs, determined by the value of
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ae_vanilla.vanilla_autoencoder.forward">
-<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">,</span> </span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.forward" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tensor</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.forward" title="Link to this definition"></a></dt>
 <dd><p>Forward pass of the autoencoder.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>z</strong> (<em>torch.Tensor</em>) – Original input image.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Tuple of latent feauture extracted from the original image and
 the image reconstructed with the autoencoder.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>torch.Tensor</p>
 </dd>
 </dl>
@@ -235,17 +240,17 @@ the image reconstructed with the autoencoder.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ae_vanilla.vanilla_autoencoder.instantiate_optimizer">
-<span class="sig-name descname"><span class="pre">instantiate_optimizer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.instantiate_optimizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.instantiate_optimizer" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">instantiate_optimizer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.instantiate_optimizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.instantiate_optimizer" title="Link to this definition"></a></dt>
 <dd><p>Instantiate the <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.optim.Adam</span></code> optimizer object for the
 autoencoder training with the specified hyperparameters.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ae_vanilla.vanilla_autoencoder.load_model">
-<span class="sig-name descname"><span class="pre">load_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.load_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.load_model" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">load_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.load_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.load_model" title="Link to this definition"></a></dt>
 <dd><p>Load PyTorch Autoencoder model stored in the given path.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>model_path</strong> (<em>str</em>) – Path of the model to be loaded.</p>
 </dd>
 </dl>
@@ -253,19 +258,19 @@ autoencoder training with the specified hyperparameters.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ae_vanilla.vanilla_autoencoder.predict">
-<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataloader</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.utils.data.dataloader.DataLoader</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.predict" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataloader</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataLoader</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.predict" title="Link to this definition"></a></dt>
 <dd><p>Generate predictions using the autoencoder model on the entire dataset provided
 by the specified DataLoader.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>dataloader</strong> (<em>torch.utils.data.DataLoader</em>) – PyTorch DataLoader containing the
 image dataset for prediction.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Tuple containing the latent
 features, the reconstructed images, and the original images.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Tuple[np.ndarray, np.ndarray, np.ndarray]</p>
 </dd>
 </dl>
@@ -273,11 +278,11 @@ features, the reconstructed images, and the original images.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ae_vanilla.vanilla_autoencoder.save_best_loss_model">
-<span class="sig-name descname"><span class="pre">save_best_loss_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">valid_loss</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.save_best_loss_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.save_best_loss_model" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">save_best_loss_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">valid_loss</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.save_best_loss_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.save_best_loss_model" title="Link to this definition"></a></dt>
 <dd><p>Stores the current model if it achieves the lowest validation loss;
 otherwise, it increases <code class="docutils literal notranslate"><span class="pre">self.epochs_no_improve</span> <span class="pre">by</span> <span class="pre">1</span></code>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>valid_loss</strong> (<em>float</em>) – Validation loss at the current epoch.</p>
 </dd>
 </dl>
@@ -285,22 +290,22 @@ otherwise, it increases <code class="docutils literal notranslate"><span class="
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ae_vanilla.vanilla_autoencoder.save_loss">
-<span class="sig-name descname"><span class="pre">save_loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epoch</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.save_loss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.save_loss" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">save_loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epoch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.save_loss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.save_loss" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ae_vanilla.vanilla_autoencoder.train_all_batches">
-<span class="sig-name descname"><span class="pre">train_all_batches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trainloader</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.utils.data.dataloader.DataLoader</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.train_all_batches"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.train_all_batches" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">train_all_batches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trainloader</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataLoader</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.train_all_batches"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.train_all_batches" title="Link to this definition"></a></dt>
 <dd><p>Train the autoencoder on the all the batches in the training set.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>trainloader</strong> (<em>torch.utils.data.DataLoader</em>) – PyTorch DataLoader object with
 the training data.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Training loss averaged over all the batches.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
 </dd>
 </dl>
@@ -308,19 +313,19 @@ the training data.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ae_vanilla.vanilla_autoencoder.train_batch">
-<span class="sig-name descname"><span class="pre">train_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_batch</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_batch</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">torch.Tensor</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.train_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.train_batch" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">train_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_batch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_batch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.train_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.train_batch" title="Link to this definition"></a></dt>
 <dd><p>Train the model on a batch of inputs.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>x_batch</strong> (<em>torch.Tensor</em>) – Batch of input image data.</p></li>
 <li><p><strong>y_batch</strong> (<em>torch.Tensor</em><em>, </em><em>optional</em>) – Batch of input labels. Defaults to None.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Loss calculated over the input batch.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
 </dd>
 </dl>
@@ -328,10 +333,10 @@ the training data.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ae_vanilla.vanilla_autoencoder.train_model">
-<span class="sig-name descname"><span class="pre">train_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_epoch</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trainloader</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.utils.data.dataloader.DataLoader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validloader</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.utils.data.dataloader.DataLoader</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.train_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.train_model" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">train_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_epoch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trainloader</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataLoader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validloader</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataLoader</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.train_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.train_model" title="Link to this definition"></a></dt>
 <dd><p>Train the vanilla autoencoder.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>num_epoch</strong> (<em>int</em>) – Total number of training epochs.</p></li>
 <li><p><strong>trainloader</strong> (<em>torch.utils.data.DataLoader</em>) – PyTorch DataLoader with the
@@ -343,25 +348,20 @@ validation set.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ae_vanilla.vanilla_autoencoder.training">
-<span class="sig-name descname"><span class="pre">training</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.training" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="ae_vanilla.vanilla_autoencoder.valid">
-<span class="sig-name descname"><span class="pre">valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">validloader</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.utils.data.dataloader.DataLoader</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.valid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.valid" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">validloader</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataLoader</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.valid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.valid" title="Link to this definition"></a></dt>
 <dd><p>Evaluate the validation loss for the model and save the model if a
 new minimum loss is found.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>validloader</strong> (<em>torch.utils.data.DataLoader</em>) – Pytorch data loader with
 the validation data.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Validation loss.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
 </dd>
 </dl>

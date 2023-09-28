@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>qcnn module &mdash; Practical QML for Image Classification 0.1 documentation</title>
@@ -11,10 +11,11 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=2709fde1"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -88,8 +89,75 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="qcnn-module">
-<h1>qcnn module<a class="headerlink" href="#qcnn-module" title="Permalink to this headline"></a></h1>
+  <section id="module-qcnn">
+<span id="qcnn-module"></span><h1>qcnn module<a class="headerlink" href="#module-qcnn" title="Link to this heading"></a></h1>
+<p>Quantum Convolutional Neural Network.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="qcnn.QCNN">
+<span class="sig-prename descclassname"><span class="pre">qcnn.</span></span><span class="sig-name descname"><span class="pre">QCNN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_qubits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_measured</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trans_inv</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qnn_ver</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/qcnn.html#QCNN"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qcnn.QCNN" title="Link to this definition"></a></dt>
+<dd><p>Construct Quantum Convolutional Neural Network architecture uing the specified
+QCNN version.</p>
+<dl>
+<dt>Args :</dt><dd><p>num_qubits (int) : Number of qubits in the QCNN.
+num_measured (int) : Number of measured qubits at the end of the circuit.</p>
+<blockquote>
+<div><p>For L classes, we measure ceil(log2(L)) qubits.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>trans_inv (bool, optional)<span class="classifier">Boolean to indicate whether the QCNN is</span></dt><dd><p>translational invariant or not. If True, all filters in a layer share
+identical parameters; otherwise, different parameters are used. (To be
+implemented)</p>
+</dd>
+<dt>qnn_ver (str, optional)<span class="classifier">Version of the quantum circuit architecture to be</span></dt><dd><p>used. If set to None, the default architecture with U_TTN
+convolutional filters is used.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns :</dt><dd><p>Tuple[Callable, int, np.ndarray]: Return a functionrepresenting the QCNN circuit,
+the total number of parameters in the circuit, and the list of wires measurment
+at the end of the circuit.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qcnn.U2_conv">
+<span class="sig-prename descclassname"><span class="pre">qcnn.</span></span><span class="sig-name descname"><span class="pre">U2_conv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wires</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/qcnn.html#U2_conv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qcnn.U2_conv" title="Link to this definition"></a></dt>
+<dd><p>Convolutional filter applied on two qubits.</p>
+<dl class="simple">
+<dt>Args :</dt><dd><p>params (Array) : Convolutional filter parameters.
+gate (Callabel) : Callable representing convolutional filter.
+wires (list[int]) : Index of wires where the gate will be applied.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qcnn.choose_gate">
+<span class="sig-prename descclassname"><span class="pre">qcnn.</span></span><span class="sig-name descname"><span class="pre">choose_gate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate_str</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/qcnn.html#choose_gate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qcnn.choose_gate" title="Link to this definition"></a></dt>
+<dd><p>Helper function to used to retrieve a specified convolutional filter (gate).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>gate_str</strong> (<em>str</em>) – Name of the convolutional filter to be loaded.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Tuple containing the name of the convolutional
+filter (given as args), the function representing the convolutional filter,
+the number of parameters in the filter and the number of wires on which the
+gate is applied.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[str, Callable, int, int]</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gate</span> <span class="o">=</span> <span class="n">choose_gate</span><span class="p">(</span><span class="s2">&quot;U_TTN&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">gate</span><span class="p">)</span>
+<span class="go">    (&#39;U_TTN&#39;, &lt;function unitary.U_TTN(angle, wires)&gt;, 2, 2)</span>
+</pre></div>
+</div>
+</dd></dl>
+
 </section>
 
 

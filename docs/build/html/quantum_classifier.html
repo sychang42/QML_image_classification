@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>quantum_classifier &mdash; Practical QML for Image Classification 0.1 documentation</title>
@@ -11,10 +11,11 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=2709fde1"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -80,18 +81,63 @@
            <div itemprop="articleBody">
              
   <section id="quantum-classifier">
-<h1>quantum_classifier<a class="headerlink" href="#quantum-classifier" title="Permalink to this headline"></a></h1>
+<h1>quantum_classifier<a class="headerlink" href="#quantum-classifier" title="Link to this heading"></a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="classifier_dataset.html">dataset module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classifier_dataset.html">dataset module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="classifier_dataset.html#dataset.load_data"><code class="docutils literal notranslate"><span class="pre">load_data()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="quantum_models.html">models</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="metrics.html">metrics module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="train.html">train module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="utils.html">utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="metrics.html">metrics module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="metrics.html#metrics.BCE_loss"><code class="docutils literal notranslate"><span class="pre">BCE_loss()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="metrics.html#metrics.MSE"><code class="docutils literal notranslate"><span class="pre">MSE()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="metrics.html#metrics.accuracy"><code class="docutils literal notranslate"><span class="pre">accuracy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="metrics.html#metrics.compute_metrics"><code class="docutils literal notranslate"><span class="pre">compute_metrics()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="train.html">train module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="train.html#train.Encoding_to_Embedding"><code class="docutils literal notranslate"><span class="pre">Encoding_to_Embedding()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="train.html#train.train"><code class="docutils literal notranslate"><span class="pre">train()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="train.html#train.train_batch"><code class="docutils literal notranslate"><span class="pre">train_batch()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="train.html#train.validate"><code class="docutils literal notranslate"><span class="pre">validate()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html">utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#utils.plot_result"><code class="docutils literal notranslate"><span class="pre">plot_result()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#utils.print_losses"><code class="docutils literal notranslate"><span class="pre">print_losses()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#utils.save_outputs"><code class="docutils literal notranslate"><span class="pre">save_outputs()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="QuantumCircuits.html">QuantumCircuit</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="embedding.html">embedding module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="qcnn.html">qcnn module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="unitary.html">unitary module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="embedding.html">embedding module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="embedding.html#embedding.get_data_embedding"><code class="docutils literal notranslate"><span class="pre">get_data_embedding()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="qcnn.html">qcnn module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="qcnn.html#qcnn.QCNN"><code class="docutils literal notranslate"><span class="pre">QCNN()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qcnn.html#qcnn.U2_conv"><code class="docutils literal notranslate"><span class="pre">U2_conv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="qcnn.html#qcnn.choose_gate"><code class="docutils literal notranslate"><span class="pre">choose_gate()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="unitary.html">unitary module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="unitary.html#unitary.Pooling_ansatz1"><code class="docutils literal notranslate"><span class="pre">Pooling_ansatz1()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="unitary.html#unitary.Pooling_ansatz2"><code class="docutils literal notranslate"><span class="pre">Pooling_ansatz2()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="unitary.html#unitary.Pooling_ansatz3"><code class="docutils literal notranslate"><span class="pre">Pooling_ansatz3()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="unitary.html#unitary.U_13"><code class="docutils literal notranslate"><span class="pre">U_13()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="unitary.html#unitary.U_14"><code class="docutils literal notranslate"><span class="pre">U_14()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="unitary.html#unitary.U_15"><code class="docutils literal notranslate"><span class="pre">U_15()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="unitary.html#unitary.U_5"><code class="docutils literal notranslate"><span class="pre">U_5()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="unitary.html#unitary.U_6"><code class="docutils literal notranslate"><span class="pre">U_6()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="unitary.html#unitary.U_9"><code class="docutils literal notranslate"><span class="pre">U_9()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="unitary.html#unitary.U_RX"><code class="docutils literal notranslate"><span class="pre">U_RX()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="unitary.html#unitary.U_SO4"><code class="docutils literal notranslate"><span class="pre">U_SO4()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="unitary.html#unitary.U_SU4"><code class="docutils literal notranslate"><span class="pre">U_SU4()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="unitary.html#unitary.U_TTN"><code class="docutils literal notranslate"><span class="pre">U_TTN()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="unitary.html#unitary.U_ZZ"><code class="docutils literal notranslate"><span class="pre">U_ZZ()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="unitary.html#unitary.U_qiskit"><code class="docutils literal notranslate"><span class="pre">U_qiskit()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

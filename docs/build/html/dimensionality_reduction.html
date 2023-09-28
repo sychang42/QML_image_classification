@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>dimensionality_reduction module &mdash; Practical QML for Image Classification 0.1 documentation</title>
@@ -11,10 +11,11 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=2709fde1"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -47,7 +48,10 @@
 <li class="toctree-l2 current"><a class="reference internal" href="dimen_red.html">dimen_red</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="ae_vanilla.html">ae_vanilla module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="datasets.html">datasets module</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">dimensionality_reduction module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">dimensionality_reduction module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dimensionality_reduction.dimensionality_reduction"><code class="docutils literal notranslate"><span class="pre">dimensionality_reduction()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="load_data.html">load_data module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="run.html">run module</a></li>
 </ul>
@@ -84,18 +88,18 @@
            <div itemprop="articleBody">
              
   <section id="module-dimensionality_reduction">
-<span id="dimensionality-reduction-module"></span><h1>dimensionality_reduction module<a class="headerlink" href="#module-dimensionality_reduction" title="Permalink to this headline"></a></h1>
+<span id="dimensionality-reduction-module"></span><h1>dimensionality_reduction module<a class="headerlink" href="#module-dimensionality_reduction" title="Link to this heading"></a></h1>
 <p>Function to perform dimensionality reduction method.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="dimensionality_reduction.dimensionality_reduction">
-<span class="sig-prename descclassname"><span class="pre">dimensionality_reduction.</span></span><span class="sig-name descname"><span class="pre">dimensionality_reduction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hp</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gpu</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snapshot_dir</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/dimensionality_reduction.html#dimensionality_reduction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dimensionality_reduction.dimensionality_reduction" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">dimensionality_reduction.</span></span><span class="sig-name descname"><span class="pre">dimensionality_reduction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gpu</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snapshot_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/dimensionality_reduction.html#dimensionality_reduction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dimensionality_reduction.dimensionality_reduction" title="Link to this definition"></a></dt>
 <dd><p>Perform dimensionality reduction on image data.
 If <code class="docutils literal notranslate"><span class="pre">snapshot_dir</span></code> is not <code class="docutils literal notranslate"><span class="pre">None</span></code>, the features extracted from the training set and
 the test set are saved in the files <code class="docutils literal notranslate"><span class="pre">os.path.join(snapshot_dir,</span> <span class="pre">f&quot;{data}_{str(n_comp</span>
 <span class="pre">onents)}components_{method}_train.csv&quot;)</span></code> and <code class="docutils literal notranslate"><span class="pre">os.path.join(snapshot_dir,</span>
 <span class="pre">f&quot;{data}_{str(n_components)}components_{method}_test.csv&quot;)</span></code></p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>root</strong> (<em>str</em>) – Root directory containing the image dataset.</p></li>
 <li><p><strong>data</strong> (<em>str</em>) – Input dataset to apply dimensionality reduction to.</p></li>
@@ -109,11 +113,11 @@ on CPU.</p></li>
 results will not be saved.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A tuple of the Mean Squared Error (MSE) loss between
 original and the reconstructed images for the train and the test set.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Tuple[float, float]</p>
 </dd>
 </dl>

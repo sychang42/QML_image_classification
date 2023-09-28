@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>datasets module &mdash; Practical QML for Image Classification 0.1 documentation</title>
@@ -11,10 +11,11 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=2709fde1"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -46,12 +47,17 @@
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">src</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="dimen_red.html">dimen_red</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="ae_vanilla.html">ae_vanilla module</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">datasets module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">datasets module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#datasets.EuroSAT"><code class="docutils literal notranslate"><span class="pre">EuroSAT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datasets.SAT4"><code class="docutils literal notranslate"><span class="pre">SAT4</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="dimensionality_reduction.html">dimensionality_reduction module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="load_data.html">load_data module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="run.html">run module</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="quantum_classifier.html">quantum_classifier</a></li>
 </ul>
 </li>
 </ul>
@@ -83,18 +89,18 @@
            <div itemprop="articleBody">
              
   <section id="module-datasets">
-<span id="datasets-module"></span><h1>datasets module<a class="headerlink" href="#module-datasets" title="Permalink to this headline"></a></h1>
+<span id="datasets-module"></span><h1>datasets module<a class="headerlink" href="#module-datasets" title="Link to this heading"></a></h1>
 <p>SAT4 and EuroSAT dataset
 The code follows the same code as the one given in PyTorch for MNIST
 dataset [1].</p>
 <p>[1]: <a class="reference external" href="https://pytorch.org/vision/0.15/generated/torchvision.datasets.MNIST.html">https://pytorch.org/vision/0.15/generated/torchvision.datasets.MNIST.html</a></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="datasets.EuroSAT">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">datasets.</span></span><span class="sig-name descname"><span class="pre">EuroSAT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_transform</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/datasets.html#EuroSAT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datasets.EuroSAT" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">torch.utils.data.dataset.T_co</span></code>]</p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">datasets.</span></span><span class="sig-name descname"><span class="pre">EuroSAT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_transform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/datasets.html#EuroSAT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datasets.EuroSAT" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">VisionDataset</span></code></p>
 <p><a class="reference external" href="https://github.com/phelber/EuroSAT">EuroSAT</a> Dataset.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>root</strong> (<em>str</em>) – Root directory of dataset where the image folders exist.</p></li>
 <li><p><strong>train</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, creates train dataset, otherwise test dataset.
@@ -112,39 +118,39 @@ target and transforms it. Defaults to None.</p></li>
 </dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="datasets.EuroSAT.class_to_idx">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">class_to_idx</span></span><em class="property"><span class="pre">:</span> <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#datasets.EuroSAT.class_to_idx" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">class_to_idx</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#datasets.EuroSAT.class_to_idx" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="datasets.EuroSAT.classes">
-<span class="sig-name descname"><span class="pre">classes</span></span><em class="property"> <span class="pre">=</span> <span class="pre">['AnnualCrop',</span> <span class="pre">'Forest',</span> <span class="pre">'HerbaceousVegetation',</span> <span class="pre">'Highway',</span> <span class="pre">'Industrial',</span> <span class="pre">'Pasture',</span> <span class="pre">'PermanentCrop',</span> <span class="pre">'Residential',</span> <span class="pre">'River',</span> <span class="pre">'SeaLake']</span></em><a class="headerlink" href="#datasets.EuroSAT.classes" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['AnnualCrop',</span> <span class="pre">'Forest',</span> <span class="pre">'HerbaceousVegetation',</span> <span class="pre">'Highway',</span> <span class="pre">'Industrial',</span> <span class="pre">'Pasture',</span> <span class="pre">'PermanentCrop',</span> <span class="pre">'Residential',</span> <span class="pre">'River',</span> <span class="pre">'SeaLake']</span></em><a class="headerlink" href="#datasets.EuroSAT.classes" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="datasets.EuroSAT.download">
-<span class="sig-name descname"><span class="pre">download</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/datasets.html#EuroSAT.download"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datasets.EuroSAT.download" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">download</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/datasets.html#EuroSAT.download"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datasets.EuroSAT.download" title="Link to this definition"></a></dt>
 <dd><p>Download the EuroSAT data if it doesn’t exist already.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="datasets.EuroSAT.download_url">
-<span class="sig-name descname"><span class="pre">download_url</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'https://zenodo.org/record/7711810/files/EuroSAT_RGB.zip?download=1'</span></em><a class="headerlink" href="#datasets.EuroSAT.download_url" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">download_url</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://zenodo.org/record/7711810/files/EuroSAT_RGB.zip?download=1'</span></em><a class="headerlink" href="#datasets.EuroSAT.download_url" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="datasets.EuroSAT.resources">
-<span class="sig-name descname"><span class="pre">resources</span></span><em class="property"> <span class="pre">=</span> <span class="pre">('EuroSAT_RGB.zip',</span> <span class="pre">'f46e308c4d50d4bf32fedad2d3d62f3b')</span></em><a class="headerlink" href="#datasets.EuroSAT.resources" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">resources</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('EuroSAT_RGB.zip',</span> <span class="pre">'f46e308c4d50d4bf32fedad2d3d62f3b')</span></em><a class="headerlink" href="#datasets.EuroSAT.resources" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="datasets.SAT4">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">datasets.</span></span><span class="sig-name descname"><span class="pre">SAT4</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_transform</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/datasets.html#SAT4"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datasets.SAT4" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">torch.utils.data.dataset.T_co</span></code>]</p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">datasets.</span></span><span class="sig-name descname"><span class="pre">SAT4</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_transform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/datasets.html#SAT4"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datasets.SAT4" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">VisionDataset</span></code></p>
 <p><a class="reference external" href="https://www.kaggle.com/datasets/crawford/deepsat-sat4">SAT4</a> Dataset.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>root</strong> (<em>str</em>) – Root directory of dataset where <code class="docutils literal notranslate"><span class="pre">X_train.pkl</span></code> and <code class="docutils literal notranslate"><span class="pre">X_test.pkl</span></code> exist.</p></li>
 <li><p><strong>train</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, creates dataset from <code class="docutils literal notranslate"><span class="pre">X_train.pkl`,</span>
@@ -161,23 +167,23 @@ target and transforms it.</p></li>
 </dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="datasets.SAT4.class_to_idx">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">class_to_idx</span></span><em class="property"><span class="pre">:</span> <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#datasets.SAT4.class_to_idx" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">class_to_idx</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#datasets.SAT4.class_to_idx" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="datasets.SAT4.classes">
-<span class="sig-name descname"><span class="pre">classes</span></span><em class="property"> <span class="pre">=</span> <span class="pre">['Barren</span> <span class="pre">Land',</span> <span class="pre">'Trees',</span> <span class="pre">'Grassland',</span> <span class="pre">'Others']</span></em><a class="headerlink" href="#datasets.SAT4.classes" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['Barren</span> <span class="pre">Land',</span> <span class="pre">'Trees',</span> <span class="pre">'Grassland',</span> <span class="pre">'Others']</span></em><a class="headerlink" href="#datasets.SAT4.classes" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="datasets.SAT4.download">
-<span class="sig-name descname"><span class="pre">download</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/datasets.html#SAT4.download"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datasets.SAT4.download" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">download</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/datasets.html#SAT4.download"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datasets.SAT4.download" title="Link to this definition"></a></dt>
 <dd><p>Download the SAT4 data if it doesn’t exist in the root directory.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="datasets.SAT4.extra_repr">
-<span class="sig-name descname"><span class="pre">extra_repr</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/datasets.html#SAT4.extra_repr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datasets.SAT4.extra_repr" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">extra_repr</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/datasets.html#SAT4.extra_repr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datasets.SAT4.extra_repr" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
