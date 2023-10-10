@@ -10,10 +10,11 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=2709fde1"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" /> 
@@ -92,9 +93,12 @@
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">json</span>
 
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
 
 <span class="c1"># Initialize weights with LeCun normal intialization</span>
-<div class="viewcode-block" id="initialize_weights"><a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.initialize_weights">[docs]</a><span class="k">def</span> <span class="nf">initialize_weights</span><span class="p">(</span><span class="n">net_l</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="initialize_weights">
+<a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.initialize_weights">[docs]</a>
+<span class="k">def</span> <span class="nf">initialize_weights</span><span class="p">(</span><span class="n">net_l</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">net_l</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
         <span class="n">net_l</span> <span class="o">=</span> <span class="p">[</span><span class="n">net_l</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">net</span> <span class="ow">in</span> <span class="n">net_l</span><span class="p">:</span>
@@ -112,14 +116,17 @@
                 <span class="n">init</span><span class="o">.</span><span class="n">constant_</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="vanilla_autoencoder"><a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder">[docs]</a><span class="k">class</span> <span class="nc">vanilla_autoencoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+
+<div class="viewcode-block" id="vanilla_autoencoder">
+<a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder">[docs]</a>
+<span class="k">class</span> <span class="nc">vanilla_autoencoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">device</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">,</span>
         <span class="n">hp</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
         <span class="n">snapshot_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Vanilla Autoencoder class for dimensionality reduction</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Vanilla Autoencoder class for dimensionality reduction</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            device (torch.device): Device on which the model will be trained.</span>
@@ -163,8 +170,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">train_loss</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">valid_loss</span> <span class="o">=</span> <span class="p">[]</span>
 
-<div class="viewcode-block" id="vanilla_autoencoder.construct_encoder"><a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder.construct_encoder">[docs]</a>    <span class="k">def</span> <span class="nf">construct_encoder</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">]:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Construct encoder based on the model hyperparameters.</span>
+<div class="viewcode-block" id="vanilla_autoencoder.construct_encoder">
+<a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder.construct_encoder">[docs]</a>
+    <span class="k">def</span> <span class="nf">construct_encoder</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">]:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Construct encoder based on the model hyperparameters.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Tuple[nn.Sequantial, nn.Sequantial] : Tuple of convolutional layers</span>
@@ -195,8 +204,11 @@
 
         <span class="k">return</span> <span class="n">enc_conv</span><span class="p">,</span> <span class="n">enc_fc</span></div>
 
-<div class="viewcode-block" id="vanilla_autoencoder.construct_decoder"><a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder.construct_decoder">[docs]</a>    <span class="k">def</span> <span class="nf">construct_decoder</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">]:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Construct decoder based on the model hyperparameters.</span>
+
+<div class="viewcode-block" id="vanilla_autoencoder.construct_decoder">
+<a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder.construct_decoder">[docs]</a>
+    <span class="k">def</span> <span class="nf">construct_decoder</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">]:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Construct decoder based on the model hyperparameters.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Tuple[nn.Sequantial, nn.Sequantial] : Tuple of convolutional layers</span>
@@ -237,8 +249,11 @@
 
         <span class="k">return</span> <span class="n">dec_deconv</span><span class="p">,</span> <span class="n">dec_fc</span></div>
 
-<div class="viewcode-block" id="vanilla_autoencoder.instantiate_optimizer"><a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder.instantiate_optimizer">[docs]</a>    <span class="k">def</span> <span class="nf">instantiate_optimizer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Instantiate the :class:`torch.optim.Adam` optimizer object for the</span>
+
+<div class="viewcode-block" id="vanilla_autoencoder.instantiate_optimizer">
+<a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder.instantiate_optimizer">[docs]</a>
+    <span class="k">def</span> <span class="nf">instantiate_optimizer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Instantiate the :class:`torch.optim.Adam` optimizer object for the</span>
 <span class="sd">        autoencoder training with the specified hyperparameters.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
@@ -248,8 +263,11 @@
             <span class="n">betas</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_hp</span><span class="p">[</span><span class="s2">&quot;optim_params&quot;</span><span class="p">][</span><span class="s2">&quot;betas&quot;</span><span class="p">],</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="vanilla_autoencoder.encode"><a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder.encode">[docs]</a>    <span class="k">def</span> <span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Encode the input image into a latent space</span>
+
+<div class="viewcode-block" id="vanilla_autoencoder.encode">
+<a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder.encode">[docs]</a>
+    <span class="k">def</span> <span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Encode the input image into a latent space</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            z (torch.Tensor): Input image.</span>
@@ -261,8 +279,11 @@
         <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">enc_conv</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">enc_fc</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scaling_factor</span></div>
 
-<div class="viewcode-block" id="vanilla_autoencoder.decode"><a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder.decode">[docs]</a>    <span class="k">def</span> <span class="nf">decode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Reconstruct image from a input latent feature.</span>
+
+<div class="viewcode-block" id="vanilla_autoencoder.decode">
+<a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder.decode">[docs]</a>
+    <span class="k">def</span> <span class="nf">decode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Reconstruct image from a input latent feature.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            z (torch.Tensor): Input latent feature.</span>
@@ -279,8 +300,11 @@
 
         <span class="k">return</span> <span class="n">out</span></div>
 
-<div class="viewcode-block" id="vanilla_autoencoder.forward"><a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Forward pass of the autoencoder.</span>
+
+<div class="viewcode-block" id="vanilla_autoencoder.forward">
+<a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder.forward">[docs]</a>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Forward pass of the autoencoder.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            z (torch.Tensor): Original input image.</span>
@@ -292,12 +316,15 @@
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="vanilla_autoencoder.compute_loss"><a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder.compute_loss">[docs]</a>    <span class="k">def</span> <span class="nf">compute_loss</span><span class="p">(</span>
+
+<div class="viewcode-block" id="vanilla_autoencoder.compute_loss">
+<a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder.compute_loss">[docs]</a>
+    <span class="k">def</span> <span class="nf">compute_loss</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">x_batch</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
         <span class="n">y_batch</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Compute loss for the forward pass.</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute loss for the forward pass.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            x_batch (Union[torch.Tensor, np.ndarray]): he input image data.</span>
@@ -317,10 +344,13 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">recons_loss_function</span><span class="p">(</span><span class="n">recons</span><span class="p">,</span> <span class="n">x_batch</span><span class="o">.</span><span class="n">float</span><span class="p">())</span>  <span class="c1"># type: ignore</span></div>
 
-<div class="viewcode-block" id="vanilla_autoencoder.train_batch"><a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder.train_batch">[docs]</a>    <span class="k">def</span> <span class="nf">train_batch</span><span class="p">(</span>
+
+<div class="viewcode-block" id="vanilla_autoencoder.train_batch">
+<a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder.train_batch">[docs]</a>
+    <span class="k">def</span> <span class="nf">train_batch</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">x_batch</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">y_batch</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Train the model on a batch of inputs.</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Train the model on a batch of inputs.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            x_batch (torch.Tensor): Batch of input image data.</span>
@@ -337,32 +367,16 @@
 
         <span class="k">return</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="vanilla_autoencoder.train_all_batches"><a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder.train_all_batches">[docs]</a>    <span class="k">def</span> <span class="nf">train_all_batches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainloader</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Train the autoencoder on the all the batches in the training set.</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            trainloader (torch.utils.data.DataLoader): PyTorch DataLoader object with</span>
-<span class="sd">                the training data.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            float: Training loss averaged over all the batches.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">loss</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">img</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">trainloader</span><span class="p">:</span>
-            <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
-            <span class="n">label</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
-
-            <span class="n">loss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">train_batch</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">label</span><span class="p">))</span>
-
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">loss</span><span class="p">))</span>  <span class="c1"># type: ignore</span></div>
-
-<div class="viewcode-block" id="vanilla_autoencoder.train_model"><a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder.train_model">[docs]</a>    <span class="k">def</span> <span class="nf">train_model</span><span class="p">(</span>
+<div class="viewcode-block" id="vanilla_autoencoder.train_model">
+<a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder.train_model">[docs]</a>
+    <span class="k">def</span> <span class="nf">train_model</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">num_epoch</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">trainloader</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">,</span>
         <span class="n">validloader</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Train the vanilla autoencoder.</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Train the vanilla autoencoder.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            num_epoch (int): Total number of training epochs.</span>
@@ -372,26 +386,39 @@
 <span class="sd">                validation set.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">instantiate_optimizer</span><span class="p">()</span>
-
+        
         <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-            <span class="n">train_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_all_batches</span><span class="p">(</span><span class="n">trainloader</span><span class="p">)</span>
+            <span class="n">loss</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">with</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">trainloader</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;batch&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">tepoch</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">img</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">tepoch</span><span class="p">:</span>
+                    <span class="n">tepoch</span><span class="o">.</span><span class="n">set_description</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    
+                    <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+                    <span class="n">label</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+                    <span class="n">loss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">train_batch</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">label</span><span class="p">))</span>    
+    
+            <span class="n">train_loss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">loss</span><span class="p">))</span>
             <span class="n">valid_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid</span><span class="p">(</span><span class="n">validloader</span><span class="p">)</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">train_loss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">train_loss</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">valid_loss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">valid_loss</span><span class="p">)</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">display_loss</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">num_epoch</span><span class="p">,</span> <span class="n">train_loss</span><span class="p">,</span> <span class="n">valid_loss</span><span class="p">)</span>
-
+            
+            
             <span class="bp">self</span><span class="o">.</span><span class="n">save_best_loss_model</span><span class="p">(</span><span class="n">valid_loss</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">save_loss</span><span class="p">(</span><span class="n">epoch</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">early_stopping</span><span class="p">():</span>
                 <span class="k">break</span></div>
 
-<div class="viewcode-block" id="vanilla_autoencoder.early_stopping"><a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder.early_stopping">[docs]</a>    <span class="k">def</span> <span class="nf">early_stopping</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Stops the model training if the model does not show improvement for a</span>
+
+<div class="viewcode-block" id="vanilla_autoencoder.early_stopping">
+<a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder.early_stopping">[docs]</a>
+    <span class="k">def</span> <span class="nf">early_stopping</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Stops the model training if the model does not show improvement for a</span>
 <span class="sd">        specified number of consecutive epochs, determined by the value of</span>
-<span class="sd">        `self.early_stopping_limit` (default: 20 epochs).</span>
+<span class="sd">        ``self.early_stopping_limit`` (default: 20 epochs).</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            bool: True if the early stopping limit was exceeded; False otherwise.</span>
@@ -400,11 +427,14 @@
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="kc">False</span></div>
 
-<div class="viewcode-block" id="vanilla_autoencoder.predict"><a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder.predict">[docs]</a>    <span class="nd">@torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">()</span>
+
+<div class="viewcode-block" id="vanilla_autoencoder.predict">
+<a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder.predict">[docs]</a>
+    <span class="nd">@torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">dataloader</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generate predictions using the autoencoder model on the entire dataset provided</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generate predictions using the autoencoder model on the entire dataset provided</span>
 <span class="sd">        by the specified DataLoader.</span>
 
 <span class="sd">        Args:</span>
@@ -436,9 +466,12 @@
             <span class="n">idx</span> <span class="o">=</span> <span class="n">idx</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">latent_features</span><span class="p">,</span> <span class="n">recons_images</span><span class="p">,</span> <span class="n">labels</span></div>
 
-<div class="viewcode-block" id="vanilla_autoencoder.valid"><a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder.valid">[docs]</a>    <span class="nd">@torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">()</span>
+
+<div class="viewcode-block" id="vanilla_autoencoder.valid">
+<a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder.valid">[docs]</a>
+    <span class="nd">@torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">valid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">validloader</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Evaluate the validation loss for the model and save the model if a</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Evaluate the validation loss for the model and save the model if a</span>
 <span class="sd">        new minimum loss is found.</span>
 
 <span class="sd">        Args:</span>
@@ -462,7 +495,10 @@
 
         <span class="k">return</span> <span class="n">loss</span></div>
 
-<div class="viewcode-block" id="vanilla_autoencoder.display_loss"><a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder.display_loss">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="vanilla_autoencoder.display_loss">
+<a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder.display_loss">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">display_loss</span><span class="p">(</span>
         <span class="n">epoch</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">num_epoch</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">train_loss</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">valid_loss</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -472,22 +508,29 @@
         <span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Epoch : </span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">num_epoch</span><span class="si">}</span><span class="s2">, &quot;</span> <span class="sa">f</span><span class="s2">&quot;Valid loss = </span><span class="si">{</span><span class="n">valid_loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s2">.8f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="vanilla_autoencoder.save_loss"><a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder.save_loss">[docs]</a>    <span class="k">def</span> <span class="nf">save_loss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epoch</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">epochs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 
-        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
-            <span class="p">{</span>
-                <span class="s2">&quot;epochs&quot;</span><span class="p">:</span> <span class="n">epochs</span><span class="p">,</span>
-                <span class="s2">&quot;train_loss&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_loss</span><span class="p">,</span>
-                <span class="s2">&quot;valid_loss&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_loss</span><span class="p">,</span>
-            <span class="p">}</span>
-        <span class="p">)</span>
+<div class="viewcode-block" id="vanilla_autoencoder.save_loss">
+<a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder.save_loss">[docs]</a>
+    <span class="k">def</span> <span class="nf">save_loss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epoch</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_snapshot_dir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="p">:</span> 
+            <span class="n">epochs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 
-        <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_snapshot_dir</span><span class="p">,</span> <span class="s2">&quot;output.csv&quot;</span><span class="p">))</span></div>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;epochs&quot;</span><span class="p">:</span> <span class="n">epochs</span><span class="p">,</span>
+                    <span class="s2">&quot;train_loss&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_loss</span><span class="p">,</span>
+                    <span class="s2">&quot;valid_loss&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_loss</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
 
-<div class="viewcode-block" id="vanilla_autoencoder.save_best_loss_model"><a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder.save_best_loss_model">[docs]</a>    <span class="k">def</span> <span class="nf">save_best_loss_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">valid_loss</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Stores the current model if it achieves the lowest validation loss;</span>
-<span class="sd">        otherwise, it increases ``self.epochs_no_improve by 1``.</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_snapshot_dir</span><span class="p">,</span> <span class="s2">&quot;output.csv&quot;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="vanilla_autoencoder.save_best_loss_model">
+<a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder.save_best_loss_model">[docs]</a>
+    <span class="k">def</span> <span class="nf">save_best_loss_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">valid_loss</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Stores the current model if it achieves the lowest validation loss;</span>
+<span class="sd">        otherwise, it increases ``self.epochs_no_improve`` by 1.</span>
 
 
 <span class="sd">        Args:</span>
@@ -498,6 +541,8 @@
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;New min: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">best_valid_loss</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">best_valid_loss</span> <span class="o">=</span> <span class="n">valid_loss</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">best_model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_dict</span><span class="p">()</span> 
+            
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_snapshot_dir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_snapshot_dir</span><span class="p">,</span> <span class="s2">&quot;best_model.pt&quot;</span><span class="p">)</span>
@@ -505,8 +550,11 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">epochs_no_improve</span> <span class="o">+=</span> <span class="mi">1</span></div>
 
-<div class="viewcode-block" id="vanilla_autoencoder.load_model"><a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder.load_model">[docs]</a>    <span class="k">def</span> <span class="nf">load_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Load PyTorch Autoencoder model stored in the given path.</span>
+
+<div class="viewcode-block" id="vanilla_autoencoder.load_model">
+<a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder.load_model">[docs]</a>
+    <span class="k">def</span> <span class="nf">load_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Load PyTorch Autoencoder model stored in the given path.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            model_path (str): Path of the model to be loaded.</span>
@@ -517,15 +565,20 @@
             <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">model_path</span><span class="p">,</span> <span class="n">map_location</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">))</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="vanilla_autoencoder.export_hyperparameters"><a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder.export_hyperparameters">[docs]</a>    <span class="k">def</span> <span class="nf">export_hyperparameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">snapshot_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Store the hyperparameter used for the autoencoder training in the given path.</span>
+
+<div class="viewcode-block" id="vanilla_autoencoder.export_hyperparameters">
+<a class="viewcode-back" href="../ae_vanilla.html#ae_vanilla.vanilla_autoencoder.export_hyperparameters">[docs]</a>
+    <span class="k">def</span> <span class="nf">export_hyperparameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">snapshot_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Store the hyperparameter used for the autoencoder training in the given path.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            snapshot_dir (str): Directory to store the hyperparameters.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">snapshot_dir</span><span class="p">,</span> <span class="s2">&quot;ae_hyperparameters.json&quot;</span><span class="p">)</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
-            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_hp</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span></div></div>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_hp</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span></div>
+</div>
+
 </pre></div>
 
            </div>

@@ -10,10 +10,11 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=2709fde1"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" /> 
@@ -96,8 +97,10 @@
 <span class="kn">from</span> <span class="nn">torchvision.datasets.vision</span> <span class="kn">import</span> <span class="n">VisionDataset</span>
 
 
-<div class="viewcode-block" id="SAT4"><a class="viewcode-back" href="../datasets.html#datasets.SAT4">[docs]</a><span class="k">class</span> <span class="nc">SAT4</span><span class="p">(</span><span class="n">VisionDataset</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;`SAT4 &lt;https://www.kaggle.com/datasets/crawford/deepsat-sat4&gt;`_ Dataset.</span>
+<div class="viewcode-block" id="SAT4">
+<a class="viewcode-back" href="../datasets.html#datasets.SAT4">[docs]</a>
+<span class="k">class</span> <span class="nc">SAT4</span><span class="p">(</span><span class="n">VisionDataset</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;`SAT4 &lt;https://www.kaggle.com/datasets/crawford/deepsat-sat4&gt;`_ Dataset.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        root (str): Root directory of dataset where ``X_train.pkl`` and ``X_test.pkl`` exist.</span>
@@ -140,7 +143,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">targets</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_data</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_load_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Load data into torch.Tensor from numpy.ndarray</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load data into torch.Tensor from numpy.ndarray</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Tuple[torch.Tensor, torch.Tensor]: Tuple of image data and image labels.</span>
@@ -152,7 +155,7 @@
         <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">targets</span>
 
     <span class="k">def</span> <span class="nf">_load_data_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Load data from the original ``pickle`` file, into ``np.ndarray``.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load data from the original ``pickle`` file, into ``np.ndarray``.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Tuple[np.ndarray, np.ndarray]: Tuple of image data and image labels. If</span>
@@ -160,14 +163,14 @@
 <span class="sd">            it returns the test set.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">image_file</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;X_train&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">train</span> <span class="k">else</span> <span class="s1">&#39;X_test&#39;</span><span class="si">}</span><span class="s2">_sat4.pkl&quot;</span>
+        <span class="n">image_file</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;X_train&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">train</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;X_test&#39;</span><span class="si">}</span><span class="s2">_sat4.pkl&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
             <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_folder</span><span class="p">,</span> <span class="n">image_file</span><span class="p">),</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
         <span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span> <span class="o">/</span> <span class="mf">255.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 
-        <span class="n">label_file</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Y_train&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">train</span> <span class="k">else</span> <span class="s1">&#39;Y_test&#39;</span><span class="si">}</span><span class="s2">_sat4.pkl&quot;</span>
+        <span class="n">label_file</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Y_train&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">train</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;Y_test&#39;</span><span class="si">}</span><span class="s2">_sat4.pkl&quot;</span>
         <span class="n">targets</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
             <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_folder</span><span class="p">,</span> <span class="n">label_file</span><span class="p">),</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
         <span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
@@ -176,7 +179,7 @@
         <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">targets</span>
 
     <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            index (int): Index.</span>
 
@@ -197,8 +200,10 @@
     <span class="k">def</span> <span class="nf">_check_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;SAT4&quot;</span><span class="p">))</span>
 
-<div class="viewcode-block" id="SAT4.download"><a class="viewcode-back" href="../datasets.html#datasets.SAT4.download">[docs]</a>    <span class="k">def</span> <span class="nf">download</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="SAT4.download">
+<a class="viewcode-back" href="../datasets.html#datasets.SAT4.download">[docs]</a>
+    <span class="k">def</span> <span class="nf">download</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Download the SAT4 data if it doesn&#39;t exist in the root directory.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -210,13 +215,20 @@
             <span class="s2">&quot;Download the dataset from https://www.kaggle.com/datasets/crawford/deepsat-sat4&quot;</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="SAT4.extra_repr"><a class="viewcode-back" href="../datasets.html#datasets.SAT4.extra_repr">[docs]</a>    <span class="k">def</span> <span class="nf">extra_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="SAT4.extra_repr">
+<a class="viewcode-back" href="../datasets.html#datasets.SAT4.extra_repr">[docs]</a>
+    <span class="k">def</span> <span class="nf">extra_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">split</span> <span class="o">=</span> <span class="s2">&quot;Train&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">train</span> <span class="ow">is</span> <span class="kc">True</span> <span class="k">else</span> <span class="s2">&quot;Test&quot;</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Split: </span><span class="si">{</span><span class="n">split</span><span class="si">}</span><span class="s2">&quot;</span></div></div>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Split: </span><span class="si">{</span><span class="n">split</span><span class="si">}</span><span class="s2">&quot;</span></div>
+</div>
 
 
-<div class="viewcode-block" id="EuroSAT"><a class="viewcode-back" href="../datasets.html#datasets.EuroSAT">[docs]</a><span class="k">class</span> <span class="nc">EuroSAT</span><span class="p">(</span><span class="n">VisionDataset</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;`EuroSAT &lt;https://github.com/phelber/EuroSAT&gt;`_ Dataset.</span>
+
+<div class="viewcode-block" id="EuroSAT">
+<a class="viewcode-back" href="../datasets.html#datasets.EuroSAT">[docs]</a>
+<span class="k">class</span> <span class="nc">EuroSAT</span><span class="p">(</span><span class="n">VisionDataset</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;`EuroSAT &lt;https://github.com/phelber/EuroSAT&gt;`_ Dataset.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        root (str): Root directory of dataset where the image folders exist.</span>
@@ -233,10 +245,10 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># str: URL of the EuroSAT dataset</span>
-    <span class="n">download_url</span> <span class="o">=</span> <span class="s2">&quot;https://zenodo.org/record/7711810/files/EuroSAT_RGB.zip?download=1&quot;</span>
+    <span class="n">_download_url</span> <span class="o">=</span> <span class="s2">&quot;https://zenodo.org/record/7711810/files/EuroSAT_RGB.zip?download=1&quot;</span>
 
     <span class="c1"># Tuple[str] : File name and md5 value for download</span>
-    <span class="n">resources</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;EuroSAT_RGB.zip&quot;</span><span class="p">,</span> <span class="s2">&quot;f46e308c4d50d4bf32fedad2d3d62f3b&quot;</span><span class="p">)</span>
+    <span class="n">_resources</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;EuroSAT_RGB.zip&quot;</span><span class="p">,</span> <span class="s2">&quot;f46e308c4d50d4bf32fedad2d3d62f3b&quot;</span><span class="p">)</span>
 
     <span class="c1"># List[str]: List of EuroSAT class names</span>
     <span class="n">classes</span> <span class="o">=</span> <span class="p">[</span>
@@ -286,28 +298,31 @@
     <span class="k">def</span> <span class="nf">_check_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_folder</span><span class="p">)</span>
 
-<div class="viewcode-block" id="EuroSAT.download"><a class="viewcode-back" href="../datasets.html#datasets.EuroSAT.download">[docs]</a>    <span class="k">def</span> <span class="nf">download</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Download the EuroSAT data if it doesn&#39;t exist already.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="EuroSAT.download">
+<a class="viewcode-back" href="../datasets.html#datasets.EuroSAT.download">[docs]</a>
+    <span class="k">def</span> <span class="nf">download</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Download the EuroSAT data if it doesn&#39;t exist already.&quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_exists</span><span class="p">():</span>
             <span class="k">return</span>
 
         <span class="c1"># download files</span>
-        <span class="n">filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">md5</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resources</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">md5</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resources</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downloading </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">download_url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downloading </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_download_url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">download_and_extract_archive</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">download_url</span><span class="p">,</span> <span class="n">download_root</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="n">md5</span><span class="o">=</span><span class="n">md5</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_download_url</span><span class="p">,</span> <span class="n">download_root</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="n">md5</span><span class="o">=</span><span class="n">md5</span>
             <span class="p">)</span>
             <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;EuroSAT_RGB&quot;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw_folder</span><span class="p">)</span>
 
         <span class="k">except</span> <span class="n">URLError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to download (trying next):</span><span class="se">\n</span><span class="si">{</span><span class="n">error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
+
     <span class="k">def</span> <span class="nf">_load_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Load data from the specified root directory, splitting it into test and train</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Load data from the specified root directory, splitting it into test and train</span>
 <span class="sd">        sets based on a seed. Images are resized by default to (64, 64).</span>
 
 <span class="sd">        Returns:</span>
@@ -369,7 +384,7 @@
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            index (int): Index.</span>
 
@@ -388,6 +403,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">:</span>
             <span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">img</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">targets</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span></div>
+
 </pre></div>
 
            </div>

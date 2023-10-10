@@ -181,7 +181,7 @@ and the fully connected layers <code class="docutils literal notranslate"><span 
 <span class="sig-name descname"><span class="pre">early_stopping</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.early_stopping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.early_stopping" title="Link to this definition"></a></dt>
 <dd><p>Stops the model training if the model does not show improvement for a
 specified number of consecutive epochs, determined by the value of
-<cite>self.early_stopping_limit</cite> (default: 20 epochs).</p>
+<code class="docutils literal notranslate"><span class="pre">self.early_stopping_limit</span></code> (default: 20 epochs).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True if the early stopping limit was exceeded; False otherwise.</p>
@@ -280,7 +280,7 @@ features, the reconstructed images, and the original images.</p>
 <dt class="sig sig-object py" id="ae_vanilla.vanilla_autoencoder.save_best_loss_model">
 <span class="sig-name descname"><span class="pre">save_best_loss_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">valid_loss</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.save_best_loss_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.save_best_loss_model" title="Link to this definition"></a></dt>
 <dd><p>Stores the current model if it achieves the lowest validation loss;
-otherwise, it increases <code class="docutils literal notranslate"><span class="pre">self.epochs_no_improve</span> <span class="pre">by</span> <span class="pre">1</span></code>.</p>
+otherwise, it increases <code class="docutils literal notranslate"><span class="pre">self.epochs_no_improve</span></code> by 1.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>valid_loss</strong> (<em>float</em>) – Validation loss at the current epoch.</p>
@@ -292,24 +292,6 @@ otherwise, it increases <code class="docutils literal notranslate"><span class="
 <dt class="sig sig-object py" id="ae_vanilla.vanilla_autoencoder.save_loss">
 <span class="sig-name descname"><span class="pre">save_loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epoch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.save_loss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.save_loss" title="Link to this definition"></a></dt>
 <dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="ae_vanilla.vanilla_autoencoder.train_all_batches">
-<span class="sig-name descname"><span class="pre">train_all_batches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trainloader</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataLoader</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/ae_vanilla.html#vanilla_autoencoder.train_all_batches"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ae_vanilla.vanilla_autoencoder.train_all_batches" title="Link to this definition"></a></dt>
-<dd><p>Train the autoencoder on the all the batches in the training set.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>trainloader</strong> (<em>torch.utils.data.DataLoader</em>) – PyTorch DataLoader object with
-the training data.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Training loss averaged over all the batches.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
-</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ae_vanilla.vanilla_autoencoder.train_batch">
