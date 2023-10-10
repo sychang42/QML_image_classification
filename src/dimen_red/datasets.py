@@ -146,7 +146,7 @@ class SAT4(VisionDataset):
 
 
 class EuroSAT(VisionDataset):
-    """`EuroSAT <https://github.com/phelber/EuroSAT>`_ Dataset.
+    r"""`EuroSAT <https://github.com/phelber/EuroSAT>`_ Dataset.
 
     Args:
         root (str): Root directory of dataset where the image folders exist.
@@ -163,10 +163,10 @@ class EuroSAT(VisionDataset):
     """
 
     # str: URL of the EuroSAT dataset
-    download_url = "https://zenodo.org/record/7711810/files/EuroSAT_RGB.zip?download=1"
+    _download_url = "https://zenodo.org/record/7711810/files/EuroSAT_RGB.zip?download=1"
 
     # Tuple[str] : File name and md5 value for download
-    resources = ("EuroSAT_RGB.zip", "f46e308c4d50d4bf32fedad2d3d62f3b")
+    _resources = ("EuroSAT_RGB.zip", "f46e308c4d50d4bf32fedad2d3d62f3b")
 
     # List[str]: List of EuroSAT class names
     classes = [
@@ -217,19 +217,19 @@ class EuroSAT(VisionDataset):
         return os.path.exists(self.raw_folder)
 
     def download(self) -> None:
-        """Download the EuroSAT data if it doesn't exist already."""
+        r"""Download the EuroSAT data if it doesn't exist already."""
 
         if self._check_exists():
             return
 
         # download files
-        filename = self.resources[0]
-        md5 = self.resources[1]
+        filename = self._resources[0]
+        md5 = self._resources[1]
 
         try:
-            print(f"Downloading {self.download_url}")
+            print(f"Downloading {self._download_url}")
             download_and_extract_archive(
-                self.download_url, download_root=self.root, filename=filename, md5=md5
+                self._download_url, download_root=self.root, filename=filename, md5=md5
             )
             os.rename(os.path.join(self.root, "EuroSAT_RGB"), self.raw_folder)
 
@@ -237,7 +237,7 @@ class EuroSAT(VisionDataset):
             print(f"Failed to download (trying next):\n{error}")
 
     def _load_data(self) -> Tuple[Any, Any]:
-        """Load data from the specified root directory, splitting it into test and train
+        r"""Load data from the specified root directory, splitting it into test and train
         sets based on a seed. Images are resized by default to (64, 64).
 
         Returns:
