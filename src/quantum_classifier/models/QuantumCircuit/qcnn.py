@@ -62,7 +62,8 @@ def QCNN(
     num_qubits: int,
     num_measured: int,
     trans_inv: Optional[bool] = True,
-    qnn_ver: Optional[str] = None,
+    **kwargs
+#     qnn_ver: Optional[str] = None,
 ) -> Tuple[Callable, int, np.ndarray]:
     r"""Construct Quantum Convolutional Neural Network architecture uing the specified
     QCNN version.
@@ -75,9 +76,14 @@ def QCNN(
             translational invariant or not. If True, all filters in a layer share
             identical parameters; otherwise, different parameters are used. (To be
             implemented) Default to ``True``.
+    
+    Keyword Args:
         qnn_ver (str, optional) : Version of the quantum circuit architecture to be
             used. If set to None, the default architecture with U_TTN convolutional
             filters is used.
+        conv_filters (Union[str, Tuple[Callable, int, int]], optional): Convolutional
+            filter
+        pooling (Union[str, Tuple[Callable, int, int]], optional) : Pooling layer
 
     Returns:
         Tuple[Callable, int, np.ndarray]: Return a functionrepresenting the QCNN circuit,
@@ -88,17 +94,49 @@ def QCNN(
 
     # Default QNN architecture
     qnn_architecture = {"conv_filters": ["U_TTN"], "pooling": "Pooling_ansatz1"}
-    if qnn_ver is not None:
-        qnn_architecture = json.load(open(qnn_config_path))[qnn_ver]
-
+    
+    if "qnn_ver" in kwargs:
+        qnn_architecture = json.load(open(qnn_config_path))[kwargs['qnn_ver']]
+    else : 
+        for k in kwargs.keys() : 
+            qnn_architecture[k] = kwargs[k] 
+            
     conv_filters = []
     if "conv_filters" in qnn_architecture.keys():
-        conv_filters = [choose_gate(gate) for gate in qnn_architecture["conv_filters"]]
-
+        if isinstance(qnn_architecture["conv_filters"], tuple) : 
+            assert len(qnn_architecture["conv_filters"]) == 4 and \
+            isinstance(qnn_architecture["conv_filters"][0], str) and\
+            isinstance(qnn_architecture["conv_filters"][1], Callable) and\
+            isinstance(qnn_architecture["conv_filters"][2], int) and \
+            isinstance(qnn_architecture["conv_filters"][3], int), \
+            "Conv_filters should have the format (str for filter name, Callable for filter, int for num_parameters, " + \
+            "int for num_wires)" 
+            
+            conv_filters = [qnn_architecture["conv_filters"]]       
+        else : 
+            conv_filters = [choose_gate(gate) for gate in qnn_architecture["conv_filters"]]
+        
     pooling = []
+#     if "pooling" in qnn_architecture.keys():
+#         pooling = choose_gate(qnn_architecture["pooling"])
+    
     if "pooling" in qnn_architecture.keys():
-        pooling = choose_gate(qnn_architecture["pooling"])
-
+        if isinstance(qnn_architecture["pooling"], tuple) : 
+            assert len(qnn_architecture["pooling"]) == 4 and \
+            isinstance(qnn_architecture["pooling"][0], Callable) and\
+            isinstance(qnn_architecture["pooling"][1], Callable) and\
+            isinstance(qnn_architecture["pooling"][2], int) and \
+            isinstance(qnn_architecture["pooling"][3], int), \
+            "Pooling should have the format (str for pooling name, Callable for pooing, int for num_parameters, " + \
+            "int for num_wires)" 
+            pooling = qnn_architecture["pooling"]
+            
+        else : 
+            pooling = choose_gate(qnn_architecture["pooling"])
+        
+            
+            
+            
     depth = ceil(np.log2(num_qubits // num_measured))
     meas_wires = [i for i in range(num_qubits // 2)]
 
