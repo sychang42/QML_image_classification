@@ -22,6 +22,7 @@ from typing import Optional, Tuple, Union, Dict, Any
 import pandas as pd
 import json
 
+from tqdm import tqdm
 
 # Initialize weights with LeCun normal intialization
 def initialize_weights(net_l, scale=1) -> None:
@@ -227,7 +228,7 @@ class vanilla_autoencoder(nn.Module):
         x_batch: Union[torch.Tensor, np.ndarray],
         y_batch: Optional[torch.Tensor] = None,
     ) -> torch.Tensor:
-        """Compute loss for the forward pass.
+        r"""Compute loss for the forward pass.
 
         Args:
             x_batch (Union[torch.Tensor, np.ndarray]): he input image data.
@@ -250,7 +251,7 @@ class vanilla_autoencoder(nn.Module):
     def train_batch(
         self, x_batch: torch.Tensor, y_batch: Optional[torch.Tensor] = None
     ) -> float:
-        """Train the model on a batch of inputs.
+        r"""Train the model on a batch of inputs.
 
         Args:
             x_batch (torch.Tensor): Batch of input image data.
@@ -267,32 +268,13 @@ class vanilla_autoencoder(nn.Module):
 
         return loss.item()
 
-    def train_all_batches(self, trainloader: torch.utils.data.DataLoader) -> float:
-        """Train the autoencoder on the all the batches in the training set.
-
-        Args:
-            trainloader (torch.utils.data.DataLoader): PyTorch DataLoader object with
-                the training data.
-
-        Returns:
-            float: Training loss averaged over all the batches.
-        """
-        loss = []
-        for img, label in trainloader:
-            img = img.to(self.device)
-            label = label.to(self.device)
-
-            loss.append(self.train_batch(img, label))
-
-        return np.mean(np.array(loss))  # type: ignore
-
     def train_model(
         self,
         num_epoch: int,
         trainloader: torch.utils.data.DataLoader,
         validloader: torch.utils.data.DataLoader,
     ) -> None:
-        """Train the vanilla autoencoder.
+        r"""Train the vanilla autoencoder.
 
         Args:
             num_epoch (int): Total number of training epochs.
@@ -302,16 +284,26 @@ class vanilla_autoencoder(nn.Module):
                 validation set.
         """
         self.instantiate_optimizer()
-
+        
         for epoch in range(1, num_epoch + 1):
-            train_loss = self.train_all_batches(trainloader)
+            loss = []
+            with tqdm(trainloader, unit="batch") as tepoch:
+                for img, label in tepoch:
+                    tepoch.set_description(f"Epoch {epoch}")
+                    
+                    img = img.to(self.device)
+                    label = label.to(self.device)
+                    loss.append(self.train_batch(img, label))    
+    
+            train_loss = np.mean(np.array(loss))
             valid_loss = self.valid(validloader)
 
             self.train_loss.append(train_loss)
             self.valid_loss.append(valid_loss)
 
             self.display_loss(epoch, num_epoch, train_loss, valid_loss)
-
+            
+            
             self.save_best_loss_model(valid_loss)
             self.save_loss(epoch)
 
@@ -319,9 +311,9 @@ class vanilla_autoencoder(nn.Module):
                 break
 
     def early_stopping(self) -> bool:
-        """Stops the model training if the model does not show improvement for a
+        r"""Stops the model training if the model does not show improvement for a
         specified number of consecutive epochs, determined by the value of
-        `self.early_stopping_limit` (default: 20 epochs).
+        ``self.early_stopping_limit`` (default: 20 epochs).
 
         Returns:
             bool: True if the early stopping limit was exceeded; False otherwise.
@@ -403,21 +395,22 @@ class vanilla_autoencoder(nn.Module):
         print(f"Epoch : {epoch}/{num_epoch}, " f"Valid loss = {valid_loss.item():.8f}")
 
     def save_loss(self, epoch: int) -> None:
-        epochs = np.arange(1, epoch + 1)
+        if self._snapshot_dir is not None : 
+            epochs = np.arange(1, epoch + 1)
 
-        df = pd.DataFrame(
-            {
-                "epochs": epochs,
-                "train_loss": self.train_loss,
-                "valid_loss": self.valid_loss,
-            }
-        )
+            df = pd.DataFrame(
+                {
+                    "epochs": epochs,
+                    "train_loss": self.train_loss,
+                    "valid_loss": self.valid_loss,
+                }
+            )
 
-        df.to_csv(os.path.join(self._snapshot_dir, "output.csv"))
+            df.to_csv(os.path.join(self._snapshot_dir, "output.csv"))
 
     def save_best_loss_model(self, valid_loss: float) -> None:
         r"""Stores the current model if it achieves the lowest validation loss;
-        otherwise, it increases ``self.epochs_no_improve by 1``.
+        otherwise, it increases ``self.epochs_no_improve`` by 1.
 
 
         Args:
@@ -428,6 +421,8 @@ class vanilla_autoencoder(nn.Module):
             print(f"New min: {self.best_valid_loss:.2e}")
 
             self.best_valid_loss = valid_loss
+            self.best_model = self.state_dict() 
+            
             if self._snapshot_dir is not None:
                 torch.save(
                     self.state_dict(), os.path.join(self._snapshot_dir, "best_model.pt")
