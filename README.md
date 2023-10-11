@@ -34,11 +34,13 @@ The project consists of two main steps:
 
 Currently supported features include:
 - Dimensionality reduction methods
-    - *PCA*
-    - *Convolutional Autoencoder*
+    - *PCA* (``pca``)
+    - *Convolutional Autoencoder* (``ae``)
 - Image dataset 
     - [*MNIST*](https://pytorch.org/vision/0.15/generated/torchvision.datasets.MNIST.html#torchvision.datasets.MNIST)
+    - [*FashionMNIST*](https://pytorch.org/vision/stable/generated/torchvision.datasets.FashionMNIST.html)
     - [*EuroSAT*](https://github.com/phelber/EuroSAT)
+    - [*SAT4*](https://csc.lsu.edu/~saikat/deepsat/)
 
 ## Prerequisites
 Before running the code, make sure to install the required packages by running:
@@ -86,13 +88,13 @@ python run.py --gpu gpu_num --config config_file_name
 The configuration file `configs/training.yaml` should be structured as follows : 
 
 * __data__: Name of dataset on which we perform the feature extraction. 
-* __method__:  Dimensionality reduction method for dimensionality reduction. Currently, only PCA (``pca``) and convolutional autoencoder (``autoencoder``) are supported.
+* __method__:  Dimensionality reduction method for dimensionality reduction. Currently, only PCA (``pca``) and convolutional autoencoder (``ae``) are supported.
 * __num_components__ : Dimension of extracted features. 
 * __load_root__: Root directory containing 
   1. in case of performing dimensionality reduction : the original images. 
   2. in case of performing only the feature classification :  the reduced features.
 
-* __dimensionality_reduction__*: The hyperparameters required in case of ``method == autoencoder``.
+* __dimensionality_reduction__*: The hyperparameters required in case of ``method == ae``.
   - __training_params__: 
     - *num_epohcs* : Number of training epochs. 
     - *batchsize* : Training batch size.
@@ -109,7 +111,7 @@ The configuration file `configs/training.yaml` should be structured as follows :
     - *num_wires* : Number of qubits in the quantum classifier.  
     - *ver* :  Quantum circuit architecture version.  
     - *Embedding* :  Quantum embedding method.  
-    - *trans_inv* : Boolean to indicate whether the model is constructed in a translational invariant way.  
+    - *trans_inv* : Boolean to indicate whether the mdel is constructed in a translational invariant way.  
   - __opt_params__: 
     - *lr* : Learning rate. 
     - *b1* : $\beta_1$ value of the Adam optimizer. 0.9 by default. 
