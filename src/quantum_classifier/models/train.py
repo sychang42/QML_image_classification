@@ -134,6 +134,10 @@ def train(
               translational invariant or not. If True, all filters in a layer share
               identical parameters; otherwise, different parameters are used. (To be
               implemented)
+            * *ver*: Quantum circuit architecture version predefined in
+              ``qnn_architecture.json``
+            * *conv_filter*: User defined convolutional filter.
+            * *pooling* : User defined pooling layer.
 
         optim_args (Dict[str, float]): :class:`optax.adam` optimizer hyperparameters.
 
@@ -176,12 +180,31 @@ def train(
     rng, init_rng = jax.random.split(rng)
 
     embed_data = get_data_embedding(model_args["Embedding"])
-    qcnn_circuit, num_params, meas_wires = QCNN(
-        model_args["num_wires"],
-        model_args["num_measured"],
-        model_args["trans_inv"],
-        model_args["ver"],
-    )
+
+    if "ver" in model_args.keys():
+        qcnn_circuit, num_params, meas_wires = QCNN(
+            model_args["num_wires"],
+            model_args["num_measured"],
+            model_args["trans_inv"],
+            qnn_ver=model_args["ver"],
+        )
+    else:
+        conv_filter = (
+            model_args["conv_filter"] if "conv_filter" in model_args.keys() else "U_TTN"
+        )
+        pooling = (
+            model_args["pooling"]
+            if "pooling" in model_args.keys()
+            else "Pooling_ansatz1"
+        )
+
+        qcnn_circuit, num_params, meas_wires = QCNN(
+            model_args["num_wires"],
+            model_args["num_measured"],
+            model_args["trans_inv"],
+            conv_filter=conv_filter,
+            pooling=pooling,
+        )
 
     def classifier_circuit(
         X: Array, params: optax.Params

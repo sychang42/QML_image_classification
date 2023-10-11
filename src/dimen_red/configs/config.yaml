@@ -1,13 +1,34 @@
 data: EuroSAT
+method: pca
+num_components: 16 
+load_dir: "/data/suchang/shared/Data/" 
+save_dir: Null
 
-hp: 
+dimensionality_reduction: 
   training_params: 
     num_epoch: 100
     batch_size: 1024
-  model_params: 
-    nz: 16
+
   optim_params: 
     lr: 0.001
     betas: [0.9, 0.999]
+ 
 
-save_dir: ../Result/hyper_scan/EuroSAT
+quantum_classifier:  
+  training_params:
+    classes: [0,1]
+    batch_size: 144
+    num_epochs: 5
+    loss_type: [BCE_loss, accuracy]  
+
+  model_params:
+    num_wires: 8
+    ver: U_SO4
+    Embedding: Angular
+    trans_inv: True
+
+  optim_params : 
+    learning_rate: 0.01
+    b1: 0.9
+    b2: 0.99
+

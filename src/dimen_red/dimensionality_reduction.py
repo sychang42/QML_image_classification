@@ -25,7 +25,7 @@ def dimensionality_reduction(
     hp: Dict[str, Any],
     gpu: int = 0,
     snapshot_dir: Optional[str] = None,
-) -> Tuple[float]:
+) -> Tuple[float, float, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     r"""Perform dimensionality reduction on image data.
     If ``snapshot_dir`` is not ``None``, the features extracted from the training set and
     the test set are saved in the files ``os.path.join(snapshot_dir, f"{data}_{str(n_comp
@@ -45,8 +45,12 @@ def dimensionality_reduction(
             results will not be saved.
 
     Returns:
-        Tuple[float, float]: A tuple of the Mean Squared Error (MSE) loss between
-        original and the reconstructed images for the train and the test set.
+        Tuple[float, float, np.ndarray, np.ndarray,np.ndarray,np.ndarray]: ``(train_mse,
+        test_mse, X_train_red, Y_train, X_ test_red, Y_test)`` A
+        tuple of the Mean Squared Error (MSE) loss between original and the
+        reconstructed images, the reduced features and the corresponding labels
+        for the train and the test set
+
 
     Note:
         Currently, only `pca` and `ae` (convolutional autoencoder) are supported.
@@ -55,14 +59,17 @@ def dimensionality_reduction(
         **In case of** ``pca``::
 
             hp = {'nz' :  16}
-            train_mse, test_mse = dimensionality_reduction("/data/", "MNIST", "pca", hp, 0, "Result")
+            train_mse, test_mse, X_train_red, Y_train, X_ test_red, Y_test = \
+                dimensionality_reduction("/data/", "MNIST", "pca", hp, 0, "Result")
 
         **In case of** ``ae`` (convolutional autoencoder)::
 
             hp = {'training_params' :  {"num_epoch" : 10, "batch_size": 1024},
              'model_params' : {"nz" : 16},
              'optim_params' : {"lr" : 0.001, "betas" : [0.9, 0.999]}}
-            train_mse, test_mse = dimensionality_reduction("/data/", "MNIST", "ae", hp, 0, "Result")
+            train_mse, test_mse, X_train_red, Y_train, X_ test_red, Y_test = \
+                dimensionality_reduction("/data/", "MNIST", "ae", hp, 0, "Result")
+
     """
 
     # Load data.
@@ -122,13 +129,12 @@ def dimensionality_reduction(
         test_mse = np.mean((recons_test - X_test) ** 2)
 
         img_shape.insert(0, -1)
-        if snapshot_dir is not None:
-            pred_train = (
-                X_train_pca_rescaled,
-                recons_train.reshape(img_shape),
-                Y_train,
-            )
-            pred_test = (X_test_pca_rescaled, recons_test.reshape(img_shape), Y_test)
+        pred_train = (
+            X_train_pca_rescaled,
+            recons_train.reshape(img_shape),
+            Y_train,
+        )
+        pred_test = (X_test_pca_rescaled, recons_test.reshape(img_shape), Y_test)
 
     elif method == "ae":
         if len(img_shape) == 2:
@@ -181,4 +187,4 @@ def dimensionality_reduction(
         df["label"] = pred_test[2]
         df.to_csv(os.path.join(snapshot_dir, file_name + "_test.csv"))
 
-    return train_mse, test_mse  # type: ignore
+    return train_mse, test_mse, pred_train[0], pred_train[2], pred_test[0], pred_test[2]
