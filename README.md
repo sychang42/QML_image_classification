@@ -50,7 +50,7 @@ pip install -r requirements.txt
 Additionally, install `jaxlib` compatible with your CUDA version using the following command:
 
 ```
-pip install --upgrade jax==0.4.7+cuda11.cudnn82 -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
+pip install --upgrade jaxlib==0.4.7+cuda11.cudnn82 -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
 ```
 
 For more detailed instructions on Jax installation, please refer to the officia [Jax Installation guide](https://jax.readthedocs.io/en/latest/installation.html). 
@@ -60,24 +60,28 @@ For more detailed instructions on Jax installation, please refer to the officia 
 
 ## Usage
 
-To perform dimensionality reduction of the images,  use the following command : 
+Use the following commands  :
+
+1. To perform dimensionality reduction of the images. 
 
 ```
 python run_dim_red.py --gpu gpu_num --config config_file_name
 ```
 
-To train the quantum classifier using the reduced features already stored in a file,  use the following command : 
+2. To train the quantum classifier using the reduced features already stored in a file. 
 
 ```
 python run_qc_training.py --gpu gpu_num --config config_file_name
 ```
 
 
-To run the whole training pipeline,  use the following command : 
+3. To run the whole training pipeline. 
 
 ```
 python run.py --gpu gpu_num --config config_file_name
 ```
+
+### How to structure the configuration file
 
 The configuration file `configs/training.yaml` should be structured as follows : 
 
