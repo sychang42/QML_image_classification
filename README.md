@@ -89,7 +89,7 @@ The configuration file `configs/training.yaml` should be structured as follows :
   2. in case of performing only the feature classification :  the reduced features.
 
 * __dimensionality_reduction__*: The hyperparameters required in case of ``method == autoencoder``.
-  - *training_params*: 
+  - __training_params__: 
     - *num_epohcs* : Number of training epochs. 
     - *batchsize* : Training batch size.
   - __optim_params__: 
@@ -97,24 +97,15 @@ The configuration file `configs/training.yaml` should be structured as follows :
     - *betas* : $[\beta_1, \beta_2]$ value of the Adam optimizer. $[0.9,  0.999]$ by default. 
 
 
-* __quantum_classifier__*: The hyperparameters required for the quantum classifier training.
-
-
-* __hp__: 
-  If ``method == pca`` : 
-  
-  
-  If ``method == autoencoder`` : 
-  - *training_params*: 
+* __quantum_classifier__: The hyperparameters required for the quantum classifier training.
+  - __training_params__: 
     - *num_epohcs* : Number of training epochs. 
     - *batchsize* : Training batch size
-  - *model_params* :   
+  - __model_params__ :   
     - *num_wires* : Number of qubits in the quantum classifier.  
     - *ver* :  Quantum circuit architecture version.  
     - *Embedding* :  Quantum embedding method.  
     - *trans_inv* : Boolean to indicate whether the model is constructed in a translational invariant way.  
-
-  
   - __opt_params__: 
     - *lr* : Learning rate. 
     - *b1* : $\beta_1$ value of the Adam optimizer. 0.9 by default. 
