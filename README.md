@@ -60,7 +60,20 @@ For more detailed instructions on Jax installation, please refer to the officia 
 
 ## Usage
 
-To train the model, use the following command : 
+To perform dimensionality reduction of the images,  use the following command : 
+
+```
+python run_dim_red.py --gpu gpu_num --config config_file_name
+```
+
+To train the quantum classifier using the reduced features already stored in a file,  use the following command : 
+
+```
+python run_qc_training.py --gpu gpu_num --config config_file_name
+```
+
+
+To run the whole training pipeline,  use the following command : 
 
 ```
 python run.py --gpu gpu_num --config config_file_name
@@ -68,53 +81,46 @@ python run.py --gpu gpu_num --config config_file_name
 
 The configuration file `configs/training.yaml` should be structured as follows : 
 
-* __dataset_params__: 
-  - *data* : Name of training dataset. 
-  - *img_size* : Input image size.
-  - *classes* : List of integers representing data classes to be trained. Currently, only binary classification is implemented.
-  - *n_data* : Number of training samples. Set to `Null` to use the entire dataset.
+* __data__: Name of dataset on which we perform the feature extraction. 
+* __method__:  Dimensionality reduction method for dimensionality reduction. Currently, only PCA (``pca``) and convolutional autoencoder (``autoencoder``) are supported.
+* __num_components__ : Dimension of extracted features. 
+* __load_root__: Root directory containing 
+  1. in case of performing dimensionality reduction : the original images. 
+  2. in case of performing only the feature classification :  the reduced features.
 
-* __training_params__: 
-  - *num_epohcs* : Number of training epochs. 
-  - *batchsize* : Training batch size
-  - *loss_type* : Type of loss function used to train the model. Currently, only Binary Cross-Entropy (BCE) loss is implemented.
+* __dimensionality_reduction__*: The hyperparameters required in case of ``method == autoencoder``.
+  - *training_params*: 
+    - *num_epohcs* : Number of training epochs. 
+    - *batchsize* : Training batch size.
+  - __optim_params__: 
+    - *lr* : Learning rate. 
+    - *betas* : $[\beta_1, \beta_2]$ value of the Adam optimizer. $[0.9,  0.999]$ by default. 
+
+
+* __quantum_classifier__*: The hyperparameters required for the quantum classifier training.
+
+
+* __hp__: 
+  If ``method == pca`` : 
   
-* __model_params__: 
-  - *num_wires* : Number of qubits in the quantum classifier. 
-  - *equiv* : Boolean to indicate whether an equivariant neural network is used. 
-  - *trans_inv* : Boolean to indicate whether the model is constructed in a translational invariant way. 
-  - *ver* :  Quantum circuit architecture version. 
-  - *symmetry_breaking* : Boolean to indicate whether $RZ$ gates at the end of the quantum circuit in case of the *EquivQCNN*. 
-  - *delta* : Range of uniform distribution from which the initial parameters are sampled.  
   
-* __opt_params__: 
-  - *lr* : Learning rate. 
-  - *b1* : $\beta_1$ value of the Adam optimizer. 0.9 by default. 
-  - *b2* : $\beta_2$ value of the Adam optimizer. 0.999 by default.
+  If ``method == autoencoder`` : 
+  - *training_params*: 
+    - *num_epohcs* : Number of training epochs. 
+    - *batchsize* : Training batch size
+  - *model_params* :   
+    - *num_wires* : Number of qubits in the quantum classifier.  
+    - *ver* :  Quantum circuit architecture version.  
+    - *Embedding* :  Quantum embedding method.  
+    - *trans_inv* : Boolean to indicate whether the model is constructed in a translational invariant way.  
 
-* __logging_params__: 
-  - *save_dir* : Root directory to store the training results. If `Null`, the results will not stored.
+  
+  - __opt_params__: 
+    - *lr* : Learning rate. 
+    - *b1* : $\beta_1$ value of the Adam optimizer. 0.9 by default. 
+    - *b2* : $\beta_2$ value of the Adam optimizer. 0.999 by default.
 
-
-
-data: MNIST  <br />
-
-hp: <br />
-  training_params: <br />
-    num_epoch: 100 <br />
-    batch_size: 1024<br />
-  model_params: <br />
-    nz: 16 <br />
-  optim_params: <br />
-    lr: 0.001<br />
-    betas: [0.9, 0.999]<br />
-<br />
-save_dir: ../Result/hyper_scan/MNIST<br />
-
-
-data = Data to use <br />
-nz = Latent space dimension <br /> 
-lr, betas = learning rate for adam optimizer <br /> 
+For more details, check the config files ``configs/config_pca.yaml`` and ``configs/config_ae.yaml``. 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
