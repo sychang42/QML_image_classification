@@ -10,10 +10,11 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=2709fde1"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" /> 
@@ -40,7 +41,8 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../modules.html">src</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dimen_red.html">dimen_red</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quantum_classifier.html">quantum_classifier</a></li>
 </ul>
 
         </div>
@@ -88,15 +90,17 @@
 <span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
 
 
-<div class="viewcode-block" id="dimensionality_reduction"><a class="viewcode-back" href="../dimensionality_reduction.html#dimensionality_reduction.dimensionality_reduction">[docs]</a><span class="k">def</span> <span class="nf">dimensionality_reduction</span><span class="p">(</span>
+<div class="viewcode-block" id="dimensionality_reduction">
+<a class="viewcode-back" href="../dimensionality_reduction.html#dimensionality_reduction.dimensionality_reduction">[docs]</a>
+<span class="k">def</span> <span class="nf">dimensionality_reduction</span><span class="p">(</span>
     <span class="n">root</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">data</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">method</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">hp</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
     <span class="n">gpu</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="n">snapshot_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Perform dimensionality reduction on image data.</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Perform dimensionality reduction on image data.</span>
 <span class="sd">    If ``snapshot_dir`` is not ``None``, the features extracted from the training set and</span>
 <span class="sd">    the test set are saved in the files ``os.path.join(snapshot_dir, f&quot;{data}_{str(n_comp</span>
 <span class="sd">    onents)}components_{method}_train.csv&quot;)`` and ``os.path.join(snapshot_dir,</span>
@@ -115,8 +119,12 @@
 <span class="sd">            results will not be saved.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        Tuple[float, float]: A tuple of the Mean Squared Error (MSE) loss between</span>
-<span class="sd">        original and the reconstructed images for the train and the test set.</span>
+<span class="sd">        Tuple[float, float, np.ndarray, np.ndarray,np.ndarray,np.ndarray]: ``(train_mse,</span>
+<span class="sd">        test_mse, X_train_red, Y_train, X_ test_red, Y_test)`` A</span>
+<span class="sd">        tuple of the Mean Squared Error (MSE) loss between original and the</span>
+<span class="sd">        reconstructed images, the reduced features and the corresponding labels</span>
+<span class="sd">        for the train and the test set</span>
+
 
 <span class="sd">    Note:</span>
 <span class="sd">        Currently, only `pca` and `ae` (convolutional autoencoder) are supported.</span>
@@ -125,14 +133,17 @@
 <span class="sd">        **In case of** ``pca``::</span>
 
 <span class="sd">            hp = {&#39;nz&#39; :  16}</span>
-<span class="sd">            train_mse, test_mse = dimensionality_reduction(&quot;/data/&quot;, &quot;MNIST&quot;, &quot;pca&quot;, hp, 0, &quot;Result&quot;)</span>
+<span class="sd">            train_mse, test_mse, X_train_red, Y_train, X_ test_red, Y_test = \</span>
+<span class="sd">                dimensionality_reduction(&quot;/data/&quot;, &quot;MNIST&quot;, &quot;pca&quot;, hp, 0, &quot;Result&quot;)</span>
 
 <span class="sd">        **In case of** ``ae`` (convolutional autoencoder)::</span>
 
 <span class="sd">            hp = {&#39;training_params&#39; :  {&quot;num_epoch&quot; : 10, &quot;batch_size&quot;: 1024},</span>
 <span class="sd">             &#39;model_params&#39; : {&quot;nz&quot; : 16},</span>
 <span class="sd">             &#39;optim_params&#39; : {&quot;lr&quot; : 0.001, &quot;betas&quot; : [0.9, 0.999]}}</span>
-<span class="sd">            train_mse, test_mse = dimensionality_reduction(&quot;/data/&quot;, &quot;MNIST&quot;, &quot;ae&quot;, hp, 0, &quot;Result&quot;)</span>
+<span class="sd">            train_mse, test_mse, X_train_red, Y_train, X_ test_red, Y_test = \</span>
+<span class="sd">                dimensionality_reduction(&quot;/data/&quot;, &quot;MNIST&quot;, &quot;ae&quot;, hp, 0, &quot;Result&quot;)</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Load data.</span>
@@ -192,13 +203,12 @@
         <span class="n">test_mse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">recons_test</span> <span class="o">-</span> <span class="n">X_test</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
 
         <span class="n">img_shape</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">snapshot_dir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">pred_train</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="n">X_train_pca_rescaled</span><span class="p">,</span>
-                <span class="n">recons_train</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">img_shape</span><span class="p">),</span>
-                <span class="n">Y_train</span><span class="p">,</span>
-            <span class="p">)</span>
-            <span class="n">pred_test</span> <span class="o">=</span> <span class="p">(</span><span class="n">X_test_pca_rescaled</span><span class="p">,</span> <span class="n">recons_test</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">img_shape</span><span class="p">),</span> <span class="n">Y_test</span><span class="p">)</span>
+        <span class="n">pred_train</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">X_train_pca_rescaled</span><span class="p">,</span>
+            <span class="n">recons_train</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">img_shape</span><span class="p">),</span>
+            <span class="n">Y_train</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">pred_test</span> <span class="o">=</span> <span class="p">(</span><span class="n">X_test_pca_rescaled</span><span class="p">,</span> <span class="n">recons_test</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">img_shape</span><span class="p">),</span> <span class="n">Y_test</span><span class="p">)</span>
 
     <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;ae&quot;</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">img_shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
@@ -251,7 +261,8 @@
         <span class="n">df</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pred_test</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
         <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">snapshot_dir</span><span class="p">,</span> <span class="n">file_name</span> <span class="o">+</span> <span class="s2">&quot;_test.csv&quot;</span><span class="p">))</span>
 
-    <span class="k">return</span> <span class="n">train_mse</span><span class="p">,</span> <span class="n">test_mse</span>  <span class="c1"># type: ignore</span></div>
+    <span class="k">return</span> <span class="n">train_mse</span><span class="p">,</span> <span class="n">test_mse</span><span class="p">,</span> <span class="n">pred_train</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pred_train</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">pred_test</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pred_test</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span></div>
+
 </pre></div>
 
            </div>

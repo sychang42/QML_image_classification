@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Welcome to Practical QML for Image Classification’s documentation! &mdash; Practical QML for Image Classification 0.1 documentation</title>
+  <title>About the codes &mdash; Practical QML for Image Classification 0.1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="src" href="modules.html" /> 
+    <link rel="next" title="dimen_red" href="dimen_red.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,7 +43,8 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">src</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dimen_red.html">dimen_red</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quantum_classifier.html">quantum_classifier</a></li>
 </ul>
 
         </div>
@@ -60,7 +61,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Welcome to Practical QML for Image Classification’s documentation!</li>
+      <li class="breadcrumb-item active">About the codes</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -70,22 +71,168 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="welcome-to-practical-qml-for-image-classification-s-documentation">
-<h1>Welcome to Practical QML for Image Classification’s documentation!<a class="headerlink" href="#welcome-to-practical-qml-for-image-classification-s-documentation" title="Link to this heading"></a></h1>
+  <p><span class="raw-html-m2r"><!--Back to the top --></span>
+<span class="raw-html-m2r"><a name="readme-top"></a></span></p>
+<div align="center">
+<h3 align="center">Practical Quantum Machine Learning for Image Classification</h3>
+  <p align="center">
+     Image classification using a hybrid approach with classical dimensionality reduction and a quantum classifier.
+    <br />
+    <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/github_username/repo_name">View Demo</a>
+    ·
+    <a href="https://github.com/sychang42/QML_image_classification/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/sychang42/QML_image_classification/issues">Request Feature</a>
+  </p>
+</div><section id="about-the-codes">
+<h1>About the codes<a class="headerlink" href="#about-the-codes" title="Link to this heading"></a></h1>
+<p>This repository contains code for image classification using a hybrid approach that combines classical dimensionality reduction with a quantum classifier. The code is implemented in <a class="reference external" href="link_to_pytorch">PyTorch</a> for dimensionality reduction and in <a class="reference external" href="https://github.com/google/jax">Jax</a> and <a class="reference external" href="https://github.com/PennyLaneAI/pennylane">PennyLane</a> for quantum operations.</p>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">src</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="dimen_red.html">dimen_red</a></li>
-<li class="toctree-l2"><a class="reference internal" href="quantum_classifier.html">quantum_classifier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dimen_red.html">dimen_red</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ae_vanilla.html">ae_vanilla module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datasets.html">datasets module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dimensionality_reduction.html">dimensionality_reduction module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="load_data.html">load_data module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="run.html">run module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quantum_classifier.html">quantum_classifier</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="classifier_dataset.html">dataset module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantum_models.html">models</a></li>
 </ul>
 </li>
 </ul>
 </div>
-</section>
-<section id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading"></a></h1>
+<section id="project-workflow">
+<h2>Project Workflow<a class="headerlink" href="#project-workflow" title="Link to this heading"></a></h2>
+<p>The project consists of two main steps:</p>
+<ol class="arabic simple">
+<li><p><strong>Classical dimensionality reduction</strong> : Extract essential features from the input image data.</p></li>
+<li><p><strong>Feauture classification with quantum classifier</strong> : Utilize a quantum classifier for image classification.</p></li>
+</ol>
+<p>Currently supported features include:</p>
 <ul class="simple">
+<li><p>Dimensionality reduction methods</p>
+<ul>
+<li><p><em>PCA</em></p></li>
+<li><p><em>Convolutional Autoencoder</em></p></li>
+</ul>
+</li>
+<li><p>Image dataset</p>
+<ul>
+<li><p><a class="reference external" href="https://pytorch.org/vision/0.15/generated/torchvision.datasets.MNIST.html#torchvision.datasets.MNIST">*MNIST*</a></p></li>
+<li><p><a class="reference external" href="https://github.com/phelber/EuroSAT">*EuroSAT*</a></p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="prerequisites">
+<h1>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h1>
+<p>Before running the code, make sure to install the required packages by running:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<p>Additionally, install <code class="docutils literal notranslate"><span class="pre">jaxlib</span></code> compatible with your CUDA version using the following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">jaxlib</span><span class="o">==</span><span class="mf">0.4.7</span><span class="o">+</span><span class="n">cuda11</span><span class="o">.</span><span class="n">cudnn82</span> <span class="o">-</span><span class="n">f</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">storage</span><span class="o">.</span><span class="n">googleapis</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">jax</span><span class="o">-</span><span class="n">releases</span><span class="o">/</span><span class="n">jax_cuda_releases</span><span class="o">.</span><span class="n">html</span>
+</pre></div>
+</div>
+<p>For more detailed instructions on Jax installation, please refer to the officia <a class="reference external" href="https://jax.readthedocs.io/en/latest/installation.html">Jax Installation guide</a>.</p>
+<p align="right">(<a href="#readme-top">back to top</a>)</p></section>
+<section id="usage">
+<h1>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h1>
+<p>Use the following commands  :</p>
+<ol class="arabic simple">
+<li><p>To perform dimensionality reduction of the images.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_dim_red</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">gpu</span> <span class="n">gpu_num</span> <span class="o">--</span><span class="n">config</span> <span class="n">config_file_name</span>
+</pre></div>
+</div>
+<ol class="arabic simple">
+<li><p>To train the quantum classifier using the reduced features already stored in a file.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run_qc_training</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">gpu</span> <span class="n">gpu_num</span> <span class="o">--</span><span class="n">config</span> <span class="n">config_file_name</span>
+</pre></div>
+</div>
+<ol class="arabic simple">
+<li><p>To run the whole training pipeline.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">run</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">gpu</span> <span class="n">gpu_num</span> <span class="o">--</span><span class="n">config</span> <span class="n">config_file_name</span>
+</pre></div>
+</div>
+<section id="how-to-structure-the-configuration-file">
+<h2>How to structure the configuration file<a class="headerlink" href="#how-to-structure-the-configuration-file" title="Link to this heading"></a></h2>
+<p>The configuration file <code class="docutils literal notranslate"><span class="pre">configs/training.yaml</span></code> should be structured as follows :</p>
+<ul class="simple">
+<li><p><strong>data</strong>: Name of dataset on which we perform the feature extraction.</p></li>
+<li><p><strong>method</strong>:  Dimensionality reduction method for dimensionality reduction. Currently, only PCA (<code class="docutils literal notranslate"><span class="pre">pca</span></code>) and convolutional autoencoder (<code class="docutils literal notranslate"><span class="pre">ae</span></code>) are supported.</p></li>
+<li><p><strong>num_components</strong> : Dimension of extracted features.</p></li>
+<li><p><strong>load_root</strong>: Root directory containing</p>
+<ol class="arabic simple">
+<li><p>in case of performing dimensionality reduction : the original images.</p></li>
+<li><p>in case of performing only the feature classification :  the reduced features.</p></li>
+</ol>
+</li>
+<li><p><strong>dimensionality_reduction</strong><a href="#id1"><span class="problematic" id="id2">*</span></a>: The hyperparameters required in case of <code class="docutils literal notranslate"><span class="pre">method</span> <span class="pre">==</span> <span class="pre">ae</span></code>.</p>
+<ul>
+<li><p><strong>training_params</strong>:</p>
+<ul>
+<li><p><em>num_epohcs</em> : Number of training epochs.</p></li>
+<li><p><em>batchsize</em> : Training batch size.</p></li>
+</ul>
+</li>
+<li><p><strong>optim_params</strong>:</p>
+<ul>
+<li><p><em>lr</em> : Learning rate.</p></li>
+<li><p><em>betas</em> : $[beta_1, beta_2]$ value of the Adam optimizer. $[0.9,  0.999]$ by default.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>quantum_classifier</strong>: The hyperparameters required for the quantum classifier training.</p>
+<ul>
+<li><p><strong>training_params</strong>:</p>
+<ul>
+<li><p><em>num_epohcs</em> : Number of training epochs.</p></li>
+<li><p><em>batchsize</em> : Training batch size</p></li>
+</ul>
+</li>
+<li><p><strong>model_params</strong> :</p>
+<ul>
+<li><p><em>num_wires</em> : Number of qubits in the quantum classifier.</p></li>
+<li><p><em>ver</em> :  Quantum circuit architecture version.</p></li>
+<li><p><em>Embedding</em> :  Quantum embedding method.</p></li>
+<li><p><em>trans_inv</em> : Boolean to indicate whether the mdel is constructed in a translational invariant way.</p></li>
+</ul>
+</li>
+<li><p><strong>opt_params</strong>:</p>
+<ul>
+<li><p><em>lr</em> : Learning rate.</p></li>
+<li><p><em>b1</em> : $beta_1$ value of the Adam optimizer. 0.9 by default.</p></li>
+<li><p><em>b2</em> : $beta_2$ value of the Adam optimizer. 0.999 by default.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>For more details, check the config files <code class="docutils literal notranslate"><span class="pre">configs/config_pca.yaml</span></code> and <code class="docutils literal notranslate"><span class="pre">configs/config_ae.yaml</span></code>.</p>
+<p align="right">(<a href="#readme-top">back to top</a>)</p></section>
+</section>
+<section id="license">
+<h1>License<a class="headerlink" href="#license" title="Link to this heading"></a></h1>
+<p>Distributed under the Apache License. See <code class="docutils literal notranslate"><span class="pre">LICENSE.txt</span></code> for more information.</p>
+<p align="right">(<a href="#readme-top">back to top</a>)</p><p><span class="raw-html-m2r"><!-- CONTACT --></span></p>
+</section>
+<section id="contact">
+<h1>Contact<a class="headerlink" href="#contact" title="Link to this heading"></a></h1>
+<p>Su Yeon Chang - <a class="reference external" href="https://twitter.com/SyChang97">&#64;SyChang97</a> - <a class="reference external" href="mailto:su&#46;yeon&#46;chang&#37;&#52;&#48;cern&#46;ch">su<span>&#46;</span>yeon<span>&#46;</span>chang<span>&#64;</span>cern<span>&#46;</span>ch</a></p>
+<p>Project Link: <a class="reference external" href="https://github.com/sychang42/QML_image_classification">https://github.com/sychang42/QML_image_classification</a></p>
+<p align="right">(<a href="#readme-top">back to top</a>)</p><ul class="simple">
 <li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
 <li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
 <li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
@@ -96,7 +243,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="modules.html" class="btn btn-neutral float-right" title="src" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="dimen_red.html" class="btn btn-neutral float-right" title="dimen_red" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

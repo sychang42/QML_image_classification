@@ -41,7 +41,8 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../modules.html">src</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dimen_red.html">dimen_red</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quantum_classifier.html">quantum_classifier</a></li>
 </ul>
 
         </div>
@@ -213,6 +214,10 @@
 <span class="sd">              translational invariant or not. If True, all filters in a layer share</span>
 <span class="sd">              identical parameters; otherwise, different parameters are used. (To be</span>
 <span class="sd">              implemented)</span>
+<span class="sd">            * *ver*: Quantum circuit architecture version predefined in</span>
+<span class="sd">              ``qnn_architecture.json``</span>
+<span class="sd">            * *conv_filter*: User defined convolutional filter.</span>
+<span class="sd">            * *pooling* : User defined pooling layer.</span>
 
 <span class="sd">        optim_args (Dict[str, float]): :class:`optax.adam` optimizer hyperparameters.</span>
 
@@ -255,12 +260,31 @@
     <span class="n">rng</span><span class="p">,</span> <span class="n">init_rng</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">rng</span><span class="p">)</span>
 
     <span class="n">embed_data</span> <span class="o">=</span> <span class="n">get_data_embedding</span><span class="p">(</span><span class="n">model_args</span><span class="p">[</span><span class="s2">&quot;Embedding&quot;</span><span class="p">])</span>
-    <span class="n">qcnn_circuit</span><span class="p">,</span> <span class="n">num_params</span><span class="p">,</span> <span class="n">meas_wires</span> <span class="o">=</span> <span class="n">QCNN</span><span class="p">(</span>
-        <span class="n">model_args</span><span class="p">[</span><span class="s2">&quot;num_wires&quot;</span><span class="p">],</span>
-        <span class="n">model_args</span><span class="p">[</span><span class="s2">&quot;num_measured&quot;</span><span class="p">],</span>
-        <span class="n">model_args</span><span class="p">[</span><span class="s2">&quot;trans_inv&quot;</span><span class="p">],</span>
-        <span class="n">model_args</span><span class="p">[</span><span class="s2">&quot;ver&quot;</span><span class="p">],</span>
-    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="s2">&quot;ver&quot;</span> <span class="ow">in</span> <span class="n">model_args</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">qcnn_circuit</span><span class="p">,</span> <span class="n">num_params</span><span class="p">,</span> <span class="n">meas_wires</span> <span class="o">=</span> <span class="n">QCNN</span><span class="p">(</span>
+            <span class="n">model_args</span><span class="p">[</span><span class="s2">&quot;num_wires&quot;</span><span class="p">],</span>
+            <span class="n">model_args</span><span class="p">[</span><span class="s2">&quot;num_measured&quot;</span><span class="p">],</span>
+            <span class="n">model_args</span><span class="p">[</span><span class="s2">&quot;trans_inv&quot;</span><span class="p">],</span>
+            <span class="n">qnn_ver</span><span class="o">=</span><span class="n">model_args</span><span class="p">[</span><span class="s2">&quot;ver&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">conv_filter</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">model_args</span><span class="p">[</span><span class="s2">&quot;conv_filter&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;conv_filter&quot;</span> <span class="ow">in</span> <span class="n">model_args</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;U_TTN&quot;</span>
+        <span class="p">)</span>
+        <span class="n">pooling</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">model_args</span><span class="p">[</span><span class="s2">&quot;pooling&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s2">&quot;pooling&quot;</span> <span class="ow">in</span> <span class="n">model_args</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+            <span class="k">else</span> <span class="s2">&quot;Pooling_ansatz1&quot;</span>
+        <span class="p">)</span>
+
+        <span class="n">qcnn_circuit</span><span class="p">,</span> <span class="n">num_params</span><span class="p">,</span> <span class="n">meas_wires</span> <span class="o">=</span> <span class="n">QCNN</span><span class="p">(</span>
+            <span class="n">model_args</span><span class="p">[</span><span class="s2">&quot;num_wires&quot;</span><span class="p">],</span>
+            <span class="n">model_args</span><span class="p">[</span><span class="s2">&quot;num_measured&quot;</span><span class="p">],</span>
+            <span class="n">model_args</span><span class="p">[</span><span class="s2">&quot;trans_inv&quot;</span><span class="p">],</span>
+            <span class="n">conv_filter</span><span class="o">=</span><span class="n">conv_filter</span><span class="p">,</span>
+            <span class="n">pooling</span><span class="o">=</span><span class="n">pooling</span><span class="p">,</span>
+        <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">classifier_circuit</span><span class="p">(</span>
         <span class="n">X</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">optax</span><span class="o">.</span><span class="n">Params</span>
