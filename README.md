@@ -10,7 +10,7 @@
     <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/github_username/repo_name">View Demo</a>
+    <a href="https://colab.research.google.com/drive/1ZuPgz3mkVcIMVG9BZ0UCpw7PhfHQXHXu?usp=sharing">Google Colab</a>
     ·
     <a href="https://github.com/sychang42/QML_image_classification/issues">Report Bug</a>
     ·
@@ -22,8 +22,6 @@
 ## About the codes
 
 This repository contains code for image classification using a hybrid approach that combines classical dimensionality reduction with a quantum classifier. The code is implemented in [PyTorch](link_to_pytorch) for dimensionality reduction and in [Jax](https://github.com/google/jax) and [PennyLane](https://github.com/PennyLaneAI/pennylane) for quantum operations.
-
-You can also run the code on [Google Colab](https://colab.research.google.com/drive/1ZuPgz3mkVcIMVG9BZ0UCpw7PhfHQXHXu?usp=sharing). 
 
 ### Project Workflow
 
