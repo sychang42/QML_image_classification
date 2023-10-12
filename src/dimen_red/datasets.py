@@ -80,8 +80,9 @@ class SAT4(VisionDataset):
             ``self.train`` is ``True``, the function returns the training set; otherwise,
             it returns the test set.
         """
-
+        
         image_file = f"{'X_train' if self.train else 'X_test'}_sat4.pkl"
+        
         data = pickle.load(
             open(os.path.join(self.raw_folder, image_file), "rb")
         ).to_numpy()
@@ -105,7 +106,7 @@ class SAT4(VisionDataset):
             Tuple[Any, Any]: (image, target) at the index number.
         """
         img, target = self.data[index], int(self.targets[index])
-
+        img = np.transpose(img, (2, 0, 1))
         return img, target
 
     def __len__(self) -> int:

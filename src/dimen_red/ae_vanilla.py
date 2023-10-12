@@ -350,7 +350,7 @@ class vanilla_autoencoder(nn.Module):
 
         idx = 0
         for img, label in dataloader:
-            latent, recons = self.forward(img.to(self.device))
+            latent, recons = self.forward(img.to(self.device).float())
             latent_features[idx : idx + len(img), :] = latent.cpu().detach().numpy()
             recons_images[idx : idx + len(img), :] = recons.cpu().detach().numpy()
             labels[idx : idx + len(img)] = label.cpu().detach().numpy().flatten()
