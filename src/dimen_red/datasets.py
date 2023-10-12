@@ -1,190 +1,322 @@
 """
-Function to perform dimensionality reduction method. 
-"""
+SAT4 and EuroSAT dataset
+The code follows the same code as the one given in PyTorch for MNIST
+dataset [1].
 
+[1]: https://pytorch.org/vision/0.15/generated/torchvision.datasets.MNIST.html 
+"""
 import os
 import sys
 
 sys.path.append(os.path.dirname(__file__))
 
+
 import pickle
-from typing import Any, Dict, Tuple, Optional
+from typing import Any, Callable, Dict, Optional, Tuple
+from urllib.error import URLError
 
+import imageio
 import numpy as np
-import pandas as pd
 import torch
-from ae_vanilla import vanilla_autoencoder
-from load_data import load_data
-from sklearn.decomposition import PCA
+from PIL import Image
+from skimage import img_as_ubyte
+from skimage.transform import resize
+from sklearn.model_selection import train_test_split
+from torchvision.datasets.utils import download_and_extract_archive
+from torchvision.datasets.vision import VisionDataset
+import urllib.request
+import zipfile
 
-
-def dimensionality_reduction(
-    root: str,
-    data: str,
-    method: str,
-    hp: Dict[str, Any],
-    gpu: int = 0,
-    snapshot_dir: Optional[str] = None,
-) -> Tuple[float, float, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
-    r"""Perform dimensionality reduction on image data.
-    If ``snapshot_dir`` is not ``None``, the features extracted from the training set and
-    the test set are saved in the files ``os.path.join(snapshot_dir, f"{data}_{str(n_comp
-    onents)}components_{method}_train.csv")`` and ``os.path.join(snapshot_dir,
-    f"{data}_{str(n_components)}components_{method}_test.csv")``
+class SAT4(VisionDataset):
+    """`SAT4 <https://www.kaggle.com/datasets/crawford/deepsat-sat4>`_ Dataset.
 
     Args:
-        root (str): Root directory containing the image dataset.
-        data (str): Input dataset to apply dimensionality reduction to.
-        method (str): Method for dimensionality reduction. Currently, only PCA and
-            convolutional autoencoder are supported.
-        hp (Dict[str, Any]): Hyperparameters specific to the chosen dimensionality
-            reduction method.
-        gpu (int): ID of the GPU to use for autoencoder training. Set to None to run
-            on CPU.
-        snapshot_dir (str, optional): Directory to store the output data. If ``None``,
-            results will not be saved.
-
-    Returns:
-        Tuple[float, float, np.ndarray, np.ndarray,np.ndarray,np.ndarray]: ``(train_mse,
-        test_mse, X_train_red, Y_train, X_ test_red, Y_test)`` A
-        tuple of the Mean Squared Error (MSE) loss between original and the
-        reconstructed images, the reduced features and the corresponding labels
-        for the train and the test set
-
-
-    Note:
-        Currently, only `pca` and `ae` (convolutional autoencoder) are supported.
-
-    Examples:
-        **In case of** ``pca``::
-
-            hp = {'nz' :  16}
-            train_mse, test_mse, X_train_red, Y_train, X_ test_red, Y_test = \
-                dimensionality_reduction("/data/", "MNIST", "pca", hp, 0, "Result")
-
-        **In case of** ``ae`` (convolutional autoencoder)::
-
-            hp = {'training_params' :  {"num_epoch" : 10, "batch_size": 1024},
-             'model_params' : {"nz" : 16},
-             'optim_params' : {"lr" : 0.001, "betas" : [0.9, 0.999]}}
-            train_mse, test_mse, X_train_red, Y_train, X_ test_red, Y_test = \
-                dimensionality_reduction("/data/", "MNIST", "ae", hp, 0, "Result")
-
+        root (str): Root directory of dataset where ``X_train.pkl`` and ``X_test.pkl`` exist.
+        train (bool, optional): If True, creates dataset from ``X_train.pkl`,
+            otherwise from ``X_test.pkl``.
+        download (bool, optional): If True, downloads the dataset from the designated
+            url to the root directory. If dataset is already downloaded, it is not
+            downloaded again.
+        transform (Callable, optional): A function/transform that  takes in an PIL image
+            and returns a transformed version. E.g, ``transforms.RandomCrop``
+        target_transform (Callable, optional): A function/transform that takes in the
+            target and transforms it.
     """
 
-    # Load data.
-    trainds, testds = load_data(root, data, download=True)  # type: ignore
+    # List[str]: List of SAT4 class names
+    classes = ["Barren Land", "Trees", "Grassland", "Others"]
 
-    img_shape = list(trainds.data.shape[1:])
+    def __init__(
+        self,
+        root: str,
+        train: bool = True,
+        transform: Optional[Callable] = None,
+        target_transform: Optional[Callable] = None,
+        download: bool = False,
+    ) -> None:
+        super().__init__(root, transform=transform, target_transform=target_transform)
+        self.train = train  # training set or test set
+        self._download_url = \
+            "https://www.googleapis.com/drive/v3/files/1-Uq7DCRSsLbLkwUje9T9A5-t2VnhdzZe?alt=media&key=AIzaSyBRk9tp9hfjWuLt7LwINckpJOQvrEssI_I"
+        
+        self.raw_folder = os.path.join(
+            self.root, "SAT4"
+        )  # Folder where the dataset exists
+        if download:
+            self.download()
 
-    pred_train = []
-    pred_test = []
+        if not self._check_exists():
+            raise RuntimeError(
+                "Dataset not found. You can use download=True to download it"
+            )
 
-    if method == "pca":
-        X_train = trainds.data.reshape((len(trainds), -1))
-        X_train = X_train.numpy() if type(X_train) == torch.Tensor else X_train
+        self.data, self.targets = self._load_data()
 
-        # If the images are scaled between 0 and 255, rescale them between 0 and 1.
-        if np.max(X_train) > 1.0:
-            X_train = X_train / 255.0
-        Y_train = (
-            trainds.targets.numpy()
-            if type(trainds.targets) == torch.Tensor
-            else trainds.targets
+    def _load_data(self) -> Tuple[np.ndarray, np.ndarray]:
+        r"""Load data from the original ``pickle`` file, into ``np.ndarray``.
+
+        Returns:
+            Tuple[np.ndarray, np.ndarray]: Tuple of image data and image labels. If
+            ``self.train`` is ``True``, the function returns the training set; otherwise,
+            it returns the test set.
+        """
+
+        image_file = f"{'X_train' if self.train else 'X_test'}_sat4.pkl"
+        data = pickle.load(
+            open(os.path.join(self.raw_folder, image_file), "rb")
+        ).to_numpy()
+
+        data = data.reshape((-1, 28, 28, 4)).astype(float)/255.
+
+        label_file = f"{'Y_train' if self.train else 'Y_test'}_sat4.pkl"
+        targets = pickle.load(
+            open(os.path.join(self.raw_folder, label_file), "rb")
+        ).to_numpy()
+        targets = np.array(np.argmax(targets, axis=1)).astype(int)
+
+        return data, targets
+
+    def __getitem__(self, index: int) -> Tuple[Any, Any]:
+        r"""
+        Args:
+            index (int): Index.
+
+        Returns:
+            Tuple[Any, Any]: (image, target) at the index number.
+        """
+        img, target = self.data[index], int(self.targets[index])
+
+        return img, target
+
+    def __len__(self) -> int:
+        return len(self.data)
+
+    @property
+    def class_to_idx(self) -> Dict[str, int]:
+        return {_class: i for i, _class in enumerate(self.classes)}
+
+    def _check_exists(self) -> bool:
+        return os.path.exists(os.path.join(self.root, "SAT4"))
+
+
+    def download(self) -> None:
+        r"""Download the EuroSAT data if it doesn't exist already."""
+
+        if self._check_exists():
+            return
+
+        # download files
+        try:
+            print(f"Downloading {self._download_url}")
+
+            if not os.path.exists(self.root) : 
+                os.makedirs(self.root)
+
+            urllib.request.urlretrieve(self._download_url, os.path.join(self.root, "SAT4.zip"))
+            with zipfile.ZipFile(os.path.join(self.root, "SAT4.zip"), 'r') as zip_ref:
+                zip_ref.extractall(self.root)
+            
+            os.remove(os.path.join(self.root, "SAT4.zip"))
+
+        except URLError as error:
+            print(f"Failed to download (trying next):\n{error}")
+            
+
+    def extra_repr(self) -> str:
+        split = "Train" if self.train is True else "Test"
+        return f"Split: {split}"
+
+
+class EuroSAT(VisionDataset):
+    r"""`EuroSAT <https://github.com/phelber/EuroSAT>`_ Dataset.
+
+    Args:
+        root (str): Root directory of dataset where the image folders exist.
+        train (bool, optional): If True, creates train dataset, otherwise test dataset.
+            Defaults to True.
+        download (bool, optional): If True, downloads the dataset from the designated
+            url to the root directory. If dataset is already downloaded, it is not
+            downloaded again. Defaults to False.
+        transform (Callable, optional): A function/transform that  takes in an PIL image
+            and returns a transformed version. E.g, ``transforms.RandomCrop``. Defaults
+            to None.
+        target_transform (Callable, optional): A function/transform that takes in the
+            target and transforms it. Defaults to None.
+    """
+
+    # str: URL of the EuroSAT dataset
+    _download_url = "https://zenodo.org/record/7711810/files/EuroSAT_RGB.zip?download=1"
+
+    # Tuple[str] : File name and md5 value for download
+    _resources = ("EuroSAT_RGB.zip", "f46e308c4d50d4bf32fedad2d3d62f3b")
+
+    # List[str]: List of EuroSAT class names
+    classes = [
+        "AnnualCrop",
+        "Forest",
+        "HerbaceousVegetation",
+        "Highway",
+        "Industrial",
+        "Pasture",
+        "PermanentCrop",
+        "Residential",
+        "River",
+        "SeaLake",
+    ]
+
+    def __init__(
+        self,
+        root: str,
+        train: bool = True,
+        transform: Optional[Callable] = None,
+        target_transform: Optional[Callable] = None,
+        download: bool = False,
+    ) -> None:
+        super().__init__(root, transform=transform, target_transform=target_transform)
+
+        self.train = train
+        self.num_images = 27000
+        self.img_size = [64, 64]
+        self.num_channel = 3
+
+        self.seed = 42
+        self.test_ratio = 0.2
+
+        self.raw_folder = os.path.join(
+            self.root, "EuroSAT"
+        )  # Folder where the dataset exists
+
+        if download:
+            self.download()
+
+        self.data, self.targets = self._load_data()
+
+    @property
+    def class_to_idx(self) -> Dict[str, int]:
+        return {_class: i for i, _class in enumerate(self.classes)}
+
+    def _check_exists(self) -> bool:
+        return os.path.exists(self.raw_folder)
+
+    def download(self) -> None:
+        r"""Download the EuroSAT data if it doesn't exist already."""
+
+        if self._check_exists():
+            return
+
+        # download files
+        filename = self._resources[0]
+        md5 = self._resources[1]
+
+        try:
+            print(f"Downloading {self._download_url}")
+            download_and_extract_archive(
+                self._download_url, download_root=self.root, filename=filename, md5=md5
+            )
+            os.rename(os.path.join(self.root, "EuroSAT_RGB"), self.raw_folder)
+
+        except URLError as error:
+            print(f"Failed to download (trying next):\n{error}")
+
+    def _load_data(self) -> Tuple[Any, Any]:
+        r"""Load data from the specified root directory, splitting it into test and train
+        sets based on a seed. Images are resized by default to (64, 64).
+
+        Returns:
+            Tuple[Any, Any]: Tuple of image data and image labels. If ``self.train`` is
+            ``True``, the function returns the training set; otherwise, it returns the
+            test set.
+        """
+
+        images = np.zeros(
+            [self.num_images, self.img_size[0], self.img_size[1], self.num_channel],
+            dtype="uint8",
         )
+        labels = []
 
-        X_test = testds.data.reshape((len(testds), -1))
-        X_test = X_test.numpy() if type(X_test) == torch.Tensor else X_test
-        if np.max(X_test) > 1.0:
-            X_test = X_test / 255.0
-        Y_test = (
-            testds.targets.numpy()
-            if type(testds.targets) == torch.Tensor
-            else testds.targets
+        idx = 0
+        # read all the files from the image folder
+        for label, f in enumerate(os.listdir(self.raw_folder)):
+            path = os.path.join(self.raw_folder, f)
+            if os.path.isfile(path):
+                continue
+            for f2 in os.listdir(path):
+                sub_path = os.path.join(path, f2)
+                # Resize images with pixel off
+                image = imageio.v3.imread(sub_path)
+                if (
+                    image.shape[0] != self.img_size[0]
+                    or image.shape[1] != self.img_size[1]
+                ):
+                    # print("Resizing image...")
+                    image = img_as_ubyte(
+                        resize(
+                            image,
+                            (self.img_size[0], self.img_size[1]),
+                            anti_aliasing=True,
+                        )
+                    )
+
+                images[idx] = img_as_ubyte(image)
+                labels.append(label)
+
+                idx = idx + 1
+
+        labels = np.asarray(labels)
+
+        # Split the data into train & testset
+        X_train, X_test, Y_train, Y_test = train_test_split(
+            images,
+            labels,
+            test_size=self.test_ratio,
+            random_state=self.seed,
+            stratify=labels,
         )
+        if self.train:
+            return X_train, Y_train
+        else:
+            return X_test, Y_test
 
-        pca = PCA(n_components=hp["nz"])
+    def __len__(self) -> int:
+        return len(self.data)
 
-        pca = pca.fit(X_train)
+    def __getitem__(self, idx) -> Tuple[Any, Any]:
+        """
+        Args:
+            index (int): Index.
 
-        if snapshot_dir is not None:
-            with open(os.path.join(snapshot_dir, "pca.pkl"), "wb") as file:
-                pickle.dump(pca, file)
+        Returns:
+            Tuple[Any, Any]: (image, target) at the index number.
+        """
+        if torch.is_tensor(idx):
+            idx = idx.tolist()
 
-        X_train_pca = pca.transform(X_train)
-        X_test_pca = pca.transform(X_test)
+        img = self.data[idx]
 
-        # Rescale the pca output between 0 and 1.
-        X_train_pca_rescaled = (X_train_pca - X_train_pca.min()) / (
-            X_train_pca.max() - X_train_pca.min()
-        )
-        X_test_pca_rescaled = (X_test_pca - X_test_pca.min()) / (
-            X_test_pca.max() - X_test_pca.min()
-        )
+        # doing this so that it is consistent with all other datasets
+        # to return a PIL Image
+        img = Image.fromarray(img)
 
-        recons_train = pca.inverse_transform(X_train_pca)
-        recons_test = pca.inverse_transform(X_test_pca)
-
-        train_mse = np.mean((recons_train - X_train) ** 2)
-        test_mse = np.mean((recons_test - X_test) ** 2)
-
-        img_shape.insert(0, -1)
-        pred_train = (
-            X_train_pca_rescaled,
-            recons_train.reshape(img_shape),
-            Y_train,
-        )
-        pred_test = (X_test_pca_rescaled, recons_test.reshape(img_shape), Y_test)
-
-    elif method == "ae":
-        if len(img_shape) == 2:
-            img_shape = [1, img_shape[0], img_shape[1]]
-
-        if img_shape[2] < img_shape[0]:
-            img_shape = [img_shape[2], img_shape[0], img_shape[1]]
-
-        hp["model_params"]["img_shape"] = img_shape
-        num_epoch = hp["training_params"]["num_epoch"]
-        batch_size = hp["training_params"]["batch_size"]
-
-        # Load the data into PyTorch dataloader.
-        trainloader = torch.utils.data.DataLoader(
-            trainds, batch_size=batch_size, shuffle=True
-        )
-        testloader = torch.utils.data.DataLoader(
-            testds, batch_size=batch_size, shuffle=True
-        )
-
-        # Device to run the training.
-        device = torch.device(
-            "cuda:" + str(gpu) if torch.cuda.is_available() else "cpu"
-        )
-        model = vanilla_autoencoder(device, hp, snapshot_dir)
-        model.train_model(num_epoch, trainloader, testloader)
-
-        if snapshot_dir is not None:
-            model.load_model(os.path.join(snapshot_dir, "best_model.pt"))
-
-            pred_train = model.predict(trainloader)
-            pred_test = model.predict(testloader)
-
-        train_mse = model.train_loss[np.argmin(model.train_loss)]
-        test_mse = model.valid_loss[np.argmin(model.valid_loss)]
-
-    else:
-        raise NotImplementedError("Method Not implemented")
-
-    # Restore the results in snapshot directory
-    if snapshot_dir is not None:
-        n_components = pred_train[0].shape[1]
-        file_name = data + "_" + str(n_components) + "components_" + method
-
-        df = pd.DataFrame(pred_train[0])
-        df["label"] = pred_train[2]
-        df.to_csv(os.path.join(snapshot_dir, file_name + "_train.csv"))
-
-        df = pd.DataFrame(pred_test[0])
-        df["label"] = pred_test[2]
-        df.to_csv(os.path.join(snapshot_dir, file_name + "_test.csv"))
-
-    return train_mse, test_mse, pred_train[0], pred_train[2], pred_test[0], pred_test[2]
+        if self.transform:
+            img = self.transform(img)
+        return img, self.targets[idx]
