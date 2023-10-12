@@ -24,7 +24,8 @@ from skimage.transform import resize
 from sklearn.model_selection import train_test_split
 from torchvision.datasets.utils import download_and_extract_archive
 from torchvision.datasets.vision import VisionDataset
-
+import urllib.request
+import zipfile
 
 class SAT4(VisionDataset):
     """`SAT4 <https://www.kaggle.com/datasets/crawford/deepsat-sat4>`_ Dataset.
@@ -55,7 +56,9 @@ class SAT4(VisionDataset):
     ) -> None:
         super().__init__(root, transform=transform, target_transform=target_transform)
         self.train = train  # training set or test set
-
+        self._download_url = \
+            "https://www.googleapis.com/drive/v3/files/1-Uq7DCRSsLbLkwUje9T9A5-t2VnhdzZe?alt=media&key=AIzaSyBRk9tp9hfjWuLt7LwINckpJOQvrEssI_I"
+        
         self.raw_folder = os.path.join(
             self.root, "SAT4"
         )  # Folder where the dataset exists
@@ -69,20 +72,8 @@ class SAT4(VisionDataset):
 
         self.data, self.targets = self._load_data()
 
-    def _load_data(self) -> Tuple[torch.Tensor, torch.Tensor]:
-        """Load data into torch.Tensor from numpy.ndarray
-
-        Returns:
-            Tuple[torch.Tensor, torch.Tensor]: Tuple of image data and image labels.
-        """
-        data, targets = self._load_data_numpy()
-        data = torch.Tensor(data)
-        targets = torch.Tensor(targets)
-
-        return data, targets
-
-    def _load_data_numpy(self) -> Tuple[np.ndarray, np.ndarray]:
-        """Load data from the original ``pickle`` file, into ``np.ndarray``.
+    def _load_data(self) -> Tuple[np.ndarray, np.ndarray]:
+        r"""Load data from the original ``pickle`` file, into ``np.ndarray``.
 
         Returns:
             Tuple[np.ndarray, np.ndarray]: Tuple of image data and image labels. If
@@ -94,19 +85,19 @@ class SAT4(VisionDataset):
         data = pickle.load(
             open(os.path.join(self.raw_folder, image_file), "rb")
         ).to_numpy()
-        data = data.reshape((-1, 28, 28, 4)).astype(float)
-        data = np.transpose(np.array(data / 255.0), (0, 3, 1, 2))
+
+        data = data.reshape((-1, 28, 28, 4)).astype(float)/255.
 
         label_file = f"{'Y_train' if self.train else 'Y_test'}_sat4.pkl"
         targets = pickle.load(
             open(os.path.join(self.raw_folder, label_file), "rb")
         ).to_numpy()
-        targets = np.array(np.argmax(targets, axis=1))
+        targets = np.array(np.argmax(targets, axis=1)).astype(int)
 
         return data, targets
 
     def __getitem__(self, index: int) -> Tuple[Any, Any]:
-        """
+        r"""
         Args:
             index (int): Index.
 
@@ -127,18 +118,29 @@ class SAT4(VisionDataset):
     def _check_exists(self) -> bool:
         return os.path.exists(os.path.join(self.root, "SAT4"))
 
+
     def download(self) -> None:
-        """
-        Download the SAT4 data if it doesn't exist in the root directory.
-        """
+        r"""Download the EuroSAT data if it doesn't exist already."""
 
         if self._check_exists():
-            print("Files already downloaded and verified")
             return
 
-        print(
-            "Download the dataset from https://www.kaggle.com/datasets/crawford/deepsat-sat4"
-        )
+        # download files
+        try:
+            print(f"Downloading {self._download_url}")
+
+            if not os.path.exists(self.root) : 
+                os.makedirs(self.root)
+
+            urllib.request.urlretrieve(self._download_url, os.path.join(self.root, "SAT4.zip"))
+            with zipfile.ZipFile(os.path.join(self.root, "SAT4.zip"), 'r') as zip_ref:
+                zip_ref.extractall(self.root)
+            
+            os.remove(os.path.join(self.root, "SAT4.zip"))
+
+        except URLError as error:
+            print(f"Failed to download (trying next):\n{error}")
+            
 
     def extra_repr(self) -> str:
         split = "Train" if self.train is True else "Test"
