@@ -2,7 +2,6 @@
 SAT4 and EuroSAT dataset
 The code follows the same code as the one given in PyTorch for MNIST
 dataset [1].
-
 [1]: https://pytorch.org/vision/0.15/generated/torchvision.datasets.MNIST.html 
 """
 import os
@@ -29,7 +28,6 @@ import zipfile
 
 class SAT4(VisionDataset):
     """`SAT4 <https://www.kaggle.com/datasets/crawford/deepsat-sat4>`_ Dataset.
-
     Args:
         root (str): Root directory of dataset where ``X_train.pkl`` and ``X_test.pkl`` exist.
         train (bool, optional): If True, creates dataset from ``X_train.pkl`,
@@ -58,7 +56,7 @@ class SAT4(VisionDataset):
         self.train = train  # training set or test set
         self._download_url = \
             "https://www.googleapis.com/drive/v3/files/1-Uq7DCRSsLbLkwUje9T9A5-t2VnhdzZe?alt=media&key=AIzaSyBRk9tp9hfjWuLt7LwINckpJOQvrEssI_I"
-        
+
         self.raw_folder = os.path.join(
             self.root, "SAT4"
         )  # Folder where the dataset exists
@@ -74,7 +72,6 @@ class SAT4(VisionDataset):
 
     def _load_data(self) -> Tuple[np.ndarray, np.ndarray]:
         r"""Load data from the original ``pickle`` file, into ``np.ndarray``.
-
         Returns:
             Tuple[np.ndarray, np.ndarray]: Tuple of image data and image labels. If
             ``self.train`` is ``True``, the function returns the training set; otherwise,
@@ -82,6 +79,7 @@ class SAT4(VisionDataset):
         """
 
         image_file = f"{'X_train' if self.train else 'X_test'}_sat4.pkl"
+
         data = pickle.load(
             open(os.path.join(self.raw_folder, image_file), "rb")
         ).to_numpy()
@@ -100,12 +98,11 @@ class SAT4(VisionDataset):
         r"""
         Args:
             index (int): Index.
-
         Returns:
             Tuple[Any, Any]: (image, target) at the index number.
         """
         img, target = self.data[index], int(self.targets[index])
-
+        img = np.transpose(img, (2, 0, 1))
         return img, target
 
     def __len__(self) -> int:
@@ -135,12 +132,12 @@ class SAT4(VisionDataset):
             urllib.request.urlretrieve(self._download_url, os.path.join(self.root, "SAT4.zip"))
             with zipfile.ZipFile(os.path.join(self.root, "SAT4.zip"), 'r') as zip_ref:
                 zip_ref.extractall(self.root)
-            
+
             os.remove(os.path.join(self.root, "SAT4.zip"))
 
         except URLError as error:
             print(f"Failed to download (trying next):\n{error}")
-            
+
 
     def extra_repr(self) -> str:
         split = "Train" if self.train is True else "Test"
@@ -149,7 +146,6 @@ class SAT4(VisionDataset):
 
 class EuroSAT(VisionDataset):
     r"""`EuroSAT <https://github.com/phelber/EuroSAT>`_ Dataset.
-
     Args:
         root (str): Root directory of dataset where the image folders exist.
         train (bool, optional): If True, creates train dataset, otherwise test dataset.
@@ -241,7 +237,6 @@ class EuroSAT(VisionDataset):
     def _load_data(self) -> Tuple[Any, Any]:
         r"""Load data from the specified root directory, splitting it into test and train
         sets based on a seed. Images are resized by default to (64, 64).
-
         Returns:
             Tuple[Any, Any]: Tuple of image data and image labels. If ``self.train`` is
             ``True``, the function returns the training set; otherwise, it returns the
@@ -304,7 +299,6 @@ class EuroSAT(VisionDataset):
         """
         Args:
             index (int): Index.
-
         Returns:
             Tuple[Any, Any]: (image, target) at the index number.
         """
