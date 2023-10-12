@@ -23,6 +23,8 @@
 
 This repository contains code for image classification using a hybrid approach that combines classical dimensionality reduction with a quantum classifier. The code is implemented in [PyTorch](link_to_pytorch) for dimensionality reduction and in [Jax](https://github.com/google/jax) and [PennyLane](https://github.com/PennyLaneAI/pennylane) for quantum operations.
 
+You can also run the code on [Google Colab](https://colab.research.google.com/drive/1ZuPgz3mkVcIMVG9BZ0UCpw7PhfHQXHXu?usp=sharing). 
+
 ### Project Workflow
 
 The project consists of two main steps:
